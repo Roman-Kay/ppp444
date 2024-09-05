@@ -157,17 +157,21 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                     ),
                   ],
                 ),
-                SafeArea(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).padding.bottom >= 10 ? 10.h : 20.h,
-                      ),
-                      child: WidgetButton(
-                        text: 'Confirm',
-                        boxShadow: true,
-                        onPressed: () {},
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 100),
+                  opacity: choossenLookItem.isEmpty ? 0 : 1,
+                  child: SafeArea(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).padding.bottom >= 10 ? 10.h : 20.h,
+                        ),
+                        child: WidgetButton(
+                          text: 'Confirm',
+                          boxShadow: true,
+                          onPressed: () {},
+                        ),
                       ),
                     ),
                   ),

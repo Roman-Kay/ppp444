@@ -1,14 +1,13 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ppp444/ui/looks/main_tabbar/looks_all_tabbar.dart';
 import 'package:ppp444/ui/looks/main_tabbar/looks_folders_tabbar.dart';
+import 'package:ppp444/ui/new_look/new_look_main_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/text_styles.dart';
-import 'package:ppp444/widgets/custom_alert_dialog.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
 class LooksMainScreen extends StatefulWidget {
@@ -22,7 +21,7 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
   int chossenCategory = 0;
   List tabbars = [
     LooksAllTabbar(),
-    LooksFoldersTabbar(),
+    const LooksFoldersTabbar(),
   ];
 
   @override
@@ -53,14 +52,11 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                       color: AppColors.whiteColor,
                     ),
                     child: FormForButton(
-                      onPressed: () => showCustomDialog(
+                      onPressed: () => Navigator.push(
                         context,
-                        chossenCategory == 0 ? 'New Look' : 'New Folder',
-                        chossenCategory == 0
-                            ? 'Give a name to the new look'
-                            : 'Give a name to the new folder',
-                        chossenCategory == 0 ? () {} : () {},
-                        TextEditingController(),
+                        MaterialPageRoute(
+                          builder: (context) => const NewLookMainScreen(),
+                        ),
                       ),
                       borderRadius: BorderRadius.circular(10.r),
                       child: Row(
