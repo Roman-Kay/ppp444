@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ppp444/ui/looks/folders/folder_new_look_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_alert_dialog.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 import 'package:ppp444/widgets/widget_button.dart';
@@ -17,6 +19,7 @@ class FoldersMainScreen extends StatefulWidget {
 }
 
 class _FoldersMainScreenState extends State<FoldersMainScreen> {
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +65,12 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                       onPressedFirst: () {},
                       textSecond: 'Add New Look',
                       svgNameSecond: 'add',
-                      onPressedSecond: () {},
+                      onPressedSecond: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FoldersNewLookScreen(),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -86,7 +94,23 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                           ),
                           SizedBox(height: 50.h),
                           WidgetButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showCustomDialog(
+                                context,
+                                'Folder Name',
+                                'Change the folder name',
+                                () {
+                                  // setState(() {
+                                  //   widget.folderItem = FolderItem(
+                                  //     name: controller.text,
+                                  //     ,
+                                  //   );
+                                  // });
+                                  // Navigator.pop(context);
+                                },
+                                controller,
+                              );
+                            },
                             text: 'Add Looks',
                           )
                         ],
@@ -122,7 +146,23 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                             CustomPopUpMenu(
                                               textFirst: 'Edit the Folder',
                                               svgNameFirst: 'edit',
-                                              onPressedFirst: () {},
+                                              onPressedFirst: () {
+                                                showCustomDialog(
+                                                  context,
+                                                  'Edit Look',
+                                                  'Give a name to the look',
+                                                  () {
+                                                    setState(() {
+                                                      widget.folderItem.lookstems[index] = LookItem(
+                                                        name: controller.text,
+                                                        clothesItem: lookItem.clothesItem,
+                                                      );
+                                                    });
+                                                    Navigator.pop(context);
+                                                  },
+                                                  controller,
+                                                );
+                                              },
                                               textSecond: 'Delete from folder',
                                               svgNameSecond: 'delete',
                                               onPressedSecond: () {

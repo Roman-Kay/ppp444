@@ -12,6 +12,74 @@ import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/custom_textfiled_label.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
+final List<LookItem> listOfLooksItems = [
+  LookItem(
+    name: 'Summer vibe',
+    clothesItem: [
+      ClothesItem(
+        category: 'Accessories',
+        imageName: 'hat',
+        name: 'Summer hat',
+      ),
+      ClothesItem(
+        category: 'Casual clothes',
+        imageName: 'dress',
+        name: 'Dress with flowers',
+      ),
+      ClothesItem(
+        category: 'Shoes',
+        imageName: 'shoes_1',
+        name: 'Stylish sandals',
+      ),
+    ],
+  ),
+  LookItem(
+    name: 'Evening walk',
+    clothesItem: [
+      ClothesItem(
+        category: 'Casual clothes',
+        imageName: 'shirt',
+        name: 'Casual shirt',
+      ),
+      ClothesItem(
+        category: 'Shoes',
+        imageName: 'shoes_1',
+        name: 'Stylish sandals',
+      ),
+      ClothesItem(
+        category: 'Shoes',
+        imageName: 'shoes_2',
+        name: 'White sneakers',
+      ),
+    ],
+  ),
+  LookItem(
+    name: 'Birthday party',
+    clothesItem: [
+      ClothesItem(
+        category: 'Casual clothes',
+        imageName: 'dress',
+        name: 'Dress with flowers',
+      ),
+      ClothesItem(
+        category: 'Casual clothes',
+        imageName: 'shirt',
+        name: 'Casual shirt',
+      ),
+      ClothesItem(
+        category: 'Shoes',
+        imageName: 'hat',
+        name: 'Stylish sandals',
+      ),
+      ClothesItem(
+        category: 'Shoes',
+        imageName: 'shoes_2',
+        name: 'White sneakers',
+      ),
+    ],
+  ),
+];
+
 class LooksAllTabbar extends StatefulWidget {
   LooksAllTabbar({super.key});
 
@@ -20,74 +88,6 @@ class LooksAllTabbar extends StatefulWidget {
 }
 
 class _LooksAllTabbarState extends State<LooksAllTabbar> {
-  final List<LookItem> listOfLooksItems = [
-    LookItem(
-      name: 'Summer vibe',
-      clothesItem: [
-        ClothesItem(
-          category: 'Accessories',
-          imageName: 'hat',
-          name: 'Summer hat',
-        ),
-        ClothesItem(
-          category: 'Casual clothes',
-          imageName: 'dress',
-          name: 'Dress with flowers',
-        ),
-        ClothesItem(
-          category: 'Shoes',
-          imageName: 'shoes_1',
-          name: 'Stylish sandals',
-        ),
-      ],
-    ),
-    LookItem(
-      name: 'Evening walk',
-      clothesItem: [
-        ClothesItem(
-          category: 'Casual clothes',
-          imageName: 'shirt',
-          name: 'Casual shirt',
-        ),
-        ClothesItem(
-          category: 'Shoes',
-          imageName: 'shoes_1',
-          name: 'Stylish sandals',
-        ),
-        ClothesItem(
-          category: 'Shoes',
-          imageName: 'shoes_2',
-          name: 'White sneakers',
-        ),
-      ],
-    ),
-    LookItem(
-      name: 'Birthday party',
-      clothesItem: [
-        ClothesItem(
-          category: 'Casual clothes',
-          imageName: 'dress',
-          name: 'Dress with flowers',
-        ),
-        ClothesItem(
-          category: 'Casual clothes',
-          imageName: 'shirt',
-          name: 'Casual shirt',
-        ),
-        ClothesItem(
-          category: 'Shoes',
-          imageName: 'hat',
-          name: 'Stylish sandals',
-        ),
-        ClothesItem(
-          category: 'Shoes',
-          imageName: 'shoes_2',
-          name: 'White sneakers',
-        ),
-      ],
-    ),
-  ];
-
   final TextEditingController contoller = TextEditingController();
 
   @override
@@ -113,7 +113,7 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
               CustomTextField(
                 controller: TextEditingController(),
                 hintText: 'Search...',
-                icon: Padding(
+                iconLeft: Padding(
                   padding: EdgeInsets.only(right: 10.w),
                   child: SvgPicture.asset('assets/images/search.svg'),
                 ),

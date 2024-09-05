@@ -7,7 +7,9 @@ import 'package:ppp444/widgets/form_for_button.dart';
 class WidgetButton extends StatelessWidget {
   final Function()? onPressed;
   final String text;
-  const WidgetButton({super.key, this.onPressed, required this.text});
+  final bool? boxShadow;
+
+  const WidgetButton({super.key, this.onPressed, required this.text, this.boxShadow});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,15 @@ class WidgetButton extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.r),
         color: AppColors.primaryColor,
+        boxShadow: boxShadow == true
+            ? [
+                BoxShadow(
+                  blurRadius: 20.r,
+                  color: AppColors.primaryColor.withOpacity(0.8),
+                  offset: const Offset(0, 3),
+                ),
+              ]
+            : null,
       ),
       child: FormForButton(
         onPressed: onPressed,

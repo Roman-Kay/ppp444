@@ -1,3 +1,13 @@
+class CategoryItem {
+  final String name;
+  final List<String> subNames;
+
+  CategoryItem({
+    required this.name,
+    required this.subNames,
+  });
+}
+
 class ClothesItem {
   final String imageName;
   final String name;

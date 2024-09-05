@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ppp444/ui/new_clothes/new_clothes_main_screen.dart';
 import 'package:ppp444/ui/wardrobe/wardrobe_clothes_card_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
@@ -82,7 +83,12 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                       color: AppColors.whiteColor,
                     ),
                     child: FormForButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NewClothesMainScreen(),
+                        ),
+                      ),
                       borderRadius: BorderRadius.circular(10.r),
                       child: Row(
                         children: [
@@ -131,7 +137,7 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                           child: CustomTextField(
                             controller: TextEditingController(),
                             hintText: 'Search...',
-                            icon: Padding(
+                            iconLeft: Padding(
                               padding: EdgeInsets.only(right: 10.w),
                               child: SvgPicture.asset('assets/images/search.svg'),
                             ),
