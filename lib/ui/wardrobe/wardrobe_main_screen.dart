@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ppp444/ui/new_clothes/new_clothes_main_screen.dart';
+import 'package:ppp444/ui/wardrobe/new_clothes/new_clothes_main_screen.dart';
 import 'package:ppp444/ui/wardrobe/wardrobe_clothes_card_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';

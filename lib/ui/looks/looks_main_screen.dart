@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ppp444/ui/looks/main_tabbar/looks_all_tabbar.dart';
 import 'package:ppp444/ui/looks/main_tabbar/looks_folders_tabbar.dart';
-import 'package:ppp444/ui/new_look/new_look_main_screen.dart';
+import 'package:ppp444/ui/looks/new_look/new_look_main_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/form_for_button.dart';

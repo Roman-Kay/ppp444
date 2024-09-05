@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ppp444/ui/new_clothes/choosen_catogory.dart';
+import 'package:ppp444/data/hive.dart';
+import 'package:ppp444/ui/wardrobe/new_clothes/choosen_catogory.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/custom_textfiled_label.dart';
@@ -20,6 +21,7 @@ class NewClothesMainScreen extends StatefulWidget {
 class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
   final TextEditingController controllerCategory = TextEditingController();
   final TextEditingController controllerName = TextEditingController();
+
   File? image;
 
   @override
@@ -213,7 +215,11 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                     ),
                     child: WidgetButton(
                       text: 'Add clothes',
-                      onPressed: () {},
+                      onPressed: () {
+                        // AppHive.addToListData(
+                        //   'list_clothes',
+                        // );
+                      },
                     ),
                   ),
                 ),
