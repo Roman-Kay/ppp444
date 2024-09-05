@@ -1,5 +1,8 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
@@ -7,9 +10,9 @@ import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
-class WardrobeClothesCardScreen extends StatelessWidget {
-  final ClothesItem clothesItem;
-  const WardrobeClothesCardScreen({super.key, required this.clothesItem});
+class LookCardScreen extends StatelessWidget {
+  final LookItem lookItem;
+  const LookCardScreen({super.key, required this.lookItem});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,7 @@ class WardrobeClothesCardScreen extends StatelessWidget {
                     ),
                     SizedBox(width: 12.w),
                     Text(
-                      'Wardrobe',
+                      'Looks',
                       style: AppTextStyles.displayMedium18_900,
                     ),
                     const Spacer(),
@@ -54,36 +57,43 @@ class WardrobeClothesCardScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 10.h),
               Expanded(
-                child: Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(30.r),
-                    clipBehavior: Clip.hardEdge,
-                    child: Image.asset(
-                      'assets/images/clothes/${clothesItem.imageName}.png',
-                      fit: BoxFit.fitWidth,
-                      width: 390.w,
-                      height: 590.h,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
                   children: [
+                    SizedBox(height: 15.h),
+                    MasonryGridView.count(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: lookItem.clothesItem.length,
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 4.w,
+                      crossAxisSpacing: 9.w,
+                      itemBuilder: (context, index) {
+                        ClothesItem clothesItem = lookItem.clothesItem[index];
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(25.r),
+                          clipBehavior: Clip.hardEdge,
+                          child: Image.asset(
+                            'assets/images/clothes/${clothesItem.imageName}.png',
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 25.h),
                     Text(
-                      clothesItem.name,
+                      lookItem.name,
                       style: AppTextStyles.displayLarge32,
                     ),
                     SizedBox(height: 5.h),
-                    Text(
-                      clothesItem.category,
-                      style: AppTextStyles.displayMedium18_600.copyWith(
-                        color: AppColors.greyColor,
+                    for (var element in lookItem.clothesItem)
+                      Text(
+                        element.name,
+                        style: AppTextStyles.bodyMedium14.copyWith(
+                          color: AppColors.greyColor,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),

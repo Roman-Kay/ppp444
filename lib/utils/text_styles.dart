@@ -14,6 +14,11 @@ abstract class AppTextStyles {
     fontWeight: FontWeight.w900,
     color: AppColors.whiteColor,
   );
+  static final displayBold20 = TextStyle(
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w700,
+    color: AppColors.whiteColor,
+  );
   static final displayMedium18_900 = TextStyle(
     fontSize: 18.sp,
     fontWeight: FontWeight.w900,

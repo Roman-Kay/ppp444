@@ -1,0 +1,157 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:ppp444/ui/looks/components/looks_all_tabbar.dart';
+import 'package:ppp444/ui/looks/components/looks_folders_tabbar.dart';
+import 'package:ppp444/utils/colors.dart';
+import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/form_for_button.dart';
+
+class LooksMainScreen extends StatefulWidget {
+  const LooksMainScreen({super.key});
+
+  @override
+  State<LooksMainScreen> createState() => _LooksMainScreenState();
+}
+
+class _LooksMainScreenState extends State<LooksMainScreen> {
+  int chossenCategory = 0;
+  List tabbars = [
+    LooksAllTabbar(),
+    LooksFoldersTabbar(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: AppColors.backgroundGradient,
+      ),
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.w),
+          child: Column(
+            children: [
+              SizedBox(height: 25.h),
+              Row(
+                children: [
+                  Text(
+                    'Looks',
+                    style: AppTextStyles.displayMedium24,
+                  ),
+                  const Spacer(),
+                  Container(
+                    height: 34.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.r),
+                      color: AppColors.whiteColor,
+                    ),
+                    child: FormForButton(
+                      onPressed: () {},
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 7.w),
+                          SvgPicture.asset(
+                            'assets/images/add.svg',
+                            height: 20.h,
+                          ),
+                          SizedBox(width: 7.w),
+                          Text(
+                            'Add Clothes',
+                            style: AppTextStyles.bodyMedium14.copyWith(
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 28.h),
+              // кастомны СupertinoNavBar
+              Container(
+                height: 32,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: const Color(0xFFD3B0FF),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(2),
+                  child: Stack(
+                    children: [
+                      AnimatedAlign(
+                        alignment:
+                            chossenCategory == 0 ? Alignment.centerLeft : Alignment.centerRight,
+                        duration: const Duration(milliseconds: 150),
+                        child: Container(
+                          // из ширины экрана удалил padding внутри Container
+                          // и снаружи его
+                          width: (390.w - 4 - 24.w) / 2,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: FormForButton(
+                              onPressed: () => setState(() {
+                                chossenCategory = 0;
+                              }),
+                              borderRadius: BorderRadius.circular(8),
+                              child: Center(
+                                child: Text(
+                                  'All Looks',
+                                  style: AppTextStyles.bodyMedium16_400.copyWith(
+                                    color: chossenCategory == 0
+                                        ? AppColors.whiteColor
+                                        : AppColors.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: FormForButton(
+                              onPressed: () => setState(() {
+                                chossenCategory = 1;
+                              }),
+                              borderRadius: BorderRadius.circular(8),
+                              child: Center(
+                                child: Text(
+                                  'Folders',
+                                  style: AppTextStyles.bodyMedium16_400.copyWith(
+                                    color: chossenCategory == 1
+                                        ? AppColors.whiteColor
+                                        : AppColors.primaryColor,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(child: tabbars[chossenCategory]),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

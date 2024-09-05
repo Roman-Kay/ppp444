@@ -4,21 +4,10 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ppp444/ui/wardrobe/wardrobe_clothes_card_screen.dart';
 import 'package:ppp444/utils/colors.dart';
+import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/custom_textfiled_label.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
-
-class ClothesItem {
-  final String imageName;
-  final String name;
-  final String category;
-
-  ClothesItem({
-    required this.imageName,
-    required this.name,
-    required this.category,
-  });
-}
 
 class WardrobeMainScreen extends StatefulWidget {
   const WardrobeMainScreen({super.key});
@@ -149,18 +138,18 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                           ),
                         ),
                         SizedBox(
-                          // высота элементов в ListView 26
-                          // 15 с верху и снизу для удобного скролла
+                          // высота элементов в ListView 26.h
+                          // 15.h с верху и снизу для удобного скролла
                           height: 26.h + 30.h,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: listCategories.length,
+                            padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 12.w),
                             itemBuilder: (context, index) {
                               return Center(
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                    left: index == 0 ? 12.w : 5,
-                                    right: index + 1 == listCategories.length ? 12.w : 0,
+                                    left: index != 0 ? 5.w : 0,
                                   ),
                                   child: Container(
                                     height: 26.h,

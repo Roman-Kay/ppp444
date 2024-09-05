@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ppp444/ui/looks/looks_main_screen.dart';
 import 'package:ppp444/ui/settings/settings_main_screen.dart';
 import 'package:ppp444/ui/wardrobe/wardrobe_main_screen.dart';
 import 'package:ppp444/utils/colors.dart';
@@ -27,8 +28,8 @@ class CustomBottomBar extends StatefulWidget {
 
 class _CustomBottomBarState extends State<CustomBottomBar> {
   static List<Widget> screen = <Widget>[
-    WardrobeMainScreen(),
-    const SizedBox(),
+    const WardrobeMainScreen(),
+    const LooksMainScreen(),
     const SettingsMainScreen(),
   ];
 

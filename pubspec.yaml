@@ -91,6 +91,10 @@ flutter:
           weight: 500
         - asset: assets/fonts/SFProText-Semibold.ttf
           weight: 600
+        - asset: assets/fonts/SFProText-Semibold.ttf
+          weight: 600
+        - asset: assets/fonts/SFProText-Bold.ttf
+          weight: 700
         - asset: assets/fonts/SF-Pro-Display-Black.otf
           weight: 900
   # fonts:
