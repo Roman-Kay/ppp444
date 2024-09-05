@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ppp444/ui/looks/folders/folders_main_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
@@ -11,7 +12,73 @@ class LooksFoldersTabbar extends StatelessWidget {
   final List<FolderItem> listOfFoldersItems = [
     FolderItem(
       name: 'Holidays',
-      lookstems: [],
+      lookstems: [
+        LookItem(
+          name: 'Summer vibe',
+          clothesItem: [
+            ClothesItem(
+              category: 'Accessories',
+              imageName: 'hat',
+              name: 'Summer hat',
+            ),
+            ClothesItem(
+              category: 'Casual clothes',
+              imageName: 'dress',
+              name: 'Dress with flowers',
+            ),
+            ClothesItem(
+              category: 'Shoes',
+              imageName: 'shoes_1',
+              name: 'Stylish sandals',
+            ),
+          ],
+        ),
+        LookItem(
+          name: 'Evening walk',
+          clothesItem: [
+            ClothesItem(
+              category: 'Casual clothes',
+              imageName: 'shirt',
+              name: 'Casual shirt',
+            ),
+            ClothesItem(
+              category: 'Shoes',
+              imageName: 'shoes_1',
+              name: 'Stylish sandals',
+            ),
+            ClothesItem(
+              category: 'Shoes',
+              imageName: 'shoes_2',
+              name: 'White sneakers',
+            ),
+          ],
+        ),
+        LookItem(
+          name: 'Birthday party',
+          clothesItem: [
+            ClothesItem(
+              category: 'Casual clothes',
+              imageName: 'dress',
+              name: 'Dress with flowers',
+            ),
+            ClothesItem(
+              category: 'Casual clothes',
+              imageName: 'shirt',
+              name: 'Casual shirt',
+            ),
+            ClothesItem(
+              category: 'Shoes',
+              imageName: 'hat',
+              name: 'Stylish sandals',
+            ),
+            ClothesItem(
+              category: 'Shoes',
+              imageName: 'shoes_2',
+              name: 'White sneakers',
+            ),
+          ],
+        ),
+      ],
     ),
     FolderItem(
       name: 'Weekends',
@@ -61,7 +128,12 @@ class LooksFoldersTabbar extends StatelessWidget {
                     color: AppColors.surfaceColor,
                   ),
                   child: FormForButton(
-                    onPressed: () {},
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FoldersMainScreen(folderItem: folderItem),
+                      ),
+                    ),
                     borderRadius: BorderRadius.circular(20.r),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),

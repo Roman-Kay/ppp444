@@ -2,13 +2,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ppp444/ui/looks/components/looks_all_tabbar.dart';
-import 'package:ppp444/ui/looks/components/looks_folders_tabbar.dart';
+import 'package:ppp444/ui/looks/main_tabbar/looks_all_tabbar.dart';
+import 'package:ppp444/ui/looks/main_tabbar/looks_folders_tabbar.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_alert_dialog.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
 class LooksMainScreen extends StatefulWidget {
@@ -53,7 +53,15 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                       color: AppColors.whiteColor,
                     ),
                     child: FormForButton(
-                      onPressed: () {},
+                      onPressed: () => showCustomDialog(
+                        context,
+                        chossenCategory == 0 ? 'New Look' : 'New Folder',
+                        chossenCategory == 0
+                            ? 'Give a name to the new look'
+                            : 'Give a name to the new folder',
+                        chossenCategory == 0 ? () {} : () {},
+                        TextEditingController(),
+                      ),
                       borderRadius: BorderRadius.circular(10.r),
                       child: Row(
                         children: [
@@ -64,7 +72,7 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                           ),
                           SizedBox(width: 7.w),
                           Text(
-                            'Add Clothes',
+                            chossenCategory == 0 ? 'Add Look' : 'Add Folder',
                             style: AppTextStyles.bodyMedium14.copyWith(
                               color: AppColors.primaryColor,
                             ),

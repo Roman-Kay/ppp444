@@ -128,7 +128,7 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                         SizedBox(height: 30.h),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12.w),
-                          child: CustomTextFieldLabel(
+                          child: CustomTextField(
                             controller: TextEditingController(),
                             hintText: 'Search...',
                             icon: Padding(

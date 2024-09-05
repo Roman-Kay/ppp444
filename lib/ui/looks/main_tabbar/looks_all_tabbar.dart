@@ -7,11 +7,19 @@ import 'package:ppp444/ui/looks/looks_card_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_alert_dialog.dart';
+import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/custom_textfiled_label.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
-class LooksAllTabbar extends StatelessWidget {
+class LooksAllTabbar extends StatefulWidget {
   LooksAllTabbar({super.key});
+
+  @override
+  State<LooksAllTabbar> createState() => _LooksAllTabbarState();
+}
+
+class _LooksAllTabbarState extends State<LooksAllTabbar> {
   final List<LookItem> listOfLooksItems = [
     LookItem(
       name: 'Summer vibe',
@@ -79,6 +87,9 @@ class LooksAllTabbar extends StatelessWidget {
       ],
     ),
   ];
+
+  final TextEditingController contoller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return listOfLooksItems.isEmpty
@@ -99,7 +110,7 @@ class LooksAllTabbar extends StatelessWidget {
         : Column(
             children: [
               SizedBox(height: 20.h),
-              CustomTextFieldLabel(
+              CustomTextField(
                 controller: TextEditingController(),
                 hintText: 'Search...',
                 icon: Padding(
@@ -146,10 +157,34 @@ class LooksAllTabbar extends StatelessWidget {
                                         style: AppTextStyles.displayBold20,
                                       ),
                                       const Spacer(),
-                                      SvgPicture.asset(
-                                        'assets/images/more_vert.svg',
-                                        color: AppColors.whiteColor,
-                                        height: 16.h,
+                                      CustomPopUpMenu(
+                                        textFirst: 'Edit the look',
+                                        svgNameFirst: 'edit',
+                                        onPressedFirst: () {
+                                          showCustomDialog(
+                                            context,
+                                            'Edit Look',
+                                            'Give a name to the look',
+                                            () {
+                                              setState(() {
+                                                listOfLooksItems[index] = LookItem(
+                                                  name: contoller.text,
+                                                  clothesItem: lookItem.clothesItem,
+                                                );
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            contoller,
+                                          );
+                                        },
+                                        textSecond: 'Delete',
+                                        svgNameSecond: 'delete',
+                                        onPressedSecond: () {
+                                          setState(() {
+                                            listOfLooksItems.removeAt(index);
+                                          });
+                                        },
+                                        smallIcon: true,
                                       ),
                                     ],
                                   ),

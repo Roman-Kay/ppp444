@@ -5,7 +5,24 @@ import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/text_styles.dart';
 
 class CustomPopUpMenu extends StatelessWidget {
-  const CustomPopUpMenu({super.key});
+  final Function()? onPressedFirst;
+  final String textFirst;
+  final String svgNameFirst;
+  final Function()? onPressedSecond;
+  final String textSecond;
+  final String svgNameSecond;
+  final bool? smallIcon;
+
+  const CustomPopUpMenu({
+    super.key,
+    this.onPressedFirst,
+    this.onPressedSecond,
+    required this.textFirst,
+    required this.svgNameFirst,
+    required this.textSecond,
+    required this.svgNameSecond,
+    this.smallIcon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +35,9 @@ class CustomPopUpMenu extends StatelessWidget {
       ),
       itemBuilder: (context) => [
         widgetPopup(
-          'Edit',
-          'edit',
-          () {},
+          textFirst,
+          svgNameFirst,
+          onPressedFirst,
         ),
         PopupMenuItem(
           height: 1,
@@ -32,16 +49,16 @@ class CustomPopUpMenu extends StatelessWidget {
           ),
         ),
         widgetPopup(
-          'Delete',
-          'delete',
-          () {},
+          textSecond,
+          svgNameSecond,
+          onPressedSecond,
         ),
       ],
       child: SvgPicture.asset(
         'assets/images/more_vert.svg',
         // ignore: deprecated_member_use
         color: AppColors.whiteColor,
-        height: 24.h,
+        height: smallIcon == true ? 16.h : 24.h,
       ),
     );
   }
@@ -61,7 +78,10 @@ PopupMenuItem widgetPopup(String text, String iconName, Function()? onTap) {
         const Spacer(),
         SvgPicture.asset(
           'assets/images/$iconName.svg',
+          color: AppColors.basicWhiteColor,
           height: 24.h,
+          width: 24.w,
+          fit: BoxFit.fill,
         )
       ],
     ),
