@@ -55,16 +55,15 @@ class WardrobeClothesCardScreen extends StatelessWidget {
                       child: PopupMenuButton(
                         constraints: BoxConstraints(minWidth: 135.w, maxHeight: 135.w),
                         color: const Color(0x00000000).withOpacity(0.3),
-                        shadowColor: const Color(0x0000000),
-                        onSelected: (value) {
-                          // _onMenuItemSelected(value as int);
-                        },
+                        shadowColor: const Color(0x00000000),
+                        onSelected: (value) {},
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.r),
                         ),
                         itemBuilder: (context) => [
                           PopupMenuItem(
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                             height: 44,
                             child: Row(
                               children: [
@@ -92,6 +91,7 @@ class WardrobeClothesCardScreen extends StatelessWidget {
                           PopupMenuItem(
                             height: 44,
                             padding: EdgeInsets.symmetric(horizontal: 16.w),
+                            borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12)),
                             child: Row(
                               children: [
                                 Text(
