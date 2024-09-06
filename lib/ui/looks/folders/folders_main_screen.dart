@@ -7,6 +7,7 @@ import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/custom_alert_dialog.dart';
+import 'package:ppp444/widgets/custom_empty_widget.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 import 'package:ppp444/widgets/widget_button.dart';
@@ -106,15 +107,10 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                 listOfLooksItems.isEmpty
                     ? Column(
                         children: [
-                          SizedBox(height: 60.h),
-                          Image.asset(
-                            'assets/images/folders_empty.png',
-                            width: 210.w,
-                          ),
-                          SizedBox(height: 15.h),
-                          Text(
-                            'Folder is empty',
-                            style: AppTextStyles.displayMedium18_900,
+                          CustomEmptyWidget(
+                            topPading: 60.h,
+                            text: 'Folder is empty',
+                            imageName: 'folders_empty',
                           ),
                           SizedBox(height: 50.h),
                           WidgetButton(

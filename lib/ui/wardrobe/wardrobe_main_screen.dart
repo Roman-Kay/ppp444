@@ -10,6 +10,8 @@ import 'package:ppp444/utils/categories.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_empty_widget.dart';
+import 'package:ppp444/widgets/custom_search.dart';
 import 'package:ppp444/widgets/custom_textfiled_label.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
@@ -82,7 +84,10 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                             builder: (context) => const NewClothesMainScreen(),
                           ),
                         );
-                        setState(() {});
+                        setState(() {
+                          listOfAllClothesItems = box.get('listOfClothesItems') ?? [];
+                          searchItems();
+                        });
                       },
                       borderRadius: BorderRadius.circular(10.r),
                       child: Row(
@@ -108,20 +113,10 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
               ),
             ),
             listOfAllClothesItems.isEmpty
-                ? Column(
-                    children: [
-                      SizedBox(height: 70.h),
-                      Image.asset(
-                        'assets/images/wardrobe_empty.png',
-                        height: 210.h,
-                        width: 210.w,
-                      ),
-                      SizedBox(height: 15.h),
-                      Text(
-                        'Wardrobe is empty',
-                        style: AppTextStyles.displayMedium18_900,
-                      ),
-                    ],
+                ? CustomEmptyWidget(
+                    topPading: 70.h,
+                    imageName: 'wardrobe_empty',
+                    text: 'Wardrobe is empty',
                   )
                 : Expanded(
                     child: Column(
@@ -129,14 +124,7 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                         SizedBox(height: 30.h),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12.w),
-                          child: CustomTextField(
-                            controller: searchController,
-                            hintText: 'Search...',
-                            iconLeft: Padding(
-                              padding: EdgeInsets.only(right: 10.w),
-                              child: SvgPicture.asset('assets/images/search.svg'),
-                            ),
-                          ),
+                          child: CustomSearch(searchController: searchController),
                         ),
                         SizedBox(
                           // высота элементов в ListView 26.h

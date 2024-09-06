@@ -9,6 +9,7 @@ import 'package:ppp444/utils/categories.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_search.dart';
 import 'package:ppp444/widgets/custom_textfiled_label.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 import 'package:ppp444/widgets/widget_button.dart';
@@ -112,14 +113,7 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                               SizedBox(height: 30.h),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                child: CustomTextField(
-                                  controller: searchController,
-                                  hintText: 'Search...',
-                                  iconLeft: Padding(
-                                    padding: EdgeInsets.only(right: 10.w),
-                                    child: SvgPicture.asset('assets/images/search.svg'),
-                                  ),
-                                ),
+                                child: CustomSearch(searchController: searchController),
                               ),
                               SizedBox(
                                 // высота элементов в ListView 26.h

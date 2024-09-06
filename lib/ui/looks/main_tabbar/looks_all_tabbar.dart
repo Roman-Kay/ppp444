@@ -11,7 +11,9 @@ import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/custom_alert_dialog.dart';
+import 'package:ppp444/widgets/custom_empty_widget.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
+import 'package:ppp444/widgets/custom_search.dart';
 import 'package:ppp444/widgets/custom_textfiled_label.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
@@ -54,31 +56,15 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
   @override
   Widget build(BuildContext context) {
     return listOfLooksItems.isEmpty
-        ? Column(
-            children: [
-              SizedBox(height: 60.h),
-              Image.asset(
-                'assets/images/looks_empty.png',
-                width: 210.w,
-              ),
-              SizedBox(height: 15.h),
-              Text(
-                'You don\'t have folders',
-                style: AppTextStyles.displayMedium18_900,
-              ),
-            ],
+        ? CustomEmptyWidget(
+            topPading: 60.h,
+            imageName: 'looks_empty',
+            text: 'You don\'t have looks',
           )
         : Column(
             children: [
               SizedBox(height: 20.h),
-              CustomTextField(
-                controller: searchController,
-                hintText: 'Search...',
-                iconLeft: Padding(
-                  padding: EdgeInsets.only(right: 10.w),
-                  child: SvgPicture.asset('assets/images/search.svg'),
-                ),
-              ),
+              CustomSearch(searchController: searchController),
               SizedBox(height: 15.h),
               // также + 15.h из top padding первого айтома из ListView
               // это чтобы увеличить площадь скролла

@@ -4,6 +4,7 @@ import 'package:ppp444/ui/looks/folders/folders_main_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_empty_widget.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
 class LooksFoldersTabbar extends StatefulWidget {
@@ -26,19 +27,10 @@ class _LooksFoldersTabbarState extends State<LooksFoldersTabbar> {
   @override
   Widget build(BuildContext context) {
     return listOfFoldersItems.isEmpty
-        ? Column(
-            children: [
-              SizedBox(height: 60.h),
-              Image.asset(
-                'assets/images/folders_empty.png',
-                width: 210.w,
-              ),
-              SizedBox(height: 15.h),
-              Text(
-                'You don\'t have folders',
-                style: AppTextStyles.displayMedium18_900,
-              ),
-            ],
+        ? CustomEmptyWidget(
+            imageName: 'folders_empty',
+            text: 'You don\'t have folders',
+            topPading: 60.h,
           )
         : ListView.builder(
             itemCount: listOfFoldersItems.length,

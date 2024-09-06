@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,7 +6,8 @@ import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
-import 'package:ppp444/widgets/custom_textfiled_label.dart';
+import 'package:ppp444/widgets/custom_empty_widget.dart';
+import 'package:ppp444/widgets/custom_search.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 import 'package:ppp444/widgets/widget_button.dart';
 
@@ -91,34 +91,16 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                       ],
                     ),
                     listOfLooksItems.isEmpty
-                        ? Center(
-                            child: Column(
-                              children: [
-                                SizedBox(height: 60.h),
-                                Image.asset(
-                                  'assets/images/looks_empty.png',
-                                  width: 210.w,
-                                ),
-                                SizedBox(height: 15.h),
-                                Text(
-                                  'You don\'t have looks',
-                                  style: AppTextStyles.displayMedium18_900,
-                                ),
-                              ],
-                            ),
+                        ? CustomEmptyWidget(
+                            topPading: 60.h,
+                            imageName: 'looks_empty',
+                            text: 'You don\'t have looks',
                           )
                         : Expanded(
                             child: Column(
                               children: [
                                 SizedBox(height: 20.h),
-                                CustomTextField(
-                                  controller: searchController,
-                                  hintText: 'Search...',
-                                  iconLeft: Padding(
-                                    padding: EdgeInsets.only(right: 10.w),
-                                    child: SvgPicture.asset('assets/images/search.svg'),
-                                  ),
-                                ),
+                                CustomSearch(searchController: searchController),
                                 Expanded(
                                   child: ListView.builder(
                                     itemCount: listOfFilteredLooksItems.length,
