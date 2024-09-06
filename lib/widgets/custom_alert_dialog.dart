@@ -9,6 +9,7 @@ void showCustomDialog(
   String name,
   String title,
   void Function()? onPressed,
+  void Function()? onPressedCancel,
   final TextEditingController controller,
 ) {
   // final TextEditingController controller = TextEditingController();
@@ -43,16 +44,16 @@ void showCustomDialog(
                   isCupertino: true,
                   hintText: name,
                   controller: controller,
-                  onChanged: (val) => setState(() {}),
+                  onChanged: (val) => setState(
+                    () {},
+                  ),
                 ),
               ),
             ],
           ),
           actions: [
             CupertinoDialogAction(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: onPressedCancel,
               child: const Text(
                 'Cancel',
                 style: TextStyle(

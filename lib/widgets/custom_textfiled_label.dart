@@ -67,7 +67,7 @@ class CustomTextField extends StatelessWidget {
                   controller: controller,
                   onChanged: onChanged,
                   style: isCupertino == true
-                      ? AppTextStyles.bodyMedium12.copyWith(color: const Color(0xFF58575D))
+                      ? AppTextStyles.bodyMedium12
                       : AppTextStyles.bodyMedium14.copyWith(
                           color: AppColors.blackColor,
                         ),

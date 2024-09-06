@@ -88,7 +88,7 @@ class LooksAllTabbar extends StatefulWidget {
 }
 
 class _LooksAllTabbarState extends State<LooksAllTabbar> {
-  final TextEditingController contoller = TextEditingController();
+  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -168,13 +168,17 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
                                             () {
                                               setState(() {
                                                 listOfLooksItems[index] = LookItem(
-                                                  name: contoller.text,
+                                                  name: controller.text,
                                                   clothesItem: lookItem.clothesItem,
                                                 );
                                               });
                                               Navigator.pop(context);
                                             },
-                                            contoller,
+                                            () {
+                                              controller.text = '';
+                                              Navigator.pop(context);
+                                            },
+                                            controller,
                                           );
                                         },
                                         textSecond: 'Delete',

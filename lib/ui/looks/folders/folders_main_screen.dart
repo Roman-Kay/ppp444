@@ -108,6 +108,10 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                   // });
                                   // Navigator.pop(context);
                                 },
+                                () {
+                                  controller.text = '';
+                                  Navigator.pop(context);
+                                },
                                 controller,
                               );
                             },
@@ -158,6 +162,10 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                                         clothesItem: lookItem.clothesItem,
                                                       );
                                                     });
+                                                    Navigator.pop(context);
+                                                  },
+                                                  () {
+                                                    controller.text = '';
                                                     Navigator.pop(context);
                                                   },
                                                   controller,

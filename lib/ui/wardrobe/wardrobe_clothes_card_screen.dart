@@ -3,15 +3,24 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_alert_dialog.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
-class WardrobeClothesCardScreen extends StatelessWidget {
+class WardrobeClothesCardScreen extends StatefulWidget {
   final ClothesItem clothesItem;
-  const WardrobeClothesCardScreen({super.key, required this.clothesItem});
+  WardrobeClothesCardScreen({super.key, required this.clothesItem});
+
+  @override
+  State<WardrobeClothesCardScreen> createState() => _WardrobeClothesCardScreenState();
+}
+
+class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
+  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +64,48 @@ class WardrobeClothesCardScreen extends StatelessWidget {
                     CustomPopUpMenu(
                       textFirst: 'Edit',
                       svgNameFirst: 'edit',
-                      onPressedFirst: () {},
+                      onPressedFirst: () {
+                        showCustomDialog(
+                          context,
+                          'Сloth Name',
+                          'Change the cloth name',
+                          () {
+                            setState(
+                              () {
+                                final List response = box.get('listOfClothesItems');
+                                // print(response[0].name);
+
+                                print(widget.clothesItem.name == response[0].name);
+                                print(widget.clothesItem.imageBase64 == response[0].imageBase64);
+                                print(widget.clothesItem.category == response[0].category);
+                                print(response.indexOf(widget.clothesItem));
+                                editItemInList(
+                                  widget.clothesItem,
+                                  ClothesItem(
+                                    category: widget.clothesItem.category,
+                                    name: controller.text,
+                                    imageBase64: widget.clothesItem.imageBase64,
+                                  ),
+                                );
+                                widget.clothesItem.name = controller.text;
+                                controller.text = '';
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                          () {
+                            controller.text = '';
+                            Navigator.pop(context);
+                          },
+                          controller,
+                        );
+                      },
                       textSecond: 'Delete',
                       svgNameSecond: 'delete',
-                      onPressedSecond: () {},
+                      onPressedSecond: () {
+                        deleteItemFromList(widget.clothesItem);
+                        Navigator.pop(context);
+                      },
                     ),
                   ],
                 ),
@@ -70,7 +117,7 @@ class WardrobeClothesCardScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.r),
                     clipBehavior: Clip.hardEdge,
                     child: Image.memory(
-                      base64Decode(clothesItem.imageBase64),
+                      base64Decode(widget.clothesItem.imageBase64),
                       fit: BoxFit.fitWidth,
                       width: 390.w,
                       // height: 590.h,
@@ -85,12 +132,12 @@ class WardrobeClothesCardScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      clothesItem.name,
+                      widget.clothesItem.name,
                       style: AppTextStyles.displayLarge32,
                     ),
                     SizedBox(height: 5.h),
                     Text(
-                      clothesItem.category,
+                      widget.clothesItem.category,
                       style: AppTextStyles.displayMedium18_600.copyWith(
                         color: AppColors.greyColor,
                       ),
