@@ -44,7 +44,7 @@ editItemInList(dynamic changeValue, dynamic value) {
   final response = box.get(key);
   if (response != null && response != []) {
     List helpList = response;
-    int index = helpList.indexOf(1);
+    int index = helpList.indexOf(changeValue);
     helpList[index] = value;
     box.put(key, helpList);
   }

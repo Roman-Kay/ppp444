@@ -38,6 +38,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
           gradient: AppColors.backgroundGradient,
         ),
         child: SafeArea(
+          bottom: false,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: Column(
@@ -144,6 +145,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                     : Expanded(
                         child: ListView.builder(
                           itemCount: listOfLooksItems.length,
+                          padding: EdgeInsets.only(bottom: 50.h),
                           itemBuilder: (context, index) {
                             final LookItem lookItem = listOfLooksItems[index];
                             return Padding(

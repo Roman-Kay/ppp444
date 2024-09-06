@@ -6,10 +6,22 @@ import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
-class LooksFoldersTabbar extends StatelessWidget {
+class LooksFoldersTabbar extends StatefulWidget {
   final List listOfFoldersItems;
 
   const LooksFoldersTabbar({super.key, required this.listOfFoldersItems});
+
+  @override
+  State<LooksFoldersTabbar> createState() => _LooksFoldersTabbarState();
+}
+
+class _LooksFoldersTabbarState extends State<LooksFoldersTabbar> {
+  late List listOfFoldersItems;
+  @override
+  void initState() {
+    listOfFoldersItems = widget.listOfFoldersItems;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +55,15 @@ class LooksFoldersTabbar extends StatelessWidget {
                     color: AppColors.surfaceColor,
                   ),
                   child: FormForButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FoldersMainScreen(folderItem: folderItem),
-                      ),
-                    ),
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FoldersMainScreen(folderItem: folderItem),
+                        ),
+                      );
+                      setState(() {});
+                    },
                     borderRadius: BorderRadius.circular(20.r),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 20.w),
