@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ppp444/ui/looks/main_tabbar/looks_all_tabbar.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
@@ -22,6 +24,7 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
   List<LookItem> choossenLookItem = [];
   @override
   Widget build(BuildContext context) {
+    final List listOfLooksItems = box.get('listOfLooksItems') ?? [];
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -63,98 +66,129 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20.h),
-                    CustomTextField(
-                      controller: TextEditingController(),
-                      hintText: 'Search...',
-                      iconLeft: Padding(
-                        padding: EdgeInsets.only(right: 10.w),
-                        child: SvgPicture.asset('assets/images/search.svg'),
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: listOfLooksItems.length,
-                        padding: EdgeInsets.only(bottom: 200.h),
-                        itemBuilder: (context, index) {
-                          final LookItem lookItem = listOfLooksItems[index];
-                          return Padding(
-                            padding: EdgeInsets.only(top: 20.h),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(30.r),
-                              clipBehavior: Clip.hardEdge,
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 100),
-                                height: 189.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  color: choossenLookItem.any((element) => element == lookItem)
-                                      ? AppColors.primaryColor
-                                      : AppColors.surfaceColor,
+                    listOfLooksItems.isEmpty
+                        ? Center(
+                            child: Column(
+                              children: [
+                                SizedBox(height: 60.h),
+                                Image.asset(
+                                  'assets/images/looks_empty.png',
+                                  width: 210.w,
                                 ),
-                                child: FormForButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (choossenLookItem.any((element) => element == lookItem)) {
-                                        (choossenLookItem.remove(lookItem));
-                                      } else {
-                                        choossenLookItem.add(lookItem);
-                                      }
-                                    });
-                                  },
-                                  child: Column(
-                                    children: [
-                                      const Spacer(),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            lookItem.name,
-                                            style: AppTextStyles.displayBold20,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        // высота элементов в ListView 120.h
-                                        // 15.h с верху и снизу для удобного скролла
-                                        height: 120.h + 30.h,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 15.h,
-                                            horizontal: 14.w,
-                                          ),
-                                          itemCount: lookItem.clothesItem.length,
-                                          itemBuilder: (context, index) {
-                                            return Center(
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: index != 0 ? 4 : 0,
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(24.r),
-                                                  child: Image.asset(
-                                                    'assets/images/clothes/dress.png',
-                                                    height: 120.h,
-                                                    width: 120.h,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ],
+                                SizedBox(height: 15.h),
+                                Text(
+                                  'You don\'t have looks',
+                                  style: AppTextStyles.displayMedium18_900,
+                                ),
+                              ],
+                            ),
+                          )
+                        : Expanded(
+                            child: Column(
+                              children: [
+                                SizedBox(height: 20.h),
+                                CustomTextField(
+                                  controller: TextEditingController(),
+                                  hintText: 'Search...',
+                                  iconLeft: Padding(
+                                    padding: EdgeInsets.only(right: 10.w),
+                                    child: SvgPicture.asset('assets/images/search.svg'),
                                   ),
                                 ),
-                              ),
+                                Expanded(
+                                  child: ListView.builder(
+                                    itemCount: listOfLooksItems.length,
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.only(bottom: 150.h),
+                                    itemBuilder: (context, index) {
+                                      final LookItem lookItem = listOfLooksItems[index];
+                                      return Padding(
+                                        padding: EdgeInsets.only(top: 20.h),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(30.r),
+                                          clipBehavior: Clip.hardEdge,
+                                          child: AnimatedContainer(
+                                            duration: const Duration(milliseconds: 100),
+                                            height: 189.h,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(30.r),
+                                              color: choossenLookItem
+                                                      .any((element) => element == lookItem)
+                                                  ? AppColors.primaryColor
+                                                  : AppColors.surfaceColor,
+                                            ),
+                                            child: FormForButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  if (choossenLookItem
+                                                      .any((element) => element == lookItem)) {
+                                                    (choossenLookItem.remove(lookItem));
+                                                  } else {
+                                                    choossenLookItem.add(lookItem);
+                                                  }
+                                                });
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  const Spacer(),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                                    child: Align(
+                                                      alignment: Alignment.centerLeft,
+                                                      child: Text(
+                                                        lookItem.name,
+                                                        style: AppTextStyles.displayBold20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    // высота элементов в ListView 120.h
+                                                    // 15.h с верху и снизу для удобного скролла
+                                                    height: 120.h + 30.h,
+                                                    child: ListView.builder(
+                                                      scrollDirection: Axis.horizontal,
+                                                      padding: EdgeInsets.symmetric(
+                                                        vertical: 15.h,
+                                                        horizontal: 14.w,
+                                                      ),
+                                                      itemCount: lookItem.clothesItem.length,
+                                                      itemBuilder: (context, index) {
+                                                        return Center(
+                                                          child: Padding(
+                                                            padding: EdgeInsets.only(
+                                                              left: index != 0 ? 4 : 0,
+                                                            ),
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius.circular(24.r),
+                                                              child: Image.memory(
+                                                                base64Decode(
+                                                                  lookItem.clothesItem[index]
+                                                                      .imageBase64,
+                                                                ),
+                                                                gaplessPlayback: true,
+                                                                height: 120.h,
+                                                                width: 120.h,
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      ),
-                    ),
+                          ),
                   ],
                 ),
                 AnimatedOpacity(
@@ -170,7 +204,12 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                         child: WidgetButton(
                           text: 'Confirm',
                           boxShadow: true,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(
+                              context,
+                              choossenLookItem,
+                            );
+                          },
                         ),
                       ),
                     ),

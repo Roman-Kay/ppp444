@@ -24,14 +24,6 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
   String choosenCategory = '';
   List<ClothesItem> choossenClothesItems = [];
 
-  final List<String> listCategories = [
-    'Outerwear',
-    'Casual clothes',
-    'Lower Clothing',
-    'Undergarments',
-    'Shoes',
-  ];
-
   @override
   Widget build(BuildContext context) {
     List listOfClothesItems = box.get('listOfClothesItems') ?? [];
@@ -126,7 +118,8 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                                           height: 26.h,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(26),
-                                            color: choosenCategory == listCategories[index]
+                                            color: choosenCategory ==
+                                                    Categories.listOfCategoriesItems[index].name
                                                 ? AppColors.primaryColor
                                                 : null,
                                             border: Border.all(
@@ -148,7 +141,7 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(horizontal: 13.w),
                                               child: Text(
-                                                listCategories[index],
+                                                Categories.listOfCategoriesItems[index].name,
                                                 style: AppTextStyles.bodyMedium12,
                                               ),
                                             ),
@@ -165,7 +158,7 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                                   child: MasonryGridView.count(
                                     shrinkWrap: true,
                                     physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: 11,
+                                    itemCount: listOfClothesItems.length,
                                     crossAxisCount: 2,
                                     padding:
                                         EdgeInsets.only(left: 12.w, right: 12.w, bottom: 200.h),
@@ -187,7 +180,14 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                                               ),
                                               child: FormForButton(
                                                 onPressed: () {
-                                                  setState(() {});
+                                                  setState(
+                                                    () {
+                                                      choossenClothesItems.any(
+                                                              (element) => element == clothesItem)
+                                                          ? choossenClothesItems.remove(clothesItem)
+                                                          : choossenClothesItems.add(clothesItem);
+                                                    },
+                                                  );
                                                 },
                                                 borderRadius: BorderRadius.circular(30.r),
                                                 child: Column(
@@ -223,7 +223,11 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                                                             clothesItem.category.split(', ').first,
                                                             style:
                                                                 AppTextStyles.bodyMedium14.copyWith(
-                                                              color: AppColors.greyColor,
+                                                              color: choossenClothesItems.any(
+                                                                      (element) =>
+                                                                          element == clothesItem)
+                                                                  ? const Color(0xFFD3B0FF)
+                                                                  : AppColors.greyColor,
                                                             ),
                                                           ),
                                                         ],

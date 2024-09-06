@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,9 +13,10 @@ void showCustomDialog(
   void Function()? onPressed,
   void Function()? onPressedCancel,
   final TextEditingController controller,
-) {
+  final FutureOr Function(void) onValue,
+) async {
   // final TextEditingController controller = TextEditingController();
-  showCupertinoDialog<void>(
+  await showCupertinoDialog<void>(
     context: context,
     builder: (BuildContext context) => Theme(
       data: ThemeData.dark(),
@@ -80,5 +83,5 @@ void showCustomDialog(
         );
       }),
     ),
-  );
+  ).then(onValue);
 }

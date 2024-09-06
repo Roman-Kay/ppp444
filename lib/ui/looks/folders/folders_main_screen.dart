@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/looks/folders/folder_new_look_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
@@ -20,6 +21,13 @@ class FoldersMainScreen extends StatefulWidget {
 
 class _FoldersMainScreenState extends State<FoldersMainScreen> {
   TextEditingController controller = TextEditingController();
+  late List<LookItem> listOfLooksItems;
+  @override
+  void initState() {
+    listOfLooksItems = widget.folderItem.lookstems;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,12 +73,26 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                       onPressedFirst: () {},
                       textSecond: 'Add New Look',
                       svgNameSecond: 'add',
-                      onPressedSecond: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const FoldersNewLookScreen(),
-                        ),
-                      ),
+                      onPressedSecond: () async {
+                        final List<LookItem>? response = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FoldersNewLookScreen(),
+                          ),
+                        );
+                        if (response != null) {
+                          setState(() {
+                            listOfLooksItems.addAll(response);
+                          });
+                          editItemInList(
+                            widget.folderItem,
+                            FolderItem(
+                              name: widget.folderItem.name,
+                              lookstems: listOfLooksItems,
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -79,7 +101,8 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                   widget.folderItem.name,
                   style: AppTextStyles.displayLarge32,
                 ),
-                widget.folderItem.lookstems.isEmpty
+                SizedBox(height: 5.h),
+                listOfLooksItems.isEmpty
                     ? Column(
                         children: [
                           SizedBox(height: 60.h),
@@ -94,26 +117,25 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                           ),
                           SizedBox(height: 50.h),
                           WidgetButton(
-                            onPressed: () {
-                              showCustomDialog(
+                            onPressed: () async {
+                              final response = await Navigator.push(
                                 context,
-                                'Folder Name',
-                                'Change the folder name',
-                                () {
-                                  // setState(() {
-                                  //   widget.folderItem = FolderItem(
-                                  //     name: controller.text,
-                                  //     ,
-                                  //   );
-                                  // });
-                                  // Navigator.pop(context);
-                                },
-                                () {
-                                  controller.text = '';
-                                  Navigator.pop(context);
-                                },
-                                controller,
+                                MaterialPageRoute(
+                                  builder: (context) => const FoldersNewLookScreen(),
+                                ),
                               );
+                              if (response != null) {
+                                setState(() {
+                                  listOfLooksItems.addAll(response);
+                                });
+                                editItemInList(
+                                  widget.folderItem,
+                                  FolderItem(
+                                    name: widget.folderItem.name,
+                                    lookstems: listOfLooksItems,
+                                  ),
+                                );
+                              }
                             },
                             text: 'Add Looks',
                           )
@@ -121,11 +143,11 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                       )
                     : Expanded(
                         child: ListView.builder(
-                          itemCount: widget.folderItem.lookstems.length,
+                          itemCount: listOfLooksItems.length,
                           itemBuilder: (context, index) {
-                            final LookItem lookItem = widget.folderItem.lookstems[index];
+                            final LookItem lookItem = listOfLooksItems[index];
                             return Padding(
-                              padding: EdgeInsets.only(top: 15.h),
+                              padding: EdgeInsets.only(top: index == 0 ? 10.h : 15.h),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(30.r),
                                 clipBehavior: Clip.hardEdge,
@@ -157,7 +179,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                                   'Give a name to the look',
                                                   () {
                                                     setState(() {
-                                                      widget.folderItem.lookstems[index] = LookItem(
+                                                      listOfLooksItems[index] = LookItem(
                                                         name: controller.text,
                                                         clothesItem: lookItem.clothesItem,
                                                       );
@@ -169,13 +191,14 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                                     Navigator.pop(context);
                                                   },
                                                   controller,
+                                                  (valeu) {},
                                                 );
                                               },
                                               textSecond: 'Delete from folder',
                                               svgNameSecond: 'delete',
                                               onPressedSecond: () {
                                                 setState(() {
-                                                  widget.folderItem.lookstems.removeAt(index);
+                                                  listOfLooksItems.removeAt(index);
                                                 });
                                               },
                                               smallIcon: true,
@@ -190,7 +213,9 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                         child: ListView.builder(
                                           scrollDirection: Axis.horizontal,
                                           padding: EdgeInsets.symmetric(
-                                              vertical: 15.h, horizontal: 14.w),
+                                            vertical: 15.h,
+                                            horizontal: 14.w,
+                                          ),
                                           itemCount: lookItem.clothesItem.length,
                                           itemBuilder: (context, index) {
                                             return Center(

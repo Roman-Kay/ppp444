@@ -1,5 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,76 +14,10 @@ import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/custom_textfiled_label.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
-final List<LookItem> listOfLooksItems = [
-  // LookItem(
-  //   name: 'Summer vibe',
-  //   clothesItem: [
-  //     ClothesItem(
-  //       category: 'Accessories',
-  //       imageName: 'hat',
-  //       name: 'Summer hat',
-  //     ),
-  //     ClothesItem(
-  //       category: 'Casual clothes',
-  //       imageName: 'dress',
-  //       name: 'Dress with flowers',
-  //     ),
-  //     ClothesItem(
-  //       category: 'Shoes',
-  //       imageName: 'shoes_1',
-  //       name: 'Stylish sandals',
-  //     ),
-  //   ],
-  // ),
-  // LookItem(
-  //   name: 'Evening walk',
-  //   clothesItem: [
-  //     ClothesItem(
-  //       category: 'Casual clothes',
-  //       imageName: 'shirt',
-  //       name: 'Casual shirt',
-  //     ),
-  //     ClothesItem(
-  //       category: 'Shoes',
-  //       imageName: 'shoes_1',
-  //       name: 'Stylish sandals',
-  //     ),
-  //     ClothesItem(
-  //       category: 'Shoes',
-  //       imageName: 'shoes_2',
-  //       name: 'White sneakers',
-  //     ),
-  //   ],
-  // ),
-  // LookItem(
-  //   name: 'Birthday party',
-  //   clothesItem: [
-  //     ClothesItem(
-  //       category: 'Casual clothes',
-  //       imageName: 'dress',
-  //       name: 'Dress with flowers',
-  //     ),
-  //     ClothesItem(
-  //       category: 'Casual clothes',
-  //       imageName: 'shirt',
-  //       name: 'Casual shirt',
-  //     ),
-  //     ClothesItem(
-  //       category: 'Shoes',
-  //       imageName: 'hat',
-  //       name: 'Stylish sandals',
-  //     ),
-  //     ClothesItem(
-  //       category: 'Shoes',
-  //       imageName: 'shoes_2',
-  //       name: 'White sneakers',
-  //     ),
-  // ],
-  // ),
-];
-
 class LooksAllTabbar extends StatefulWidget {
-  LooksAllTabbar({super.key});
+  final List listOfLooksItems;
+
+  const LooksAllTabbar({super.key, required this.listOfLooksItems});
 
   @override
   State<LooksAllTabbar> createState() => _LooksAllTabbarState();
@@ -92,7 +28,7 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
 
   @override
   Widget build(BuildContext context) {
-    return listOfLooksItems.isEmpty
+    return widget.listOfLooksItems.isEmpty
         ? Column(
             children: [
               SizedBox(height: 60.h),
@@ -123,9 +59,10 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
               // это чтобы увеличить площадь скролла
               Expanded(
                 child: ListView.builder(
-                  itemCount: listOfLooksItems.length,
+                  itemCount: widget.listOfLooksItems.length,
+                  padding: EdgeInsets.only(bottom: 50.h),
                   itemBuilder: (context, index) {
-                    final LookItem lookItem = listOfLooksItems[index];
+                    final LookItem lookItem = widget.listOfLooksItems[index];
                     return Padding(
                       padding: EdgeInsets.only(top: 15.h),
                       child: ClipRRect(
@@ -162,31 +99,25 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
                                         svgNameFirst: 'edit',
                                         onPressedFirst: () {
                                           showCustomDialog(
-                                            context,
-                                            'Edit Look',
-                                            'Give a name to the look',
-                                            () {
-                                              setState(() {
-                                                listOfLooksItems[index] = LookItem(
-                                                  name: controller.text,
-                                                  clothesItem: lookItem.clothesItem,
-                                                );
-                                              });
-                                              Navigator.pop(context);
-                                            },
-                                            () {
-                                              controller.text = '';
-                                              Navigator.pop(context);
-                                            },
-                                            controller,
-                                          );
+                                              context, 'Edit Look', 'Give a name to the look', () {
+                                            setState(() {
+                                              widget.listOfLooksItems[index] = LookItem(
+                                                name: controller.text,
+                                                clothesItem: lookItem.clothesItem,
+                                              );
+                                            });
+                                            Navigator.pop(context);
+                                          }, () {
+                                            controller.text = '';
+                                            Navigator.pop(context);
+                                          }, controller, (valeu) {});
                                         },
                                         textSecond: 'Delete',
                                         svgNameSecond: 'delete',
                                         onPressedSecond: () {
-                                          setState(() {
-                                            listOfLooksItems.removeAt(index);
-                                          });
+                                          // setState(() {
+                                          //   listOfLooksItems.removeAt(index);
+                                          // });
                                         },
                                         smallIcon: true,
                                       ),
@@ -209,11 +140,12 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
                                           ),
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(24.r),
-                                            child: Image.asset(
-                                              'assets/images/clothes/dress.png',
+                                            child: Image.memory(
+                                              base64Decode(lookItem.clothesItem[index].imageBase64),
                                               height: 120.h,
                                               width: 120.h,
                                               fit: BoxFit.cover,
+                                              gaplessPlayback: true,
                                             ),
                                           ),
                                         ),

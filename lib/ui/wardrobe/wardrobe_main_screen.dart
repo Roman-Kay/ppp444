@@ -22,10 +22,10 @@ class WardrobeMainScreen extends StatefulWidget {
 
 class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
   String choosenCategory = '';
-  List listOfAllClothesItems = box.get('listOfClothesItems') ?? [];
 
   @override
   Widget build(BuildContext context) {
+    List listOfAllClothesItems = box.get('listOfClothesItems') ?? [];
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -59,7 +59,6 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                             builder: (context) => const NewClothesMainScreen(),
                           ),
                         );
-                        // чтобы обновился лист фото
                         setState(() {});
                       },
                       borderRadius: BorderRadius.circular(10.r),

@@ -3,11 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/looks/main_tabbar/looks_all_tabbar.dart';
 import 'package:ppp444/ui/looks/main_tabbar/looks_folders_tabbar.dart';
 import 'package:ppp444/ui/looks/new_look/new_look_main_screen.dart';
 import 'package:ppp444/utils/colors.dart';
+import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_alert_dialog.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
 class LooksMainScreen extends StatefulWidget {
@@ -19,13 +22,12 @@ class LooksMainScreen extends StatefulWidget {
 
 class _LooksMainScreenState extends State<LooksMainScreen> {
   int chossenCategory = 0;
-  List tabbars = [
-    LooksAllTabbar(),
-    const LooksFoldersTabbar(),
-  ];
 
+  final TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final List listOfLooksItems = box.get('listOfLooksItems') ?? [];
+    final List listOfFoldersItems = box.get('listOfFoldersItems') ?? [];
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -52,12 +54,45 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                       color: AppColors.whiteColor,
                     ),
                     child: FormForButton(
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const NewLookMainScreen(),
-                        ),
-                      ),
+                      onPressed: chossenCategory == 0
+                          ? () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const NewLookMainScreen(),
+                                ),
+                              );
+                              setState(() {});
+                            }
+                          : () {
+                              showCustomDialog(
+                                context,
+                                'New Folder',
+                                'Give a name to the new folder',
+                                () {
+                                  setState(() {
+                                    controller.text.isNotEmpty;
+                                  });
+                                  if (controller.text.isNotEmpty) {
+                                    addToList(
+                                      FolderItem(
+                                        name: controller.text,
+                                        lookstems: [],
+                                      ),
+                                    );
+                                  }
+                                  Navigator.pop(context);
+                                },
+                                () {
+                                  controller.text = '';
+                                  Navigator.pop(context);
+                                },
+                                controller,
+                                (valeu) {
+                                  setState(() {});
+                                },
+                              );
+                            },
                       borderRadius: BorderRadius.circular(10.r),
                       child: Row(
                         children: [
@@ -151,7 +186,12 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                   ),
                 ),
               ),
-              Expanded(child: tabbars[chossenCategory]),
+              Expanded(
+                child: [
+                  LooksAllTabbar(listOfLooksItems: listOfLooksItems),
+                  LooksFoldersTabbar(listOfFoldersItems: listOfFoldersItems),
+                ][chossenCategory],
+              ),
             ],
           ),
         ),

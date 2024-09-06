@@ -65,40 +65,33 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                       textFirst: 'Edit',
                       svgNameFirst: 'edit',
                       onPressedFirst: () {
-                        showCustomDialog(
-                          context,
-                          'Сloth Name',
-                          'Change the cloth name',
-                          () {
-                            setState(
-                              () {
-                                final List response = box.get('listOfClothesItems');
-                                // print(response[0].name);
+                        showCustomDialog(context, 'Сloth Name', 'Change the cloth name', () {
+                          setState(
+                            () {
+                              final List response = box.get('listOfClothesItems');
+                              // print(response[0].name);
 
-                                print(widget.clothesItem.name == response[0].name);
-                                print(widget.clothesItem.imageBase64 == response[0].imageBase64);
-                                print(widget.clothesItem.category == response[0].category);
-                                print(response.indexOf(widget.clothesItem));
-                                editItemInList(
-                                  widget.clothesItem,
-                                  ClothesItem(
-                                    category: widget.clothesItem.category,
-                                    name: controller.text,
-                                    imageBase64: widget.clothesItem.imageBase64,
-                                  ),
-                                );
-                                widget.clothesItem.name = controller.text;
-                                controller.text = '';
-                                Navigator.pop(context);
-                              },
-                            );
-                          },
-                          () {
-                            controller.text = '';
-                            Navigator.pop(context);
-                          },
-                          controller,
-                        );
+                              print(widget.clothesItem.name == response[0].name);
+                              print(widget.clothesItem.imageBase64 == response[0].imageBase64);
+                              print(widget.clothesItem.category == response[0].category);
+                              print(response.indexOf(widget.clothesItem));
+                              editItemInList(
+                                widget.clothesItem,
+                                ClothesItem(
+                                  category: widget.clothesItem.category,
+                                  name: controller.text,
+                                  imageBase64: widget.clothesItem.imageBase64,
+                                ),
+                              );
+                              widget.clothesItem.name = controller.text;
+                              controller.text = '';
+                              Navigator.pop(context);
+                            },
+                          );
+                        }, () {
+                          controller.text = '';
+                          Navigator.pop(context);
+                        }, controller, (valeu) {});
                       },
                       textSecond: 'Delete',
                       svgNameSecond: 'delete',

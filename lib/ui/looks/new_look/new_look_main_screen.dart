@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/looks/new_look/new_look_choosing_clothes_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
@@ -59,7 +61,7 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
                       ),
                       SizedBox(width: 12.w),
                       Text(
-                        'New Clothes',
+                        'New Look',
                         style: AppTextStyles.displayMedium18_900,
                       ),
                     ],
@@ -110,11 +112,12 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
                                     ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(24.r),
-                                      child: Image.asset(
-                                        'assets/images/clothes/dress.png',
+                                      child: Image.memory(
+                                        base64Decode(choossenClothesItems[index].imageBase64),
                                         height: 120.h,
                                         width: 120.h,
                                         fit: BoxFit.cover,
+                                        gaplessPlayback: true,
                                       ),
                                     ),
                                   ),
@@ -165,7 +168,15 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
                     ),
                     child: WidgetButton(
                       text: 'Add Look',
-                      onPressed: () {},
+                      onPressed: () {
+                        addToList(
+                          LookItem(
+                            name: controllerName.text,
+                            clothesItem: choossenClothesItems,
+                          ),
+                        );
+                        Navigator.pop(context);
+                      },
                     ),
                   ),
                 ),

@@ -3,15 +3,18 @@ import 'package:ppp444/utils/modals.dart';
 
 late Box box;
 
+enum HiveKeys { listOfClothesItems, listOfLooksItems, listOfFoldersItems }
+
+// final ff = HiveKeys.listOfClothesItems;
 getkey(value) {
   if (value.runtimeType == ClothesItem) {
     return 'listOfClothesItems';
   }
   if (value.runtimeType == LookItem) {
-    return 'listOfClothesItems';
+    return 'listOfLooksItems';
   }
-  if (value.runtimeType == ClothesItem) {
-    return 'listOfClothesItems';
+  if (value.runtimeType == FolderItem) {
+    return 'listOfFoldersItems';
   }
 }
 
@@ -23,13 +26,16 @@ addToList(dynamic value) {
 }
 
 deleteItemFromList(dynamic value) {
-  dynamic key = getkey(value);
-  final response = box.get(key);
-  if (response != null && response != []) {
-    List helpList = response;
-    helpList.removeWhere((element) => element == value);
-    box.put(key, helpList);
-  }
+  // box.delete('listOfClothesItems');
+  // box.delete('listOfFoldersItems');
+
+  // dynamic key = getkey(value);
+  // final response = box.get(key);
+  // if (response != null && response != []) {
+  //   List helpList = response;
+  //   helpList.removeWhere((element) => element == value);
+  //   box.put(key, helpList);
+  // }
 }
 
 editItemInList(dynamic changeValue, dynamic value) {
