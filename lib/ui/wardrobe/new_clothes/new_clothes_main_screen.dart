@@ -1,11 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/wardrobe/new_clothes/choosen_catogory.dart';
 import 'package:ppp444/utils/colors.dart';
+import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/custom_textfiled_label.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
@@ -216,9 +221,16 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                     child: WidgetButton(
                       text: 'Add clothes',
                       onPressed: () {
-                        // AppHive.addToListData(
-                        //   'list_clothes',
-                        // );
+                        // box.delete('listOfClothesItems');
+                        // print(image!.readAsBytesSync());
+                        addToList(
+                          'listOfClothesItems',
+                          ClothesItem(
+                            imageBase64: base64Encode(image!.readAsBytesSync()),
+                            name: controllerName.text,
+                            category: controllerCategory.text,
+                          ),
+                        );
                       },
                     ),
                   ),

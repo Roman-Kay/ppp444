@@ -111,7 +111,7 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(24.r),
                                       child: Image.asset(
-                                        'assets/images/clothes/${choossenClothesItems[index].imageName}.png',
+                                        'assets/images/clothes/dress.png',
                                         height: 120.h,
                                         width: 120.h,
                                         fit: BoxFit.cover,

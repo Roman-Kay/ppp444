@@ -30,31 +30,31 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
 
   List<ClothesItem> listOfChoossenClothesItemsWithCategories = [];
   List<ClothesItem> listOfAllClothesItems = [
-    ClothesItem(
-      category: 'Accessories',
-      imageName: 'hat',
-      name: 'Summer hat',
-    ),
-    ClothesItem(
-      category: 'Casual clothes',
-      imageName: 'dress',
-      name: 'Dress with flowers',
-    ),
-    ClothesItem(
-      category: 'Casual clothes',
-      imageName: 'shirt',
-      name: 'Casual shirt',
-    ),
-    ClothesItem(
-      category: 'Shoes',
-      imageName: 'shoes_1',
-      name: 'Stylish sandals',
-    ),
-    ClothesItem(
-      category: 'Shoes',
-      imageName: 'shoes_2',
-      name: 'White sneakers',
-    ),
+    // ClothesItem(
+    //   category: 'Accessories',
+    //   // imageName: 'hat',
+    //   name: 'Summer hat',
+    // ),
+    // ClothesItem(
+    //   category: 'Casual clothes',
+    //   imageName: 'dress',
+    //   name: 'Dress with flowers',
+    // ),
+    // ClothesItem(
+    //   category: 'Casual clothes',
+    //   // imageName: 'shirt',
+    //   name: 'Casual shirt',
+    // ),
+    // ClothesItem(
+    //   category: 'Shoes',
+    //   imageName: 'shoes_1',
+    //   name: 'Stylish sandals',
+    // ),
+    // ClothesItem(
+    //   category: 'Shoes',
+    //   imageName: 'shoes_2',
+    //   name: 'White sneakers',
+    // ),
   ];
   @override
   Widget build(BuildContext context) {
@@ -234,7 +234,7 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                                                 borderRadius: BorderRadius.circular(25.r),
                                                 clipBehavior: Clip.hardEdge,
                                                 child: Image.asset(
-                                                  'assets/images/clothes/${clothesItem.imageName}.png',
+                                                  'assets/images/clothes/dress.png',
                                                 ),
                                               ),
                                             ),

@@ -11,71 +11,69 @@ final List<FolderItem> listOfFoldersItems = [
   FolderItem(
     name: 'Holidays',
     lookstems: [
-      LookItem(
-        name: 'Summer vibe',
-        clothesItem: [
-          ClothesItem(
-            category: 'Accessories',
-            imageName: 'hat',
-            name: 'Summer hat',
-          ),
-          ClothesItem(
-            category: 'Casual clothes',
-            imageName: 'dress',
-            name: 'Dress with flowers',
-          ),
-          ClothesItem(
-            category: 'Shoes',
-            imageName: 'shoes_1',
-            name: 'Stylish sandals',
-          ),
-        ],
-      ),
-      LookItem(
-        name: 'Evening walk',
-        clothesItem: [
-          ClothesItem(
-            category: 'Casual clothes',
-            imageName: 'shirt',
-            name: 'Casual shirt',
-          ),
-          ClothesItem(
-            category: 'Shoes',
-            imageName: 'shoes_1',
-            name: 'Stylish sandals',
-          ),
-          ClothesItem(
-            category: 'Shoes',
-            imageName: 'shoes_2',
-            name: 'White sneakers',
-          ),
-        ],
-      ),
-      LookItem(
-        name: 'Birthday party',
-        clothesItem: [
-          ClothesItem(
-            category: 'Casual clothes',
-            imageName: 'dress',
-            name: 'Dress with flowers',
-          ),
-          ClothesItem(
-            category: 'Casual clothes',
-            imageName: 'shirt',
-            name: 'Casual shirt',
-          ),
-          ClothesItem(
-            category: 'Shoes',
-            imageName: 'hat',
-            name: 'Stylish sandals',
-          ),
-          ClothesItem(
-            category: 'Shoes',
-            imageName: 'shoes_2',
-            name: 'White sneakers',
-          ),
-        ],
-      ),
+      // LookItem(
+      //   name: 'Summer vibe',
+      //   clothesItem: [
+      //     ClothesItem(
+      //       category: 'Accessories',
+      //       imageName: 'hat',
+      //       name: 'Summer hat',
+      //     ),
+      //     ClothesItem(
+      //       category: 'Casual clothes',
+      //       imageName: 'dress',
+      //       name: 'Dress with flowers',
+      //     ),
+      //     ClothesItem(
+      //       category: 'Shoes',
+      //       imageName: 'shoes_1',
+      //       name: 'Stylish sandals',
+      //     ),
+      //   ],
+      // ),
+      // LookItem(
+      //   name: 'Evening walk',
+      //   clothesItem: [
+      //     ClothesItem(
+      //       category: 'Casual clothes',
+      //       imageName: 'shirt',
+      //       name: 'Casual shirt',
+      //     ),
+      //     ClothesItem(
+      //       category: 'Shoes',
+      //       imageName: 'shoes_1',
+      //       name: 'Stylish sandals',
+      //     ),
+      //     ClothesItem(
+      //       category: 'Shoes',
+      //       imageName: 'shoes_2',
+      //       name: 'White sneakers',
+      //     ),
+      //   ],
+      // ),
+      // LookItem(
+      //   name: 'Birthday party',
+      //   clothesItem: [
+      //     ClothesItem(
+      //       category: 'Casual clothes',
+      //       imageName: 'dress',
+      //       name: 'Dress with flowers',
+      //     ),
+      //     ClothesItem(
+      //       category: 'Casual clothes',
+      //       imageName: 'shirt',
+      //       name: 'Casual shirt',
+      //     ),
+      //     ClothesItem(
+      //       category: 'Shoes',
+      //       imageName: 'hat',
+      //       name: 'Stylish sandals',
+      //     ),
+      //     ClothesItem(
+      //       category: 'Shoes',
+      //       imageName: 'shoes_2',
+      //       name: 'White sneakers',
+      //     ),
     ],
   ),
   FolderItem(

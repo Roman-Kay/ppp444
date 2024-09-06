@@ -83,7 +83,8 @@ class LookCardScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(25.r),
                           clipBehavior: Clip.hardEdge,
                           child: Image.asset(
-                            'assets/images/clothes/${clothesItem.imageName}.png',
+                            //
+                            'assets/images/clothes/dress.png',
                           ),
                         );
                       },

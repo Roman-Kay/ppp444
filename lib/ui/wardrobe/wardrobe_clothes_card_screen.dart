@@ -67,7 +67,7 @@ class WardrobeClothesCardScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30.r),
                     clipBehavior: Clip.hardEdge,
                     child: Image.asset(
-                      'assets/images/clothes/${clothesItem.imageName}.png',
+                      'assets/images/clothes/dress.png',
                       fit: BoxFit.fitWidth,
                       width: 390.w,
                       height: 590.h,
