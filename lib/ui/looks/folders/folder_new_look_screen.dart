@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_app_bar.dart';
 import 'package:ppp444/widgets/custom_empty_widget.dart';
 import 'package:ppp444/widgets/custom_search.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
@@ -66,30 +66,7 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 25.h),
-                    Row(
-                      children: [
-                        Container(
-                          width: 32.h,
-                          height: 32.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: FormForButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: SvgPicture.asset(
-                              'assets/images/keyboard_backspace.svg',
-                              color: AppColors.whiteColor,
-                              height: 32.h,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 12.w),
-                        Text(
-                          'Back',
-                          style: AppTextStyles.displayMedium18_900,
-                        ),
-                      ],
-                    ),
+                    const CustomAppBar(text: 'Back', needArrow: true),
                     listOfLooksItems.isEmpty
                         ? CustomEmptyWidget(
                             topPading: 60.h,

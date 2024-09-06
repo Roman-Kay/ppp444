@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/wardrobe/new_clothes/new_clothes_main_screen.dart';
 import 'package:ppp444/ui/wardrobe/wardrobe_clothes_card_screen.dart';
@@ -10,9 +9,9 @@ import 'package:ppp444/utils/categories.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_app_bar.dart';
 import 'package:ppp444/widgets/custom_empty_widget.dart';
 import 'package:ppp444/widgets/custom_search.dart';
-import 'package:ppp444/widgets/custom_textfiled_label.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
 class WardrobeMainScreen extends StatefulWidget {
@@ -61,56 +60,22 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
         child: Column(
           children: [
             SizedBox(height: 25.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: Row(
-                children: [
-                  Text(
-                    'Wardrobe',
-                    style: AppTextStyles.displayMedium24,
+            CustomAppBar(
+              needPadding: true,
+              text: 'Wardrobe',
+              textAddButton: 'Add Clothes',
+              onPressedAddButton: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NewClothesMainScreen(),
                   ),
-                  const Spacer(),
-                  Container(
-                    height: 34.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.r),
-                      color: AppColors.whiteColor,
-                    ),
-                    child: FormForButton(
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const NewClothesMainScreen(),
-                          ),
-                        );
-                        setState(() {
-                          listOfAllClothesItems = box.get('listOfClothesItems') ?? [];
-                          searchItems();
-                        });
-                      },
-                      borderRadius: BorderRadius.circular(10.r),
-                      child: Row(
-                        children: [
-                          SizedBox(width: 7.w),
-                          SvgPicture.asset(
-                            'assets/images/add.svg',
-                            height: 20.h,
-                          ),
-                          SizedBox(width: 7.w),
-                          Text(
-                            'Add Clothes',
-                            style: AppTextStyles.bodyMedium14.copyWith(
-                              color: AppColors.primaryColor,
-                            ),
-                          ),
-                          SizedBox(width: 10.w),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                );
+                setState(() {
+                  listOfAllClothesItems = box.get('listOfClothesItems') ?? [];
+                  searchItems();
+                });
+              },
             ),
             listOfAllClothesItems.isEmpty
                 ? CustomEmptyWidget(

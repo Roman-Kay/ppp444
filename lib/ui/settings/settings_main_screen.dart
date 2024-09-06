@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ppp444/ui/settings/settings_privacy_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_app_bar.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
 class SettingsMainScreen extends StatelessWidget {
@@ -24,10 +25,7 @@ class SettingsMainScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 25.h),
-              Text(
-                'Settings',
-                style: AppTextStyles.displayMedium24,
-              ),
+              const CustomAppBar(text: 'Settings'),
               SizedBox(height: 30.h),
               Padding(
                 padding: EdgeInsets.only(left: 16.w),

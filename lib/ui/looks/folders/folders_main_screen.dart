@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/looks/folders/folder_new_look_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/custom_alert_dialog.dart';
+import 'package:ppp444/widgets/custom_app_bar.dart';
 import 'package:ppp444/widgets/custom_empty_widget.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
-import 'package:ppp444/widgets/form_for_button.dart';
 import 'package:ppp444/widgets/widget_button.dart';
 
 class FoldersMainScreen extends StatefulWidget {
@@ -46,57 +45,36 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 25.h),
-                Row(
-                  children: [
-                    Container(
-                      width: 32.h,
-                      height: 32.h,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: FormForButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: SvgPicture.asset(
-                          'assets/images/keyboard_backspace.svg',
-                          color: AppColors.whiteColor,
-                          height: 32.h,
+                CustomAppBar(
+                  text: 'Folders',
+                  needArrow: true,
+                  customPopUpMenu: CustomPopUpMenu(
+                    textFirst: 'Edit the Folder',
+                    svgNameFirst: 'edit',
+                    onPressedFirst: () {},
+                    textSecond: 'Add New Look',
+                    svgNameSecond: 'add',
+                    onPressedSecond: () async {
+                      final List<LookItem>? response = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FoldersNewLookScreen(),
                         ),
-                      ),
-                    ),
-                    SizedBox(width: 12.w),
-                    Text(
-                      'Folders',
-                      style: AppTextStyles.displayMedium18_900,
-                    ),
-                    const Spacer(),
-                    CustomPopUpMenu(
-                      textFirst: 'Edit the Folder',
-                      svgNameFirst: 'edit',
-                      onPressedFirst: () {},
-                      textSecond: 'Add New Look',
-                      svgNameSecond: 'add',
-                      onPressedSecond: () async {
-                        final List<LookItem>? response = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const FoldersNewLookScreen(),
+                      );
+                      if (response != null) {
+                        setState(() {
+                          listOfLooksItems.addAll(response);
+                        });
+                        editItemInList(
+                          widget.folderItem,
+                          FolderItem(
+                            name: widget.folderItem.name,
+                            lookstems: listOfLooksItems,
                           ),
                         );
-                        if (response != null) {
-                          setState(() {
-                            listOfLooksItems.addAll(response);
-                          });
-                          editItemInList(
-                            widget.folderItem,
-                            FolderItem(
-                              name: widget.folderItem.name,
-                              lookstems: listOfLooksItems,
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ],
+                      }
+                    },
+                  ),
                 ),
                 SizedBox(height: 30.h),
                 Text(

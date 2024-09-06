@@ -7,6 +7,7 @@ import 'package:ppp444/utils/categories.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_app_bar.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
 class ChossenCategory extends StatelessWidget {
@@ -30,30 +31,7 @@ class ChossenCategory extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 25.h),
-                Row(
-                  children: [
-                    Container(
-                      width: 32.h,
-                      height: 32.h,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: FormForButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: SvgPicture.asset(
-                          'assets/images/keyboard_backspace.svg',
-                          color: AppColors.whiteColor,
-                          height: 32.h,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 12.w),
-                    Text(
-                      'Back',
-                      style: AppTextStyles.displayMedium18_900,
-                    ),
-                  ],
-                ),
+                const CustomAppBar(text: 'Back', needArrow: true),
                 if (choosenCategoryItem != null) SizedBox(height: 30.h),
                 if (choosenCategoryItem != null)
                   Text(
@@ -94,7 +72,8 @@ class ChossenCategory extends StatelessWidget {
                                         ],
                                       );
                                   }
-                                : () => Navigator.push(
+                                : () {
+                                    Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => ChossenCategory(
@@ -102,7 +81,8 @@ class ChossenCategory extends StatelessWidget {
                                               Categories.listOfCategoriesItems[index],
                                         ),
                                       ),
-                                    ),
+                                    );
+                                  },
                             borderRadius: BorderRadius.circular(20.r),
                             child: Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20.w),

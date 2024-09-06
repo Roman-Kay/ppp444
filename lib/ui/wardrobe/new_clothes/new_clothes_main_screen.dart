@@ -11,8 +11,8 @@ import 'package:ppp444/ui/wardrobe/new_clothes/choosen_catogory.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_app_bar.dart';
 import 'package:ppp444/widgets/custom_textfiled_label.dart';
-import 'package:ppp444/widgets/form_for_button.dart';
 import 'package:ppp444/widgets/widget_button.dart';
 
 class NewClothesMainScreen extends StatefulWidget {
@@ -43,32 +43,9 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
               padding: EdgeInsets.symmetric(horizontal: 12.w),
               children: [
                 SizedBox(height: 25.h),
-                SafeArea(
+                const SafeArea(
                   bottom: false,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 32.h,
-                        height: 32.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: FormForButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: SvgPicture.asset(
-                            'assets/images/keyboard_backspace.svg',
-                            color: AppColors.whiteColor,
-                            height: 32.h,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Text(
-                        'New Clothes',
-                        style: AppTextStyles.displayMedium18_900,
-                      ),
-                    ],
-                  ),
+                  child: CustomAppBar(text: 'New Clothes', needArrow: true),
                 ),
                 SizedBox(height: 30.h),
                 Center(

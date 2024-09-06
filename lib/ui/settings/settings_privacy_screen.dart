@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/text_styles.dart';
-import 'package:ppp444/widgets/form_for_button.dart';
+import 'package:ppp444/widgets/custom_app_bar.dart';
 
 class SettingsPrivacyScreen extends StatelessWidget {
   const SettingsPrivacyScreen({super.key});
@@ -18,62 +17,47 @@ class SettingsPrivacyScreen extends StatelessWidget {
           gradient: AppColors.backgroundGradient,
         ),
         child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 25.h),
-                Row(
+          bottom: false,
+          child: Column(
+            children: [
+              SizedBox(height: 25.h),
+              const CustomAppBar(
+                needPadding: true,
+                needArrow: true,
+                text: 'Settings',
+              ),
+              SizedBox(height: 30.h),
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
                   children: [
-                    Container(
-                      width: 32.h,
-                      height: 32.h,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: FormForButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: SvgPicture.asset(
-                          'assets/images/keyboard_backspace.svg',
-                          color: AppColors.whiteColor,
-                          height: 32.h,
-                        ),
+                    Text(
+                      'Privacy Policy',
+                      style: AppTextStyles.displayLarge32.copyWith(
+                        color: AppColors.basicWhiteColor,
                       ),
                     ),
-                    SizedBox(width: 12.w),
+                    SizedBox(height: 30.h),
                     Text(
-                      'Settings',
-                      style: AppTextStyles.displayMedium18_900,
+                      'The prohibited or acceptable use clause in your terms of use agreement outlines all rules your users must follow when accessing your services. Here is where you can list and ban behaviors and activities like:',
+                      style: AppTextStyles.bodyMedium16_400,
+                    ),
+                    textWithDot('Obscene, crude, or violent posts'),
+                    textWithDot('False or misleading content'),
+                    textWithDot('Breaking the law'),
+                    textWithDot('Spamming or scamming the service or other users'),
+                    textWithDot('Hacking or tampering with your website or app'),
+                    textWithDot('Violating copyright laws'),
+                    textWithDot('Harassing other users'),
+                    textWithDot('Stalking other users'),
+                    Text(
+                      'If your website or app gives users a lot of control and freedom while using your services, consider putting multiple use clauses within your terms of use.',
+                      style: AppTextStyles.bodyMedium16_400,
                     ),
                   ],
                 ),
-                SizedBox(height: 30.h),
-                Text(
-                  'Privacy Policy',
-                  style: AppTextStyles.displayLarge32.copyWith(
-                    color: AppColors.basicWhiteColor,
-                  ),
-                ),
-                SizedBox(height: 30.h),
-                Text(
-                  'The prohibited or acceptable use clause in your terms of use agreement outlines all rules your users must follow when accessing your services. Here is where you can list and ban behaviors and activities like:',
-                  style: AppTextStyles.bodyMedium16_400,
-                ),
-                textWithDot('Obscene, crude, or violent posts'),
-                textWithDot('False or misleading content'),
-                textWithDot('Breaking the law'),
-                textWithDot('Spamming or scamming the service or other users'),
-                textWithDot('Hacking or tampering with your website or app'),
-                textWithDot('Violating copyright laws'),
-                textWithDot('Harassing other users'),
-                textWithDot('Stalking other users'),
-                Text(
-                  'If your website or app gives users a lot of control and freedom while using your services, consider putting multiple use clauses within your terms of use.',
-                  style: AppTextStyles.bodyMedium16_400,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
