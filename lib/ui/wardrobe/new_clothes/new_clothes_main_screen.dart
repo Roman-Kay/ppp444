@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/wardrobe/new_clothes/choosen_catogory.dart';
@@ -123,7 +122,6 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                             child: Image.file(
                               image!,
                               height: 240.r,
-                              width: 350.w,
                               fit: BoxFit.fitHeight,
                             ),
                           )
@@ -181,15 +179,17 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                           hintText: 'Hats, T-shirts, Jeans...',
                           isBig: true,
                           onPressed: () async {
-                            final List<String> response = await Navigator.push(
+                            final response = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ChossenCategory(),
+                                builder: (context) => const ChossenCategory(),
                               ),
                             );
-                            setState(() {
-                              controllerCategory.text = '${response.first}, ${response.last}';
-                            });
+                            if (response != null) {
+                              setState(() {
+                                controllerCategory.text = '${response.first}, ${response.last}';
+                              });
+                            }
                           },
                           iconRight: SvgPicture.asset(
                             'assets/images/chevron_left.svg',
@@ -203,7 +203,7 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
               ],
             ),
             AnimatedOpacity(
-              duration: Duration(milliseconds: 100),
+              duration: const Duration(milliseconds: 100),
               opacity: controllerCategory.text.isNotEmpty &&
                       controllerName.text.isNotEmpty &&
                       image != null
@@ -221,8 +221,6 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                     child: WidgetButton(
                       text: 'Add clothes',
                       onPressed: () {
-                        // box.delete('listOfClothesItems');
-                        // print(image!.readAsBytesSync());
                         addToList(
                           'listOfClothesItems',
                           ClothesItem(
@@ -231,6 +229,7 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                             category: controllerCategory.text,
                           ),
                         );
+                        Navigator.pop(context);
                       },
                     ),
                   ),

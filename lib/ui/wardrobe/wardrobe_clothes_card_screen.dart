@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -61,20 +63,22 @@ class WardrobeClothesCardScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 25.h),
               Expanded(
                 child: Center(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(30.r),
                     clipBehavior: Clip.hardEdge,
-                    child: Image.asset(
-                      'assets/images/clothes/dress.png',
+                    child: Image.memory(
+                      base64Decode(clothesItem.imageBase64),
                       fit: BoxFit.fitWidth,
                       width: 390.w,
-                      height: 590.h,
+                      // height: 590.h,
                     ),
                   ),
                 ),
               ),
+              SizedBox(height: 25.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                 child: Column(

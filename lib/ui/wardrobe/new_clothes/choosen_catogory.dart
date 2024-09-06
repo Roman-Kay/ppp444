@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ppp444/utils/categories.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
@@ -10,102 +11,8 @@ import 'package:ppp444/widgets/form_for_button.dart';
 
 class ChossenCategory extends StatelessWidget {
   final CategoryItem? choosenCategoryItem;
-  ChossenCategory({super.key, this.choosenCategoryItem});
+  const ChossenCategory({super.key, this.choosenCategoryItem});
 
-  final List<CategoryItem> listOfCategoriesItems = [
-    CategoryItem(
-      name: 'Outerwear',
-      subNames: [
-        'Coat',
-        'Jacket',
-        'Cloak',
-        'Down jacket',
-        'Fur coat',
-        'Vest',
-      ],
-    ),
-    CategoryItem(
-      name: 'Casual clothes',
-      subNames: [
-        'Dress',
-        'T-shirt',
-        'Sweatshirt',
-        'Shirt',
-        'Blouse',
-      ],
-    ),
-    CategoryItem(
-      name: 'Lower Clothing',
-      subNames: [
-        'Trousers',
-        'Jeans',
-        'Trousers',
-        'Skirt',
-        'Shorts',
-      ],
-    ),
-    CategoryItem(
-      name: 'Undergarments',
-      subNames: [
-        'Underpants',
-        'Bra',
-        'Undershirt',
-      ],
-    ),
-    CategoryItem(
-      name: 'Sports and fitness clothing',
-      subNames: [
-        'Sports suit',
-        'Sweatpants',
-        'Sports shorts',
-        'Sports T-shirt',
-        'Leggings',
-        'Sweatshirt',
-        'Sports headband',
-      ],
-    ),
-    CategoryItem(
-      name: 'Shoes',
-      subNames: [
-        'Sneakers',
-        'Shoes',
-        'Sandals',
-        'Ballet shoes',
-        'Boots',
-        'Flip flops',
-        'Sabo',
-        'Sandals',
-      ],
-    ),
-    CategoryItem(
-      name: 'Evening dresses',
-      subNames: [
-        'Evening dress',
-        'Costume',
-        'Shirt',
-        'Trousers',
-      ],
-    ),
-    CategoryItem(
-      name: 'Beachwear',
-      subNames: [
-        'Swimsuit',
-        'Beach dress',
-        'Sundress',
-        'Swimming trunks',
-      ],
-    ),
-    CategoryItem(
-      name: 'Accessories',
-      subNames: [
-        'Bag',
-        'Scarf',
-        'Cap',
-        'Hat',
-        'Jewel',
-      ],
-    ),
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,7 +65,7 @@ class ChossenCategory extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: choosenCategoryItem != null
                         ? choosenCategoryItem!.subNames.length
-                        : listOfCategoriesItems.length,
+                        : Categories.listOfCategoriesItems.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: EdgeInsets.only(
@@ -191,7 +98,8 @@ class ChossenCategory extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => ChossenCategory(
-                                          choosenCategoryItem: listOfCategoriesItems[index],
+                                          choosenCategoryItem:
+                                              Categories.listOfCategoriesItems[index],
                                         ),
                                       ),
                                     ),
@@ -203,7 +111,7 @@ class ChossenCategory extends StatelessWidget {
                                   Text(
                                     choosenCategoryItem != null
                                         ? choosenCategoryItem!.subNames[index]
-                                        : listOfCategoriesItems[index].name,
+                                        : Categories.listOfCategoriesItems[index].name,
                                     style: AppTextStyles.displayMedium18_900.copyWith(
                                       fontSize: 16.sp,
                                     ),

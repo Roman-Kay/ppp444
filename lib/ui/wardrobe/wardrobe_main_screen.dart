@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/wardrobe/new_clothes/new_clothes_main_screen.dart';
 import 'package:ppp444/ui/wardrobe/wardrobe_clothes_card_screen.dart';
+import 'package:ppp444/utils/categories.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
@@ -19,44 +23,12 @@ class WardrobeMainScreen extends StatefulWidget {
 
 class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
   String choosenCategory = '';
-  final List<String> listCategories = [
-    'Outerwear',
-    'Casual clothes',
-    'Lower Clothing',
-    'Undergarments',
-    'Shoes',
-  ];
 
-  List<ClothesItem> listOfChoossenClothesItems = [];
-  List<ClothesItem> listOfAllClothesItems = [
-    // ClothesItem(
-    //   category: 'Accessories',
-    //   imageName: 'hat',
-    //   name: 'Summer hat',
-    // ),
-    // ClothesItem(
-    //   category: 'Casual clothes',
-    //   imageName: 'dress',
-    //   name: 'Dress with flowers',
-    // ),
-    // ClothesItem(
-    //   category: 'Casual clothes',
-    //   imageName: 'shirt',
-    //   name: 'Casual shirt',
-    // ),
-    // ClothesItem(
-    //   category: 'Shoes',
-    //   imageName: 'shoes_1',
-    //   name: 'Stylish sandals',
-    // ),
-    // ClothesItem(
-    //   category: 'Shoes',
-    //   imageName: 'shoes_2',
-    //   name: 'White sneakers',
-    // ),
-  ];
+  // List<ClothesItem> listOfChoossenClothesItems = [];
+
   @override
   Widget build(BuildContext context) {
+    List listOfAllClothesItems = box.get('listOfClothesItems');
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -86,7 +58,7 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => NewClothesMainScreen(),
+                          builder: (context) => const NewClothesMainScreen(),
                         ),
                       ),
                       borderRadius: BorderRadius.circular(10.r),
@@ -149,7 +121,7 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                           height: 26.h + 30.h,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: listCategories.length,
+                            itemCount: Categories.listOfCategoriesItems.length,
                             padding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 12.w),
                             itemBuilder: (context, index) {
                               return Center(
@@ -161,7 +133,8 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                                     height: 26.h,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(26),
-                                      color: choosenCategory == listCategories[index]
+                                      color: choosenCategory ==
+                                              Categories.listOfCategoriesItems[index].name
                                           ? AppColors.primaryColor
                                           : null,
                                       border: Border.all(
@@ -170,27 +143,20 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                                       ),
                                     ),
                                     child: FormForButton(
-                                      onPressed: () => setState(() {
-                                        // eсли повторно выбрали катерию то стриаем выбор категории
-                                        if (choosenCategory == listCategories[index]) {
-                                          choosenCategory = '';
-                                          listOfChoossenClothesItems = [];
-                                        } else {
-                                          // когда выбираем категорию формируем List из нужных айтомов
-                                          choosenCategory = listCategories[index];
-                                          listOfChoossenClothesItems = [];
-                                          for (ClothesItem element in listOfAllClothesItems) {
-                                            if (element.category == choosenCategory) {
-                                              listOfChoossenClothesItems.add(element);
-                                            }
-                                          }
-                                        }
-                                      }),
+                                      onPressed: () {
+                                        setState(() {
+                                          choosenCategory ==
+                                                  Categories.listOfCategoriesItems[index].name
+                                              ? choosenCategory = ''
+                                              : choosenCategory =
+                                                  Categories.listOfCategoriesItems[index].name;
+                                        });
+                                      },
                                       borderRadius: BorderRadius.circular(26.r),
                                       child: Padding(
                                         padding: EdgeInsets.symmetric(horizontal: 13.w),
                                         child: Text(
-                                          listCategories[index],
+                                          Categories.listOfCategoriesItems[index].name,
                                           style: AppTextStyles.bodyMedium12,
                                         ),
                                       ),
@@ -204,73 +170,70 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                         SizedBox(height: 15.h),
                         Expanded(
                           child: MasonryGridView.count(
-                            // если выбрали категорию, то List из этих выбранных айтомов
-                            itemCount: choosenCategory == ''
-                                ? listOfAllClothesItems.length
-                                : listOfChoossenClothesItems.length,
+                            itemCount: listOfAllClothesItems.length,
                             crossAxisCount: 2,
                             padding: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 40.h),
                             mainAxisSpacing: 4.w,
                             crossAxisSpacing: 9.w,
                             itemBuilder: (context, index) {
-                              // если выбрали категорию, то List из этих выбранных айтомов
-                              ClothesItem clothesItem = choosenCategory == ''
-                                  ? listOfAllClothesItems[index]
-                                  : listOfChoossenClothesItems[index];
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  color: AppColors.surfaceColor,
-                                ),
-                                child: FormForButton(
-                                  onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => WardrobeClothesCardScreen(
-                                        clothesItem: clothesItem,
+                              ClothesItem clothesItem = listOfAllClothesItems[index];
+                              return clothesItem.category.split(', ').first == choosenCategory ||
+                                      choosenCategory == ''
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(30.r),
+                                        color: AppColors.surfaceColor,
                                       ),
-                                    ),
-                                  ),
-                                  borderRadius: BorderRadius.circular(30.r),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(height: 5.h),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(25.r),
-                                          clipBehavior: Clip.hardEdge,
-                                          child: Image.asset(
-                                            'assets/images/clothes/dress.png',
+                                      child: FormForButton(
+                                        onPressed: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => WardrobeClothesCardScreen(
+                                              clothesItem: clothesItem,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(height: 8.h),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+                                        borderRadius: BorderRadius.circular(30.r),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              clothesItem.name,
-                                              style: AppTextStyles.bodyMedium14,
-                                            ),
-                                            SizedBox(height: 2.h),
-                                            Text(
-                                              clothesItem.category,
-                                              style: AppTextStyles.bodyMedium14.copyWith(
-                                                color: AppColors.greyColor,
+                                            SizedBox(height: 5.h),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(25.r),
+                                                clipBehavior: Clip.hardEdge,
+                                                child: Image.memory(
+                                                  base64Decode(clothesItem.imageBase64),
+                                                ),
                                               ),
                                             ),
+                                            SizedBox(height: 8.h),
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 15.w),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    clothesItem.name,
+                                                    style: AppTextStyles.bodyMedium14,
+                                                  ),
+                                                  SizedBox(height: 2.h),
+                                                  Text(
+                                                    clothesItem.category.split(', ').first,
+                                                    style: AppTextStyles.bodyMedium14.copyWith(
+                                                      color: AppColors.greyColor,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            SizedBox(height: 8.h),
                                           ],
                                         ),
                                       ),
-                                      SizedBox(height: 8.h),
-                                    ],
-                                  ),
-                                ),
-                              );
+                                    )
+                                  : const SizedBox();
                             },
                           ),
                         ),

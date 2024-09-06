@@ -6,5 +6,4 @@ addToList(String key, dynamic value) {
   List helpList = box.get(key) ?? [];
   helpList.add(value);
   box.put(key, helpList);
-  print(box.get(key));
 }
