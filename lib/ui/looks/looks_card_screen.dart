@@ -3,15 +3,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/custom_alert_dialog.dart';
+import 'package:ppp444/widgets/custom_app_bar.dart';
+import 'package:ppp444/widgets/custom_grid_view.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
-import 'package:ppp444/widgets/form_for_button.dart';
 
 class LookCardScreen extends StatefulWidget {
   final LookItem lookItem;
@@ -45,110 +44,85 @@ class _LookCardScreenState extends State<LookCardScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 25.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 32.h,
-                      height: 32.h,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: FormForButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: SvgPicture.asset(
-                          'assets/images/keyboard_backspace.svg',
-                          color: AppColors.whiteColor,
-                          height: 32.h,
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 12.w),
-                    Text(
-                      'Looks',
-                      style: AppTextStyles.displayMedium18_900,
-                    ),
-                    const Spacer(),
-                    CustomPopUpMenu(
-                      textFirst: 'Edit',
-                      svgNameFirst: 'edit',
-                      onPressedFirst: () {
-                        showCustomDialog(context, 'Look Name', 'Change the look name', () {
-                          setState(
-                            () {
-                              editItemInList(
-                                lookItem,
-                                LookItem(
-                                  clothesItem: lookItem.clothesItem,
-                                  name: controller.text,
-                                ),
-                              );
-                              lookItem = LookItem(
-                                clothesItem: lookItem.clothesItem,
-                                name: controller.text,
-                              );
-                              controller.text = '';
-                              Navigator.pop(context);
-                            },
+              CustomAppBar(
+                text: 'Looks',
+                needArrow: true,
+                needPadding: true,
+                customPopUpMenu: CustomPopUpMenu(
+                  textFirst: 'Edit',
+                  svgNameFirst: 'edit',
+                  onPressedFirst: () {
+                    showCustomDialog(context, 'Look Name', 'Change the look name', () {
+                      setState(
+                        () {
+                          editItemInList(
+                            lookItem,
+                            LookItem(
+                              clothesItem: lookItem.clothesItem,
+                              name: controller.text,
+                            ),
                           );
-                        }, () {
+                          lookItem = LookItem(
+                            clothesItem: lookItem.clothesItem,
+                            name: controller.text,
+                          );
                           controller.text = '';
                           Navigator.pop(context);
-                        }, controller, (valeu) {});
-                      },
-                      textSecond: 'Delete',
-                      svgNameSecond: 'delete',
-                      onPressedSecond: () {
-                        deleteItemFromList(lookItem);
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
+                        },
+                      );
+                    }, () {
+                      controller.text = '';
+                      Navigator.pop(context);
+                    }, controller, (valeu) {});
+                  },
+                  textSecond: 'Delete',
+                  svgNameSecond: 'delete',
+                  onPressedSecond: () {
+                    deleteItemFromList(lookItem);
+                    Navigator.pop(context);
+                  },
                 ),
               ),
               SizedBox(height: 10.h),
-              Expanded(
-                child: ListView(
+              CustomGreedView(
+                listOfItems: widget.lookItem.clothesItem,
+                itemBuilder: (context, index) {
+                  ClothesItem clothesItem = lookItem.clothesItem[index];
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(25.r),
+                    clipBehavior: Clip.hardEdge,
+                    child: Image.memory(
+                      base64Decode(clothesItem.imageBase64),
+                      gaplessPlayback: true,
+                    ),
+                  );
+                },
+                bottomChild: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  children: [
-                    SizedBox(height: 15.h),
-                    MasonryGridView.count(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: widget.lookItem.clothesItem.length,
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 4.w,
-                      crossAxisSpacing: 9.w,
-                      itemBuilder: (context, index) {
-                        ClothesItem clothesItem = lookItem.clothesItem[index];
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(25.r),
-                          clipBehavior: Clip.hardEdge,
-                          child: Image.memory(
-                            base64Decode(clothesItem.imageBase64),
-                            gaplessPlayback: true,
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 25.h),
-                    Text(
-                      lookItem.name,
-                      style: AppTextStyles.displayLarge32,
-                    ),
-                    SizedBox(height: 5.h),
-                    for (var element in lookItem.clothesItem)
-                      Text(
-                        element.name,
-                        style: AppTextStyles.bodyMedium14.copyWith(
-                          color: AppColors.greyColor,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 25.h),
+                        Text(
+                          lookItem.name,
+                          style: AppTextStyles.displayLarge32,
                         ),
-                      ),
-                  ],
+                        SizedBox(height: 5.h),
+                        for (var element in lookItem.clothesItem)
+                          Text(
+                            element.name,
+                            style: AppTextStyles.bodyMedium14.copyWith(
+                              color: AppColors.greyColor,
+                            ),
+                          ),
+                        SizedBox(height: MediaQuery.of(context).padding.bottom >= 10 ? 4.h : 15.h),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).padding.bottom >= 10 ? 4.h : 15.h),
             ],
           ),
         ),

@@ -10,6 +10,7 @@ import 'package:ppp444/widgets/form_for_button.dart';
 
 class CustomGreedView extends StatelessWidget {
   final List listOfItems;
+  final Widget? bottomChild;
   // final bool? canHaveChooseCategory;
   final Widget Function(BuildContext, int) itemBuilder;
   const CustomGreedView({
@@ -18,24 +19,32 @@ class CustomGreedView extends StatelessWidget {
     required this.listOfItems,
     // this.canHaveChooseCategory,
     required this.itemBuilder,
+    this.bottomChild,
   });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      // добавил SingleChildScrollView чтоб Image в base64
+      // добавил ListView чтоб Image в base64
       // не лагали при скролле
-      child: SingleChildScrollView(
-        child: MasonryGridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: listOfItems.length,
-          crossAxisCount: 2,
-          padding: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 40.h),
-          mainAxisSpacing: 4.w,
-          crossAxisSpacing: 9.w,
-          itemBuilder: itemBuilder,
-        ),
+      child: ListView(
+        children: [
+          MasonryGridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: listOfItems.length,
+            crossAxisCount: 2,
+            padding: EdgeInsets.only(
+              left: 12.w,
+              right: 12.w,
+              bottom: bottomChild != null ? 0 : 40.h,
+            ),
+            mainAxisSpacing: 4.w,
+            crossAxisSpacing: 9.w,
+            itemBuilder: itemBuilder,
+          ),
+          if (bottomChild != null) bottomChild!,
+        ],
       ),
     );
   }
@@ -90,9 +99,9 @@ class CustomGridViewElement extends StatelessWidget {
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    clothesItem.category.split(', ').first,
+                    clothesItem.category.name.split(', ').first,
                     style: AppTextStyles.bodyMedium14.copyWith(
-                      color: AppColors.greyColor,
+                      color: isChoosen == true ? const Color(0xFFD3B0FF) : AppColors.greyColor,
                     ),
                   ),
                 ],

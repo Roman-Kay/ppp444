@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,8 +8,9 @@ import 'package:ppp444/ui/looks/new_look/new_look_choosing_clothes_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_app_bar.dart';
+import 'package:ppp444/widgets/custom_list_vew.dart';
 import 'package:ppp444/widgets/custom_textfiled_label.dart';
-import 'package:ppp444/widgets/form_for_button.dart';
 import 'package:ppp444/widgets/widget_button.dart';
 
 class NewLookMainScreen extends StatefulWidget {
@@ -40,32 +40,9 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
               padding: EdgeInsets.symmetric(horizontal: 12.w),
               children: [
                 SizedBox(height: 25.h),
-                SafeArea(
+                const SafeArea(
                   bottom: false,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 32.h,
-                        height: 32.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                        ),
-                        child: FormForButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: SvgPicture.asset(
-                            'assets/images/keyboard_backspace.svg',
-                            color: AppColors.whiteColor,
-                            height: 32.h,
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Text(
-                        'New Look',
-                        style: AppTextStyles.displayMedium18_900,
-                      ),
-                    ],
-                  ),
+                  child: CustomAppBar(text: 'New Look', needArrow: true),
                 ),
                 SizedBox(height: 30.h),
                 containerWithTextField(
@@ -98,32 +75,8 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
                               });
                             }
                           },
-                          child: SizedBox(
-                            height: 120.h,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.symmetric(horizontal: 20.w),
-                              itemCount: choossenClothesItems.length,
-                              itemBuilder: (context, index) {
-                                return Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      left: index != 0 ? 4 : 0,
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(24.r),
-                                      child: Image.memory(
-                                        base64Decode(choossenClothesItems[index].imageBase64),
-                                        height: 120.h,
-                                        width: 120.h,
-                                        fit: BoxFit.cover,
-                                        gaplessPlayback: true,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
+                          child: ListViewHorizontalElement(
+                            clothesItem: choossenClothesItems,
                           ),
                         )
                       : Padding(
@@ -155,7 +108,7 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
               ],
             ),
             AnimatedOpacity(
-              duration: const Duration(milliseconds: 100),
+              duration: const Duration(milliseconds: 200),
               opacity: controllerName.text.isNotEmpty && choossenClothesItems.isNotEmpty ? 1 : 0,
               child: SafeArea(
                 child: Align(

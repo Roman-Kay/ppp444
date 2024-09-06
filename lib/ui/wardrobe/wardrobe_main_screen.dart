@@ -100,7 +100,8 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                                 choosenCategory == '' ||
                                         // если выбрана категория и она сопдает с категорией элемента
                                         // то тоже показываем его
-                                        clothesItem.category.split(', ').first == choosenCategory
+                                        clothesItem.category.name.split(', ').first ==
+                                            choosenCategory
                                     ? CustomGridViewElement(
                                         clothesItem: clothesItem,
                                         onPressed: () async {

@@ -5,8 +5,8 @@ import 'package:ppp444/ui/looks/folders/folder_new_look_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
-import 'package:ppp444/widgets/custom_alert_dialog.dart';
 import 'package:ppp444/widgets/custom_app_bar.dart';
+import 'package:ppp444/widgets/custom_list_vew.dart';
 import 'package:ppp444/widgets/empty_widget.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/widget_button.dart';
@@ -116,110 +116,12 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                           )
                         ],
                       )
-                    : Expanded(
-                        child: ListView.builder(
-                          itemCount: listOfLooksItems.length,
-                          padding: EdgeInsets.only(bottom: 50.h),
-                          itemBuilder: (context, index) {
-                            final LookItem lookItem = listOfLooksItems[index];
-                            return Padding(
-                              padding: EdgeInsets.only(top: index == 0 ? 10.h : 15.h),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(30.r),
-                                clipBehavior: Clip.hardEdge,
-                                child: Container(
-                                  height: 189.h,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30.r),
-                                    color: AppColors.surfaceColor,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      const Spacer(),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              lookItem.name,
-                                              style: AppTextStyles.displayBold20,
-                                            ),
-                                            const Spacer(),
-                                            CustomPopUpMenu(
-                                              textFirst: 'Edit the Folder',
-                                              svgNameFirst: 'edit',
-                                              onPressedFirst: () {
-                                                showCustomDialog(
-                                                  context,
-                                                  'Edit Look',
-                                                  'Give a name to the look',
-                                                  () {
-                                                    setState(() {
-                                                      listOfLooksItems[index] = LookItem(
-                                                        name: controller.text,
-                                                        clothesItem: lookItem.clothesItem,
-                                                      );
-                                                    });
-                                                    Navigator.pop(context);
-                                                  },
-                                                  () {
-                                                    controller.text = '';
-                                                    Navigator.pop(context);
-                                                  },
-                                                  controller,
-                                                  (valeu) {},
-                                                );
-                                              },
-                                              textSecond: 'Delete from folder',
-                                              svgNameSecond: 'delete',
-                                              onPressedSecond: () {
-                                                setState(() {
-                                                  listOfLooksItems.removeAt(index);
-                                                });
-                                              },
-                                              smallIcon: true,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        // высота элементов в ListView 120.h
-                                        // 15.h с верху и снизу для удобного скролла
-                                        height: 120.h + 30.h,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          padding: EdgeInsets.symmetric(
-                                            vertical: 15.h,
-                                            horizontal: 14.w,
-                                          ),
-                                          itemCount: lookItem.clothesItem.length,
-                                          itemBuilder: (context, index) {
-                                            return Center(
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: index != 0 ? 4 : 0,
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(24.r),
-                                                  child: Image.asset(
-                                                    'assets/images/clothes/dress.png',
-                                                    height: 120.h,
-                                                    width: 120.h,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
+                    : CustomListView(
+                        listOfItems: listOfLooksItems,
+                        itemBuilder: (context, index) {
+                          final LookItem lookItem = listOfLooksItems[index];
+                          return CustomListViewElement(lookItem: lookItem);
+                        },
                       ),
               ],
             ),

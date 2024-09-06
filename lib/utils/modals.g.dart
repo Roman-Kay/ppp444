@@ -19,7 +19,7 @@ class ClothesItemAdapter extends TypeAdapter<ClothesItem> {
     return ClothesItem(
       imageBase64: fields[0] as String,
       name: fields[1] as String,
-      category: fields[2] as String,
+      category: fields[2] as CategoryItem,
     );
   }
 

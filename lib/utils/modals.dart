@@ -9,7 +9,7 @@ class ClothesItem {
   @HiveField(1)
   String name;
   @HiveField(2)
-  String category;
+  CategoryItem category;
 
   ClothesItem({
     required this.imageBase64,
