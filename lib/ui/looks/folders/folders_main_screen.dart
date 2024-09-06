@@ -7,7 +7,7 @@ import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/custom_alert_dialog.dart';
 import 'package:ppp444/widgets/custom_app_bar.dart';
-import 'package:ppp444/widgets/custom_empty_widget.dart';
+import 'package:ppp444/widgets/empty_widget.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/widget_button.dart';
 
@@ -85,13 +85,13 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                 listOfLooksItems.isEmpty
                     ? Column(
                         children: [
-                          CustomEmptyWidget(
+                          EmptyWidget(
                             topPading: 60.h,
                             text: 'Folder is empty',
                             imageName: 'folders_empty',
                           ),
                           SizedBox(height: 50.h),
-                          WidgetButton(
+                          Button(
                             onPressed: () async {
                               final response = await Navigator.push(
                                 context,

@@ -166,7 +166,7 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
                       right: 12.w,
                       bottom: MediaQuery.of(context).padding.bottom >= 10 ? 30.h : 40.h,
                     ),
-                    child: WidgetButton(
+                    child: Button(
                       text: 'Add Look',
                       onPressed: () {
                         addToList(

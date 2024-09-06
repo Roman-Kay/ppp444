@@ -6,8 +6,8 @@ import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/custom_app_bar.dart';
-import 'package:ppp444/widgets/custom_empty_widget.dart';
-import 'package:ppp444/widgets/custom_search.dart';
+import 'package:ppp444/widgets/empty_widget.dart';
+import 'package:ppp444/widgets/search.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 import 'package:ppp444/widgets/widget_button.dart';
 
@@ -68,7 +68,7 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                     SizedBox(height: 25.h),
                     const CustomAppBar(text: 'Back', needArrow: true),
                     listOfLooksItems.isEmpty
-                        ? CustomEmptyWidget(
+                        ? EmptyWidget(
                             topPading: 60.h,
                             imageName: 'looks_empty',
                             text: 'You don\'t have looks',
@@ -77,7 +77,7 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                             child: Column(
                               children: [
                                 SizedBox(height: 20.h),
-                                CustomSearch(searchController: searchController),
+                                Search(searchController: searchController),
                                 Expanded(
                                   child: ListView.builder(
                                     itemCount: listOfFilteredLooksItems.length,
@@ -184,7 +184,7 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                         padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).padding.bottom >= 10 ? 10.h : 20.h,
                         ),
-                        child: WidgetButton(
+                        child: Button(
                           text: 'Confirm',
                           boxShadow: true,
                           onPressed: () {

@@ -4,12 +4,12 @@ import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
-class WidgetButton extends StatelessWidget {
+class Button extends StatelessWidget {
   final Function()? onPressed;
   final String text;
   final bool? boxShadow;
 
-  const WidgetButton({super.key, this.onPressed, required this.text, this.boxShadow});
+  const Button({super.key, this.onPressed, required this.text, this.boxShadow});
 
   @override
   Widget build(BuildContext context) {

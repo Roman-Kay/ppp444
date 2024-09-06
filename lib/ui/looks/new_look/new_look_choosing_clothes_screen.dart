@@ -8,7 +8,7 @@ import 'package:ppp444/utils/categories.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
-import 'package:ppp444/widgets/custom_search.dart';
+import 'package:ppp444/widgets/search.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 import 'package:ppp444/widgets/widget_button.dart';
 
@@ -111,7 +111,7 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                               SizedBox(height: 30.h),
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                child: CustomSearch(searchController: searchController),
+                                child: Search(searchController: searchController),
                               ),
                               SizedBox(
                                 // высота элементов в ListView 26.h
@@ -273,7 +273,7 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                         right: 12.w,
                         bottom: MediaQuery.of(context).padding.bottom >= 10 ? 10.h : 20.h,
                       ),
-                      child: WidgetButton(
+                      child: Button(
                         text: 'Confirm',
                         boxShadow: true,
                         onPressed: () => Navigator.pop(context, choossenClothesItems),

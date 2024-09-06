@@ -38,7 +38,7 @@ class OnbordingFirstScreen extends StatelessWidget {
                 SizedBox(height: 20.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: WidgetButton(
+                  child: Button(
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(

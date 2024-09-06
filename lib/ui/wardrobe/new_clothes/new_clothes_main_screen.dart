@@ -66,7 +66,7 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     SizedBox(height: 20.h),
-                                    WidgetButton(
+                                    Button(
                                       text: 'Выбрать из галереи',
                                       onPressed: () async {
                                         image = await getImage(ImageSource.gallery);
@@ -75,7 +75,7 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                                       },
                                     ),
                                     SizedBox(height: 20.h),
-                                    WidgetButton(
+                                    Button(
                                       text: 'Сделать фото',
                                       onPressed: () async {
                                         image = await getImage(ImageSource.camera);
@@ -195,7 +195,7 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                       right: 12.w,
                       bottom: MediaQuery.of(context).padding.bottom >= 10 ? 30.h : 40.h,
                     ),
-                    child: WidgetButton(
+                    child: Button(
                       text: 'Add clothes',
                       onPressed: () {
                         addToList(

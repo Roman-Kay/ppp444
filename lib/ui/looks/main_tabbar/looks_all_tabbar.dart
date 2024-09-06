@@ -9,9 +9,9 @@ import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/custom_alert_dialog.dart';
-import 'package:ppp444/widgets/custom_empty_widget.dart';
+import 'package:ppp444/widgets/empty_widget.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
-import 'package:ppp444/widgets/custom_search.dart';
+import 'package:ppp444/widgets/search.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
 class LooksAllTabbar extends StatefulWidget {
@@ -53,7 +53,7 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
   @override
   Widget build(BuildContext context) {
     return listOfLooksItems.isEmpty
-        ? CustomEmptyWidget(
+        ? EmptyWidget(
             topPading: 60.h,
             imageName: 'looks_empty',
             text: 'You don\'t have looks',
@@ -61,7 +61,7 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
         : Column(
             children: [
               SizedBox(height: 20.h),
-              CustomSearch(searchController: searchController),
+              Search(searchController: searchController),
               SizedBox(height: 15.h),
               // также + 15.h из top padding первого айтома из ListView
               // это чтобы увеличить площадь скролла

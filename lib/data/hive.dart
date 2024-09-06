@@ -5,7 +5,6 @@ late Box box;
 
 enum HiveKeys { listOfClothesItems, listOfLooksItems, listOfFoldersItems }
 
-// final ff = HiveKeys.listOfClothesItems;
 getkey(value) {
   if (value.runtimeType == ClothesItem) {
     return 'listOfClothesItems';
@@ -37,7 +36,6 @@ deleteItemFromList(dynamic value) {
 
 editItemInList(dynamic changeValue, dynamic value) {
   dynamic key = getkey(value);
-
   final response = box.get(key);
   if (response != null && response != []) {
     List helpList = response;

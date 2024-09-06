@@ -84,7 +84,7 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                       },
               ),
               SizedBox(height: 28.h),
-              // кастомны СupertinoNavBar
+              // кастомный СupertinoNavBar
               Container(
                 height: 32,
                 decoration: BoxDecoration(

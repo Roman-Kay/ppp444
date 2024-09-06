@@ -38,7 +38,7 @@ class OnbordingSecondScreen extends StatelessWidget {
                 SizedBox(height: 20.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
-                  child: WidgetButton(
+                  child: Button(
                     text: 'Get Started',
                     onPressed: () => Navigator.push(
                       context,

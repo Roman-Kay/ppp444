@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ppp444/utils/text_styles.dart';
 
-class CustomEmptyWidget extends StatelessWidget {
+class EmptyWidget extends StatelessWidget {
   final double topPading;
   final String imageName;
   final String text;
 
-  const CustomEmptyWidget({
+  const EmptyWidget({
     super.key,
     required this.imageName,
     required this.text,
