@@ -23,11 +23,32 @@ class NewLookChoosingClothesScreen extends StatefulWidget {
 class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScreen> {
   String choosenCategory = '';
   List<ClothesItem> choossenClothesItems = [];
+  late List listOfFilteredClothesItems;
+  late List listOfClothesItems;
+  final TextEditingController searchController = TextEditingController();
+
+  void searchItems() {
+    final text = searchController.text;
+    if (text.isNotEmpty) {
+      listOfFilteredClothesItems = listOfClothesItems.where((dynamic item) {
+        return item.name.toLowerCase().contains(text.toLowerCase());
+      }).toList();
+    } else {
+      listOfFilteredClothesItems = listOfClothesItems;
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    listOfClothesItems = box.get('listOfClothesItems') ?? [];
+    searchItems();
+    searchController.addListener(searchItems);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List listOfClothesItems = box.get('listOfClothesItems') ?? [];
-
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -92,7 +113,7 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 12.w),
                                 child: CustomTextField(
-                                  controller: TextEditingController(),
+                                  controller: searchController,
                                   hintText: 'Search...',
                                   iconLeft: Padding(
                                     padding: EdgeInsets.only(right: 10.w),
@@ -158,14 +179,14 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                                   child: MasonryGridView.count(
                                     shrinkWrap: true,
                                     physics: const NeverScrollableScrollPhysics(),
-                                    itemCount: listOfClothesItems.length,
+                                    itemCount: listOfFilteredClothesItems.length,
                                     crossAxisCount: 2,
                                     padding:
                                         EdgeInsets.only(left: 12.w, right: 12.w, bottom: 200.h),
                                     mainAxisSpacing: 4.w,
                                     crossAxisSpacing: 9.w,
                                     itemBuilder: (context, index) {
-                                      ClothesItem clothesItem = listOfClothesItems[index];
+                                      ClothesItem clothesItem = listOfFilteredClothesItems[index];
                                       return clothesItem.category.split(', ').first ==
                                                   choosenCategory ||
                                               choosenCategory == ''

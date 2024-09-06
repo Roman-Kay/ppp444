@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/looks/looks_card_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
@@ -24,11 +25,35 @@ class LooksAllTabbar extends StatefulWidget {
 }
 
 class _LooksAllTabbarState extends State<LooksAllTabbar> {
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
+  final TextEditingController controllerEdit = TextEditingController();
+
+  late List listOfLooksItems;
+  late List listOfFilteredLooksItems;
+
+  void searchItems() {
+    final text = searchController.text;
+    if (text.isNotEmpty) {
+      listOfFilteredLooksItems = listOfLooksItems.where((dynamic item) {
+        return item.name.toLowerCase().contains(text.toLowerCase());
+      }).toList();
+    } else {
+      listOfFilteredLooksItems = listOfLooksItems;
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    listOfLooksItems = widget.listOfLooksItems;
+    searchItems();
+    searchController.addListener(searchItems);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return widget.listOfLooksItems.isEmpty
+    return listOfLooksItems.isEmpty
         ? Column(
             children: [
               SizedBox(height: 60.h),
@@ -47,7 +72,7 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
             children: [
               SizedBox(height: 20.h),
               CustomTextField(
-                controller: TextEditingController(),
+                controller: searchController,
                 hintText: 'Search...',
                 iconLeft: Padding(
                   padding: EdgeInsets.only(right: 10.w),
@@ -59,10 +84,10 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
               // это чтобы увеличить площадь скролла
               Expanded(
                 child: ListView.builder(
-                  itemCount: widget.listOfLooksItems.length,
+                  itemCount: listOfFilteredLooksItems.length,
                   padding: EdgeInsets.only(bottom: 50.h),
                   itemBuilder: (context, index) {
-                    final LookItem lookItem = widget.listOfLooksItems[index];
+                    final LookItem lookItem = listOfFilteredLooksItems[index];
                     return Padding(
                       padding: EdgeInsets.only(top: 15.h),
                       child: ClipRRect(
@@ -76,12 +101,15 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
                           ),
                           child: FormForButton(
                             borderRadius: BorderRadius.circular(30.r),
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LookCardScreen(lookItem: lookItem),
-                              ),
-                            ),
+                            onPressed: () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LookCardScreen(lookItem: lookItem),
+                                ),
+                              );
+                              setState(() {});
+                            },
                             child: Column(
                               children: [
                                 const Spacer(),
@@ -95,31 +123,43 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
                                       ),
                                       const Spacer(),
                                       CustomPopUpMenu(
-                                        textFirst: 'Edit the look',
+                                        textFirst: 'Edit',
                                         svgNameFirst: 'edit',
                                         onPressedFirst: () {
                                           showCustomDialog(
-                                              context, 'Edit Look', 'Give a name to the look', () {
-                                            setState(() {
-                                              widget.listOfLooksItems[index] = LookItem(
-                                                name: controller.text,
-                                                clothesItem: lookItem.clothesItem,
+                                            context,
+                                            'Look Name',
+                                            'Change the look name',
+                                            () {
+                                              setState(
+                                                () {
+                                                  editItemInList(
+                                                    lookItem,
+                                                    LookItem(
+                                                      clothesItem: lookItem.clothesItem,
+                                                      name: controllerEdit.text,
+                                                    ),
+                                                  );
+
+                                                  controllerEdit.text = '';
+                                                  Navigator.pop(context);
+                                                },
                                               );
-                                            });
-                                            Navigator.pop(context);
-                                          }, () {
-                                            controller.text = '';
-                                            Navigator.pop(context);
-                                          }, controller, (valeu) {});
+                                            },
+                                            () {
+                                              controllerEdit.text = '';
+                                              Navigator.pop(context);
+                                            },
+                                            controllerEdit,
+                                            (valeu) {},
+                                          );
                                         },
                                         textSecond: 'Delete',
                                         svgNameSecond: 'delete',
                                         onPressedSecond: () {
-                                          // setState(() {
-                                          //   listOfLooksItems.removeAt(index);
-                                          // });
+                                          deleteItemFromList(lookItem);
+                                          Navigator.pop(context);
                                         },
-                                        smallIcon: true,
                                       ),
                                     ],
                                   ),

@@ -13,13 +13,20 @@ import 'package:ppp444/widgets/form_for_button.dart';
 
 class WardrobeClothesCardScreen extends StatefulWidget {
   final ClothesItem clothesItem;
-  WardrobeClothesCardScreen({super.key, required this.clothesItem});
+  const WardrobeClothesCardScreen({super.key, required this.clothesItem});
 
   @override
   State<WardrobeClothesCardScreen> createState() => _WardrobeClothesCardScreenState();
 }
 
 class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
+  late ClothesItem clothesItem;
+  @override
+  void initState() {
+    clothesItem = widget.clothesItem;
+    super.initState();
+  }
+
   final TextEditingController controller = TextEditingController();
 
   @override
@@ -65,38 +72,43 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                       textFirst: 'Edit',
                       svgNameFirst: 'edit',
                       onPressedFirst: () {
-                        showCustomDialog(context, 'Сloth Name', 'Change the cloth name', () {
-                          setState(
-                            () {
-                              final List response = box.get('listOfClothesItems');
-                              // print(response[0].name);
-
-                              print(widget.clothesItem.name == response[0].name);
-                              print(widget.clothesItem.imageBase64 == response[0].imageBase64);
-                              print(widget.clothesItem.category == response[0].category);
-                              print(response.indexOf(widget.clothesItem));
-                              editItemInList(
-                                widget.clothesItem,
-                                ClothesItem(
-                                  category: widget.clothesItem.category,
+                        showCustomDialog(
+                          context,
+                          'Сloth Name',
+                          'Change the cloth name',
+                          () {
+                            setState(
+                              () {
+                                editItemInList(
+                                  clothesItem,
+                                  ClothesItem(
+                                    imageBase64: clothesItem.imageBase64,
+                                    category: clothesItem.category,
+                                    name: controller.text,
+                                  ),
+                                );
+                                clothesItem = ClothesItem(
+                                  imageBase64: clothesItem.imageBase64,
+                                  category: clothesItem.category,
                                   name: controller.text,
-                                  imageBase64: widget.clothesItem.imageBase64,
-                                ),
-                              );
-                              widget.clothesItem.name = controller.text;
-                              controller.text = '';
-                              Navigator.pop(context);
-                            },
-                          );
-                        }, () {
-                          controller.text = '';
-                          Navigator.pop(context);
-                        }, controller, (valeu) {});
+                                );
+                                controller.text = '';
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                          () {
+                            controller.text = '';
+                            Navigator.pop(context);
+                          },
+                          controller,
+                          (valeu) {},
+                        );
                       },
                       textSecond: 'Delete',
                       svgNameSecond: 'delete',
                       onPressedSecond: () {
-                        deleteItemFromList(widget.clothesItem);
+                        deleteItemFromList(clothesItem);
                         Navigator.pop(context);
                       },
                     ),
@@ -110,7 +122,7 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                     borderRadius: BorderRadius.circular(30.r),
                     clipBehavior: Clip.hardEdge,
                     child: Image.memory(
-                      base64Decode(widget.clothesItem.imageBase64),
+                      base64Decode(clothesItem.imageBase64),
                       fit: BoxFit.fitWidth,
                       width: 390.w,
                       // height: 590.h,
@@ -125,12 +137,12 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.clothesItem.name,
+                      clothesItem.name,
                       style: AppTextStyles.displayLarge32,
                     ),
                     SizedBox(height: 5.h),
                     Text(
-                      widget.clothesItem.category,
+                      clothesItem.category.split(', ').first.toString(),
                       style: AppTextStyles.displayMedium18_600.copyWith(
                         color: AppColors.greyColor,
                       ),

@@ -1,18 +1,36 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_alert_dialog.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
-class LookCardScreen extends StatelessWidget {
+class LookCardScreen extends StatefulWidget {
   final LookItem lookItem;
   const LookCardScreen({super.key, required this.lookItem});
+
+  @override
+  State<LookCardScreen> createState() => _LookCardScreenState();
+}
+
+class _LookCardScreenState extends State<LookCardScreen> {
+  late LookItem lookItem;
+  TextEditingController controller = TextEditingController();
+
+  @override
+  void initState() {
+    lookItem = widget.lookItem;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +74,36 @@ class LookCardScreen extends StatelessWidget {
                     CustomPopUpMenu(
                       textFirst: 'Edit',
                       svgNameFirst: 'edit',
-                      onPressedFirst: () {},
+                      onPressedFirst: () {
+                        showCustomDialog(context, 'Look Name', 'Change the look name', () {
+                          setState(
+                            () {
+                              editItemInList(
+                                lookItem,
+                                LookItem(
+                                  clothesItem: lookItem.clothesItem,
+                                  name: controller.text,
+                                ),
+                              );
+                              lookItem = LookItem(
+                                clothesItem: lookItem.clothesItem,
+                                name: controller.text,
+                              );
+                              controller.text = '';
+                              Navigator.pop(context);
+                            },
+                          );
+                        }, () {
+                          controller.text = '';
+                          Navigator.pop(context);
+                        }, controller, (valeu) {});
+                      },
                       textSecond: 'Delete',
                       svgNameSecond: 'delete',
-                      onPressedSecond: () {},
+                      onPressedSecond: () {
+                        deleteItemFromList(lookItem);
+                        Navigator.pop(context);
+                      },
                     ),
                   ],
                 ),
@@ -73,7 +117,7 @@ class LookCardScreen extends StatelessWidget {
                     MasonryGridView.count(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: lookItem.clothesItem.length,
+                      itemCount: widget.lookItem.clothesItem.length,
                       crossAxisCount: 2,
                       mainAxisSpacing: 4.w,
                       crossAxisSpacing: 9.w,
@@ -82,9 +126,9 @@ class LookCardScreen extends StatelessWidget {
                         return ClipRRect(
                           borderRadius: BorderRadius.circular(25.r),
                           clipBehavior: Clip.hardEdge,
-                          child: Image.asset(
-                            //
-                            'assets/images/clothes/dress.png',
+                          child: Image.memory(
+                            base64Decode(clothesItem.imageBase64),
+                            gaplessPlayback: true,
                           ),
                         );
                       },

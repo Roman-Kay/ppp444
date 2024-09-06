@@ -22,10 +22,33 @@ class WardrobeMainScreen extends StatefulWidget {
 
 class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
   String choosenCategory = '';
+  TextEditingController searchController = TextEditingController();
+  List listFilteredClothesItems = box.get('listOfClothesItems') ?? [];
+  late List listOfAllClothesItems;
+  late List listOfFilteredClothesItems;
+
+  void searchItems() {
+    final text = searchController.text;
+    if (text.isNotEmpty) {
+      listOfFilteredClothesItems = listOfAllClothesItems.where((dynamic item) {
+        return item.name.toLowerCase().contains(text.toLowerCase());
+      }).toList();
+    } else {
+      listOfFilteredClothesItems = listOfAllClothesItems;
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    listOfAllClothesItems = box.get('listOfClothesItems') ?? [];
+    searchItems();
+    searchController.addListener(searchItems);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List listOfAllClothesItems = box.get('listOfClothesItems') ?? [];
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -107,7 +130,7 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 12.w),
                           child: CustomTextField(
-                            controller: TextEditingController(),
+                            controller: searchController,
                             hintText: 'Search...',
                             iconLeft: Padding(
                               padding: EdgeInsets.only(right: 10.w),
@@ -175,13 +198,13 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                             child: MasonryGridView.count(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                              itemCount: listOfAllClothesItems.length,
+                              itemCount: listOfFilteredClothesItems.length,
                               crossAxisCount: 2,
                               padding: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 40.h),
                               mainAxisSpacing: 4.w,
                               crossAxisSpacing: 9.w,
                               itemBuilder: (context, index) {
-                                ClothesItem clothesItem = listOfAllClothesItems[index];
+                                ClothesItem clothesItem = listOfFilteredClothesItems[index];
                                 return clothesItem.category.split(', ').first == choosenCategory ||
                                         choosenCategory == ''
                                     ? Container(

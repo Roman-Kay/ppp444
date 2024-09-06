@@ -26,16 +26,13 @@ addToList(dynamic value) {
 }
 
 deleteItemFromList(dynamic value) {
-  // box.delete('listOfClothesItems');
-  // box.delete('listOfFoldersItems');
-
-  // dynamic key = getkey(value);
-  // final response = box.get(key);
-  // if (response != null && response != []) {
-  //   List helpList = response;
-  //   helpList.removeWhere((element) => element == value);
-  //   box.put(key, helpList);
-  // }
+  dynamic key = getkey(value);
+  final response = box.get(key);
+  if (response != null && response != []) {
+    List helpList = response;
+    helpList.removeWhere((element) => element == value);
+    box.put(key, helpList);
+  }
 }
 
 editItemInList(dynamic changeValue, dynamic value) {

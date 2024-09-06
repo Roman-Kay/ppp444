@@ -22,9 +22,33 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
   TextEditingController controller = TextEditingController();
 
   List<LookItem> choossenLookItem = [];
+
+  late List listOfLooksItems;
+  late List listOfFilteredLooksItems;
+  final TextEditingController searchController = TextEditingController();
+
+  void searchItems() {
+    final text = searchController.text;
+    if (text.isNotEmpty) {
+      listOfFilteredLooksItems = listOfLooksItems.where((dynamic item) {
+        return item.name.toLowerCase().contains(text.toLowerCase());
+      }).toList();
+    } else {
+      listOfFilteredLooksItems = listOfLooksItems;
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    listOfLooksItems = box.get('listOfLooksItems') ?? [];
+    searchItems();
+    searchController.addListener(searchItems);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List listOfLooksItems = box.get('listOfLooksItems') ?? [];
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -88,7 +112,7 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                               children: [
                                 SizedBox(height: 20.h),
                                 CustomTextField(
-                                  controller: TextEditingController(),
+                                  controller: searchController,
                                   hintText: 'Search...',
                                   iconLeft: Padding(
                                     padding: EdgeInsets.only(right: 10.w),
@@ -97,11 +121,11 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                                 ),
                                 Expanded(
                                   child: ListView.builder(
-                                    itemCount: listOfLooksItems.length,
+                                    itemCount: listOfFilteredLooksItems.length,
                                     shrinkWrap: true,
                                     padding: EdgeInsets.only(bottom: 150.h),
                                     itemBuilder: (context, index) {
-                                      final LookItem lookItem = listOfLooksItems[index];
+                                      final LookItem lookItem = listOfFilteredLooksItems[index];
                                       return Padding(
                                         padding: EdgeInsets.only(top: 20.h),
                                         child: ClipRRect(
