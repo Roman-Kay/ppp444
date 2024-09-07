@@ -65,6 +65,8 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
                   final LookItem lookItem = listOfLooksItems[index];
                   return CustomListViewElement(
                     lookItem: lookItem,
+                    // передаем setState чтобы обновить экран
+                    setState: () => setState(() {}),
                     onPressed: () async {
                       await Navigator.push(
                         context,

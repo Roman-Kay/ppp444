@@ -32,11 +32,14 @@ class CustomListViewElement extends StatefulWidget {
   final LookItem lookItem;
   final Function()? onPressed;
   final bool? isChoosen;
+  final Function()? setState;
+
   const CustomListViewElement({
     super.key,
     required this.lookItem,
     this.onPressed,
     this.isChoosen,
+    this.setState,
   });
 
   @override
@@ -78,39 +81,31 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                         textFirst: 'Edit',
                         svgNameFirst: 'edit',
                         onPressedFirst: () {
-                          showCustomDialog(
-                            context,
-                            'Look Name',
-                            'Change the look name',
-                            () {
-                              setState(
-                                () {
-                                  editItemNameInList(
+                          showCustomDialog(context, 'Look Name', 'Change the look name', () {
+                            setState(
+                              () {
+                                editItemNameLook(
                                     widget.lookItem,
                                     LookItem(
                                       clothesItem: widget.lookItem.clothesItem,
                                       name: controller.text,
-                                    ),
-                                  );
-
-                                  controller.text = '';
-                                  Navigator.pop(context);
-                                },
-                              );
-                            },
-                            () {
-                              controller.text = '';
-                              Navigator.pop(context);
-                            },
-                            controller,
-                            (valeu) {},
-                          );
+                                    ));
+                                widget.setState!();
+                                controller.text = '';
+                                Navigator.pop(context);
+                              },
+                            );
+                          }, () {
+                            controller.text = '';
+                            Navigator.pop(context);
+                          }, controller, (valeu) {});
                         },
                         textSecond: 'Delete',
                         svgNameSecond: 'delete',
                         smallIcon: true,
                         onPressedSecond: () {
-                          deleteItemFromList(widget.lookItem);
+                          deleteItemNameLook(widget.lookItem);
+                          widget.setState!();
                         },
                       ),
                     ],

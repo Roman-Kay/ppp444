@@ -55,13 +55,13 @@ class _LookCardScreenState extends State<LookCardScreen> {
                     showCustomDialog(context, 'Look Name', 'Change the look name', () {
                       setState(
                         () {
-                          editItemNameInList(
-                            lookItem,
-                            LookItem(
-                              clothesItem: lookItem.clothesItem,
-                              name: controller.text,
-                            ),
-                          );
+                          editItemNameLook(
+                              lookItem,
+                              LookItem(
+                                clothesItem: lookItem.clothesItem,
+                                name: controller.text,
+                              ));
+
                           lookItem = LookItem(
                             clothesItem: lookItem.clothesItem,
                             name: controller.text,
@@ -78,7 +78,7 @@ class _LookCardScreenState extends State<LookCardScreen> {
                   textSecond: 'Delete',
                   svgNameSecond: 'delete',
                   onPressedSecond: () {
-                    deleteItemFromList(lookItem);
+                    deleteItemNameLook(lookItem);
                     Navigator.pop(context);
                   },
                 ),

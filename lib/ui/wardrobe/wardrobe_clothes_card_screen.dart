@@ -56,7 +56,7 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                       () {
                         setState(
                           () {
-                            editItemNameInList(
+                            editItemNameClothe(
                               clothesItem,
                               ClothesItem(
                                 imageBase64: clothesItem.imageBase64,
@@ -85,7 +85,7 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                   textSecond: 'Delete',
                   svgNameSecond: 'delete',
                   onPressedSecond: () {
-                    deleteItemFromList(clothesItem);
+                    deleteItemFromClothe(clothesItem);
                     Navigator.pop(context);
                   },
                 ),
