@@ -91,7 +91,7 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                                       choosenCategory == '' ||
                                               // если выбрана категория и она сопдает с категорией элемента
                                               // то тоже показываем его
-                                              clothesItem.category.name == choosenCategory
+                                              clothesItem.category == choosenCategory
                                           ? CustomGridViewElement(
                                               clothesItem: clothesItem,
                                               isChoosen: choossenClothesItems.any(

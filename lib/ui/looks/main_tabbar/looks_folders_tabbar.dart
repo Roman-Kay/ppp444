@@ -69,7 +69,7 @@ class _LooksFoldersTabbarState extends State<LooksFoldersTabbar> {
                           ),
                           const Spacer(),
                           Text(
-                            folderItem.lookstems.length.toString(),
+                            folderItem.looksItems.length.toString(),
                             style: AppTextStyles.bodyMedium16_400.copyWith(
                               color: AppColors.greyColor,
                             ),

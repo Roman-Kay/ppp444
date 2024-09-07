@@ -44,3 +44,87 @@ editItemInList(dynamic changeValue, dynamic value) {
     box.put(key, helpList);
   }
 }
+
+List<LookItem> getLooks() {
+  final List listOfClothesItems = (box.get('listOfClothesItems') ?? []);
+  List<LookItem> listOfLooksItems = [];
+  // перебираем каждый элемент одежды
+  for (var cloth in listOfClothesItems) {
+    // если у элемента одежды есть луки
+    if (cloth.looks!.isNotEmpty) {
+      // отправляем все луки на перебор
+      for (var look in cloth.looks!) {
+        // спомогательная переменная
+        int? changedElementIndex;
+        // если в листе из луков есть элемент с таким же названием как и лука одежды
+        // тогда changedElementIndex становится index этого элемента
+        if (listOfLooksItems.any((looksItemsNow) {
+          bool check = (looksItemsNow.name == look);
+          check == true ? changedElementIndex = listOfLooksItems.indexOf(looksItemsNow) : null;
+          return check;
+        })) {
+          // тогда helpClothesItem вспомогатльная переменная для одежды которая уже лежит в луке
+          List<ClothesItem> helpClothesItem = listOfLooksItems[changedElementIndex!].clothesItem;
+          // добавляем к старой одежде в луке новую
+          helpClothesItem.add(cloth);
+          // изменяням наш LookItem
+          listOfLooksItems[changedElementIndex!] = LookItem(
+            name: look,
+            clothesItem: helpClothesItem,
+          );
+        } else {
+          // если лука с таким названия еще нет, то создаем его
+          listOfLooksItems.add(
+            LookItem(
+              name: look,
+              clothesItem: [cloth],
+            ),
+          );
+        }
+      }
+    }
+  }
+  return listOfLooksItems;
+}
+
+// List<FolderItem> getFolders() {
+//   final List<LookItem> listOfLooksItems = getLooks();
+//   List<FolderItem> listOfFolderItem = [];
+//   // перебираем каждый элемент одежды
+//   for (var look in listOfLooksItems) {
+//     // если у элемента одежды есть фолдеры
+//     if (cloth.folders!.isNotEmpty) {
+//       // отправляем все фолдеры на перебор
+//       for (var folder in cloth.folders!) {
+//         // спомогательная переменная
+//         int? changedElementIndex;
+//         // если в листе из фолдеров есть элемент с таким же названием как и фолдера одежды
+//         // тогда changedElementIndex становится index этого элемента
+//         if (listOfFolderItem.any((foldersItemsNow) {
+//           bool check = (foldersItemsNow.looksItems == folder);
+//           check == true ? changedElementIndex = listOfFolderItem.indexOf(foldersItemsNow) : null;
+//           return check;
+//         })) {
+//           // тогда helpClothesItem вспомогатльная переменная для одежды которая уже лежит в фолдере
+//           List<ClothesItem> helpClothesItem = listOfFolderItem[changedElementIndex!].clothesItem;
+//           // добавляем к старой одежде в фолдера новую
+//           helpClothesItem.add(cloth);
+//           // изменяням наш FolderItem
+//           listOfFolderItem[changedElementIndex!] = FolderItem(
+//             name: look,
+//             looksItems: helpClothesItem,
+//           );
+//         } else {
+//           // если лука с таким названия еще нет, то создаем его
+//           listOfFolderItem.add(
+//             LookItem(
+//               name: look,
+//               clothesItem: [cloth],
+//             ),
+//           );
+//         }
+//       }
+//     }
+//   }
+//   return listOfFolderItem;
+// }

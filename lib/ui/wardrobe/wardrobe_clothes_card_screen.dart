@@ -116,7 +116,7 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                     ),
                     SizedBox(height: 5.h),
                     Text(
-                      clothesItem.category.name.split(', ').first.toString(),
+                      clothesItem.category,
                       style: AppTextStyles.displayMedium18_600.copyWith(
                         color: AppColors.greyColor,
                       ),

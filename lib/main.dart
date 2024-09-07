@@ -8,7 +8,6 @@ import 'package:ppp444/utils/modals.dart';
 void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(ClothesItemAdapter());
-  Hive.registerAdapter(CategoryItemAdapter());
   Hive.registerAdapter(FolderItemAdapter());
   Hive.registerAdapter(LookItemAdapter());
   box = await Hive.openBox('myBox');

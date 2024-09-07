@@ -24,7 +24,7 @@ class NewClothesMainScreen extends StatefulWidget {
 
 class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
   final TextEditingController controllerName = TextEditingController();
-  CategoryItem? categoryItem;
+  final TextEditingController controllerCategory = TextEditingController();
 
   File? image;
 
@@ -152,7 +152,7 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                         ),
                         SizedBox(height: 8.h),
                         CustomTextField(
-                          controller: TextEditingController(),
+                          controller: controllerCategory,
                           hintText: 'Hats, T-shirts, Jeans...',
                           isBig: true,
                           onPressed: () async {
@@ -164,10 +164,7 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                             );
                             if (response != null) {
                               setState(() {
-                                categoryItem = CategoryItem(
-                                  name: response.first,
-                                  subNames: response.last,
-                                );
+                                controllerCategory.text = '${response!.first}, ${response!.last}';
                               });
                             }
                           },
@@ -184,8 +181,11 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
             ),
             AnimatedOpacity(
               duration: const Duration(milliseconds: 100),
-              opacity:
-                  categoryItem != null && controllerName.text.isNotEmpty && image != null ? 1 : 0,
+              opacity: controllerCategory.text.isNotEmpty &&
+                      controllerName.text.isNotEmpty &&
+                      image != null
+                  ? 1
+                  : 0,
               child: SafeArea(
                 child: Align(
                   alignment: Alignment.bottomCenter,
@@ -202,7 +202,9 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                           ClothesItem(
                             imageBase64: base64Encode(image!.readAsBytesSync()),
                             name: controllerName.text,
-                            category: categoryItem!,
+                            category: controllerCategory.text.split(', ').first,
+                            looks: [],
+                            folders: [],
                           ),
                         );
                         Navigator.pop(context);

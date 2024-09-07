@@ -24,7 +24,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
   late List<LookItem> listOfLooksItems;
   @override
   void initState() {
-    listOfLooksItems = widget.folderItem.lookstems;
+    listOfLooksItems = widget.folderItem.looksItems;
     super.initState();
   }
 
@@ -69,7 +69,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                           widget.folderItem,
                           FolderItem(
                             name: widget.folderItem.name,
-                            lookstems: listOfLooksItems,
+                            looksItems: listOfLooksItems,
                           ),
                         );
                       }
@@ -107,7 +107,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                   widget.folderItem,
                                   FolderItem(
                                     name: widget.folderItem.name,
-                                    lookstems: listOfLooksItems,
+                                    looksItems: listOfLooksItems,
                                   ),
                                 );
                               }

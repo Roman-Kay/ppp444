@@ -2,27 +2,8 @@ import 'package:hive/hive.dart';
 
 part 'modals.g.dart';
 
-@HiveType(typeId: 1)
-class ClothesItem {
-  @HiveField(0)
-  String imageBase64;
-  @HiveField(1)
-  String name;
-  @HiveField(2)
-  CategoryItem category;
-
-  ClothesItem({
-    required this.imageBase64,
-    required this.name,
-    required this.category,
-  });
-}
-
-@HiveType(typeId: 2)
 class CategoryItem {
-  @HiveField(0)
   final String name;
-  @HiveField(1)
   final List<String> subNames;
 
   CategoryItem({
@@ -31,7 +12,29 @@ class CategoryItem {
   });
 }
 
-@HiveType(typeId: 3)
+@HiveType(typeId: 1)
+class ClothesItem {
+  @HiveField(0)
+  String imageBase64;
+  @HiveField(1)
+  String name;
+  @HiveField(2)
+  String category;
+  @HiveField(3)
+  List<String>? looks;
+  @HiveField(4)
+  List<String>? folders;
+
+  ClothesItem({
+    required this.imageBase64,
+    required this.name,
+    required this.category,
+    this.looks,
+    this.folders,
+  });
+}
+
+@HiveType(typeId: 2)
 class LookItem {
   @HiveField(0)
   final String name;
@@ -44,15 +47,15 @@ class LookItem {
   });
 }
 
-@HiveType(typeId: 4)
+@HiveType(typeId: 3)
 class FolderItem {
   @HiveField(0)
   final String name;
   @HiveField(1)
-  final List<LookItem> lookstems;
+  final List<LookItem> looksItems;
 
   FolderItem({
     required this.name,
-    required this.lookstems,
+    required this.looksItems,
   });
 }

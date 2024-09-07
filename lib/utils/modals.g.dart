@@ -19,20 +19,26 @@ class ClothesItemAdapter extends TypeAdapter<ClothesItem> {
     return ClothesItem(
       imageBase64: fields[0] as String,
       name: fields[1] as String,
-      category: fields[2] as CategoryItem,
+      category: fields[2] as String,
+      looks: (fields[3] as List?)?.cast<String>(),
+      folders: (fields[4] as List?)?.cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ClothesItem obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.imageBase64)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.category);
+      ..write(obj.category)
+      ..writeByte(3)
+      ..write(obj.looks)
+      ..writeByte(4)
+      ..write(obj.folders);
   }
 
   @override
@@ -44,44 +50,9 @@ class ClothesItemAdapter extends TypeAdapter<ClothesItem> {
       other is ClothesItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }
 
-class CategoryItemAdapter extends TypeAdapter<CategoryItem> {
-  @override
-  final int typeId = 2;
-
-  @override
-  CategoryItem read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return CategoryItem(
-      name: fields[0] as String,
-      subNames: (fields[1] as List).cast<String>(),
-    );
-  }
-
-  @override
-  void write(BinaryWriter writer, CategoryItem obj) {
-    writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.name)
-      ..writeByte(1)
-      ..write(obj.subNames);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is CategoryItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
-}
-
 class LookItemAdapter extends TypeAdapter<LookItem> {
   @override
-  final int typeId = 3;
+  final int typeId = 2;
 
   @override
   LookItem read(BinaryReader reader) {
@@ -116,7 +87,7 @@ class LookItemAdapter extends TypeAdapter<LookItem> {
 
 class FolderItemAdapter extends TypeAdapter<FolderItem> {
   @override
-  final int typeId = 4;
+  final int typeId = 3;
 
   @override
   FolderItem read(BinaryReader reader) {
@@ -126,7 +97,7 @@ class FolderItemAdapter extends TypeAdapter<FolderItem> {
     };
     return FolderItem(
       name: fields[0] as String,
-      lookstems: (fields[1] as List).cast<LookItem>(),
+      looksItems: (fields[1] as List).cast<LookItem>(),
     );
   }
 
@@ -137,7 +108,7 @@ class FolderItemAdapter extends TypeAdapter<FolderItem> {
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.lookstems);
+      ..write(obj.looksItems);
   }
 
   @override

@@ -24,10 +24,12 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
   int chossenCategory = 0;
 
   final TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final List listOfLooksItems = box.get('listOfLooksItems') ?? [];
-    final List listOfFoldersItems = box.get('listOfFoldersItems') ?? [];
+    final List listOfLooksItems = getLooks();
+    final List listOfFoldersItems = (box.get('listOfFoldersItems') ?? []);
+
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -66,7 +68,7 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                               addToList(
                                 FolderItem(
                                   name: controller.text,
-                                  lookstems: [],
+                                  looksItems: [],
                                 ),
                               );
                             }

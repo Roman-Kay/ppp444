@@ -99,7 +99,7 @@ class CustomGridViewElement extends StatelessWidget {
                   ),
                   SizedBox(height: 2.h),
                   Text(
-                    clothesItem.category.name.split(', ').first,
+                    clothesItem.category,
                     style: AppTextStyles.bodyMedium14.copyWith(
                       color: isChoosen == true ? const Color(0xFFD3B0FF) : AppColors.greyColor,
                     ),
