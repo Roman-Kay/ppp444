@@ -85,11 +85,12 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                             setState(
                               () {
                                 editItemNameLook(
-                                    widget.lookItem,
-                                    LookItem(
-                                      clothesItem: widget.lookItem.clothesItem,
-                                      name: controller.text,
-                                    ));
+                                  widget.lookItem,
+                                  LookItem(
+                                    clothesItem: widget.lookItem.clothesItem,
+                                    name: controller.text,
+                                  ),
+                                );
                                 widget.setState!();
                                 controller.text = '';
                                 Navigator.pop(context);

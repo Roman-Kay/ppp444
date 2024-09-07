@@ -103,7 +103,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                 setState(() {
                                   listOfLooksItems.addAll(response);
                                 });
-                                editItemNameClothe(
+                                editItemNameFolder(
                                   widget.folderItem,
                                   FolderItem(
                                     name: widget.folderItem.name,

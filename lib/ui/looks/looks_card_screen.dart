@@ -52,28 +52,34 @@ class _LookCardScreenState extends State<LookCardScreen> {
                   textFirst: 'Edit',
                   svgNameFirst: 'edit',
                   onPressedFirst: () {
-                    showCustomDialog(context, 'Look Name', 'Change the look name', () {
-                      setState(
+                    showCustomDialog(
+                        context,
+                        'Look Name',
+                        'Change the look name',
                         () {
-                          editItemNameLook(
-                              lookItem,
-                              LookItem(
-                                clothesItem: lookItem.clothesItem,
-                                name: controller.text,
-                              ));
-
-                          lookItem = LookItem(
-                            clothesItem: lookItem.clothesItem,
-                            name: controller.text,
+                          setState(
+                            () {
+                              editItemNameLook(
+                                widget.lookItem,
+                                LookItem(
+                                  clothesItem: widget.lookItem.clothesItem,
+                                  name: controller.text,
+                                ),
+                              );
+                              controller.text = '';
+                              Navigator.pop(context);
+                              getClothes();
+                            },
                           );
+                        },
+                        () {
                           controller.text = '';
                           Navigator.pop(context);
                         },
-                      );
-                    }, () {
-                      controller.text = '';
-                      Navigator.pop(context);
-                    }, controller, (valeu) {});
+                        controller,
+                        (valeu) {
+                          setState(() {});
+                        });
                   },
                   textSecond: 'Delete',
                   svgNameSecond: 'delete',
