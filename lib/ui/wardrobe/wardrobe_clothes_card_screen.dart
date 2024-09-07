@@ -56,7 +56,7 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                       () {
                         setState(
                           () {
-                            editItemInList(
+                            editItemNameInList(
                               clothesItem,
                               ClothesItem(
                                 imageBase64: clothesItem.imageBase64,

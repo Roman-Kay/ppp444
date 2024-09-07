@@ -122,26 +122,25 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
                     child: Button(
                       text: 'Add Look',
                       onPressed: () {
-                        for (var clothesItem in choossenClothesItems) {
-                          List<String> newLooks = clothesItem.looks!;
-                          newLooks.add(controllerName.text);
-                          editItemInList(
-                            clothesItem,
-                            ClothesItem(
-                              imageBase64: clothesItem.imageBase64,
-                              name: clothesItem.name,
-                              category: clothesItem.category,
-                              looks: newLooks,
-                            ),
-                          );
-                        }
-                        // addToList(
-                        //   ClothesItem(imageBase64: imageBase64, name: name, category: category)
-                        //   LookItem(
-                        //     name: controllerName.text,
-                        //     clothesItem: choossenClothesItems,
-                        //   ),
-                        // );
+                        // for (var clothesItem in choossenClothesItems) {
+                        //   List<String> newLooks = clothesItem.looks!;
+                        //   newLooks.add(controllerName.text);
+                        //   editItemInList(
+                        //     clothesItem,
+                        //     ClothesItem(
+                        //       imageBase64: clothesItem.imageBase64,
+                        //       name: clothesItem.name,
+                        //       category: clothesItem.category,
+                        //       looks: newLooks,
+                        //     ),
+                        //   );
+                        // }
+                        addToList(
+                          LookItem(
+                            name: controllerName.text,
+                            clothesItem: choossenClothesItems,
+                          ),
+                        );
                         Navigator.pop(context);
                       },
                     ),

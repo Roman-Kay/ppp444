@@ -3,8 +3,6 @@ import 'package:ppp444/utils/modals.dart';
 
 late Box box;
 
-enum HiveKeys { listOfClothesItems, listOfLooksItems, listOfFoldersItems }
-
 getkey(value) {
   if (value.runtimeType == ClothesItem) {
     return 'listOfClothesItems';
@@ -25,37 +23,67 @@ addToList(dynamic value) {
 }
 
 deleteItemFromList(dynamic value) {
+  // если меняется вещь то меняем и лук с этой вещью и лук в фолдере
   if (value.runtimeType == ClothesItem) {
+    // лист вещей
     final responseClothes = box.get('listOfClothesItems');
-    // фолдеры
-    final List responseFolders = box.get('listOfFoldersItems');
+    // лист луков
+    final responseLooks = box.get('listOfLooksItems');
+    // лист фолдеров
+    final responseFolders = box.get('listOfFoldersItems');
 
     if (responseClothes != null && responseClothes != []) {
-      // remove from clothes
+      // УДАЛЕНИЯ ИЗ СПИСКА ВЕЩЕЙ
       List helpListClothes = responseClothes;
       helpListClothes.removeWhere((element) => element == value);
       box.put('listOfClothesItems', helpListClothes);
 
-      List helpListFolders = [];
-      for (var folderItem in responseFolders) {
+      // УДАЛЕНИЯ ИЗ ЛУКОВ (коментрирования схоже с Фолдорами)
+      if (responseLooks != null) {
         List<LookItem> helpLooksList = [];
-        folderItem.looksItems.forEach((looksItem) {
-          if (looksItem.clothesItem.any((element) => element == value)) {
+        for (var lookItem in responseLooks) {
+          if (lookItem.clothesItem.any((element) => element == value)) {
             null;
           } else {
-            helpLooksList.add(looksItem);
+            helpLooksList.add(lookItem);
           }
-        });
-
-        helpListFolders.add(FolderItem(
-          name: folderItem.name,
-          looksItems: helpLooksList,
-        ));
+        }
+        box.delete('listOfLooksItems');
+        box.put('listOfLooksItems', helpLooksList);
       }
-      box.delete('listOfFoldersItems');
-      box.put('listOfFoldersItems', helpListFolders);
+
+      // УДАЛЕНИЯ ИЗ ЛУКА ВНУТРИ ФОЛДЕРОВ
+      if (responseFolders != null) {
+        // создаем новый спомогательный лист фолдеров
+        List helpListFolders = [];
+        // проверяем каждый фолдер
+        for (var folderItem in responseFolders) {
+          // создаем новый спомогательный лист луков внутри фолдера
+          List<LookItem> helpLooksList = [];
+          // в каждом фолдере проверяем каждый лук
+          folderItem.looksItems.forEach((looksItem) {
+            // если найдена вещь которую надо удалить то ничего не делаем
+            if (looksItem.clothesItem.any((element) => element == value)) {
+              null;
+            } else {
+              // если вещи нет в списке лука то добавляем его к новому списку helpLooksList
+              helpLooksList.add(looksItem);
+            }
+          });
+          // когда лук сформирован добавляем его к листу из всех луков фолдера
+          helpListFolders.add(FolderItem(
+            name: folderItem.name,
+            looksItems: helpLooksList,
+          ));
+        }
+        // чистим список фолдеров
+        box.delete('listOfFoldersItems');
+        // кладем новый список
+        box.put('listOfFoldersItems', helpListFolders);
+      }
     }
   }
+
   if (value.runtimeType == LookItem) {
     return 'listOfLooksItems';
   }
@@ -69,61 +97,102 @@ deleteItemFromList(dynamic value) {
   }
 }
 
-editItemInList(dynamic changeValue, dynamic value) {
-  dynamic key = getkey(value);
-  final response = box.get(key);
-  if (response != null && response != []) {
-    List helpList = response;
-    int index = helpList.indexOf(changeValue);
-    helpList[index] = value;
-    box.put(key, helpList);
-  }
-}
+editItemNameInList(dynamic changeValue, dynamic value) {
+  if (value.runtimeType == ClothesItem) {
+    // лист вещей
+    final responseClothes = box.get('listOfClothesItems');
+    // лист луков
+    final responseLooks = box.get('listOfLooksItems');
+    // лист фолдеров
+    final responseFolders = box.get('listOfFoldersItems');
 
-List<LookItem> getLooks() {
-  final List listOfClothesItems = (box.get('listOfClothesItems') ?? []);
-  List<LookItem> listOfLooksItems = [];
-  // перебираем каждый элемент одежды
-  for (ClothesItem cloth in listOfClothesItems) {
-    // если у элемента одежды есть луки
-    if (cloth.looks!.isNotEmpty) {
-      // отправляем все луки на перебор
-      for (var look in cloth.looks!) {
-        // спомогательная переменная
-        int? changedElementIndex;
-        // если в листе из луков есть элемент с таким же названием как и лука одежды
-        // тогда changedElementIndex становится index этого элемента
-        if (listOfLooksItems.any((looksItemsNow) {
-          bool check = (looksItemsNow.name == look);
-          check == true ? changedElementIndex = listOfLooksItems.indexOf(looksItemsNow) : null;
-          return check;
-        })) {
-          // тогда helpClothesItem вспомогатльная переменная для одежды которая уже лежит в луке
-          List<ClothesItem> helpClothesItem = listOfLooksItems[changedElementIndex!].clothesItem;
-          // добавляем к старой одежде в луке новую
-          helpClothesItem.add(cloth);
-          // изменяням наш LookItem
-          listOfLooksItems[changedElementIndex!] = LookItem(
-            name: look,
-            clothesItem: helpClothesItem,
-            folders: [],
-          );
-        } else {
-          // если лука с таким названия еще нет, то создаем его
-          listOfLooksItems.add(
-            LookItem(
-              name: look,
-              clothesItem: [cloth],
-              folders: [],
-            ),
+    if (responseClothes != null && responseClothes != []) {
+      // ИЗМЕНЕНИЕ ИЗ ВЕЩЕЙ
+
+      List helpList = responseClothes;
+      int index = helpList.indexOf(changeValue);
+      helpList[index] = value;
+      box.put('listOfClothesItems', helpList);
+
+      // ИЗМЕНЕНИЕ ЛУКОВ (коментрирования схоже с Фолдорами)
+      if (responseLooks != null) {
+        List helpLooksList = [];
+        for (var lookItem in responseLooks) {
+          List<ClothesItem> helpClothesList = [];
+          for (var clothesItem in lookItem.clothesItem) {
+            if (clothesItem == changeValue) {
+              helpClothesList.add(value);
+            } else {
+              helpClothesList.add(clothesItem);
+            }
+          }
+          helpLooksList.add(
+            LookItem(name: lookItem.name, clothesItem: helpClothesList),
           );
         }
+        box.delete('listOfLooksItems');
+        box.put('listOfLooksItems', helpLooksList);
+      }
+
+      // ИЗМЕНЕНИЯ ЛУКА ВНУТРИ ФОЛДЕРОВ
+      if (responseFolders != null) {
+        // создаем новый спомогательный лист фолдеров
+        List helpListFolders = [];
+        // проверяем каждый фолдер
+        for (FolderItem folderItem in responseFolders) {
+          // создаем новый спомогательный лист луков внутри фолдера
+          List<LookItem> helpLooksList = [];
+          // в каждом фолдере проверяем каждый лук
+          for (LookItem looksItem in folderItem.looksItems) {
+            List<ClothesItem> helpClothesList = [];
+            // если найдена вещь которую надо изменит то заменяем
+            for (ClothesItem clothesItem in looksItem.clothesItem) {
+              if (clothesItem == changeValue) {
+                helpClothesList.add(value);
+              } else {
+                helpClothesList.add(clothesItem);
+              }
+            }
+            // добавлями к листу новые сформированные луки
+            helpLooksList.add(
+              LookItem(
+                name: looksItem.name,
+                clothesItem: helpClothesList,
+              ),
+            );
+          }
+
+          // когда фолдер сформирован добавляем его к листу из фолдеров
+          helpListFolders.add(FolderItem(
+            name: folderItem.name,
+            looksItems: helpLooksList,
+          ));
+        }
+        // чистим список фолдеров
+        box.delete('listOfFoldersItems');
+        // кладем новый список
+        box.put('listOfFoldersItems', helpListFolders);
       }
     }
   }
-  return listOfLooksItems;
+
+  if (value.runtimeType == LookItem) {
+    return 'listOfLooksItems';
+  }
+  if (value.runtimeType == FolderItem) {
+    final response = box.get('listOfFoldersItems');
+    if (response != null && response != []) {
+      List helpList = response;
+      helpList.removeWhere((element) => element == value);
+      box.put('listOfFoldersItems', helpList);
+    }
+  }
 }
 
 List getFolders() {
   return (box.get('listOfFoldersItems') ?? []);
+}
+
+List getLooks() {
+  return (box.get('listOfLooksItems') ?? []);
 }

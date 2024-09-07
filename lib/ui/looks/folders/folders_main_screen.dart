@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/looks/folders/folder_new_look_screen.dart';
+import 'package:ppp444/ui/looks/looks_card_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
@@ -65,7 +66,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                         setState(() {
                           listOfLooksItems.addAll(response);
                         });
-                        editItemInList(
+                        editItemNameInList(
                           widget.folderItem,
                           FolderItem(
                             name: widget.folderItem.name,
@@ -103,7 +104,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                 setState(() {
                                   listOfLooksItems.addAll(response);
                                 });
-                                editItemInList(
+                                editItemNameInList(
                                   widget.folderItem,
                                   FolderItem(
                                     name: widget.folderItem.name,
@@ -120,7 +121,18 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                         listOfItems: listOfLooksItems,
                         itemBuilder: (context, index) {
                           final LookItem lookItem = listOfLooksItems[index];
-                          return CustomListViewElement(lookItem: lookItem);
+                          return CustomListViewElement(
+                            onPressed: () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LookCardScreen(lookItem: lookItem),
+                                ),
+                              );
+                              setState(() {});
+                            },
+                            lookItem: lookItem,
+                          );
                         },
                       ),
               ],

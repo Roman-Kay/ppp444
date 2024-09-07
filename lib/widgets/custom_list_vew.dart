@@ -85,7 +85,7 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                             () {
                               setState(
                                 () {
-                                  editItemInList(
+                                  editItemNameInList(
                                     widget.lookItem,
                                     LookItem(
                                       clothesItem: widget.lookItem.clothesItem,

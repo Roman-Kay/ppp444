@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/looks/folders/folders_main_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
@@ -17,15 +18,10 @@ class LooksFoldersTabbar extends StatefulWidget {
 }
 
 class _LooksFoldersTabbarState extends State<LooksFoldersTabbar> {
-  late List listOfFoldersItems;
-  @override
-  void initState() {
-    listOfFoldersItems = widget.listOfFoldersItems;
-    super.initState();
-  }
-
+  List listOfFoldersItems = getFolders();
   @override
   Widget build(BuildContext context) {
+    listOfFoldersItems = getFolders();
     return listOfFoldersItems.isEmpty
         ? EmptyWidget(
             imageName: 'folders_empty',

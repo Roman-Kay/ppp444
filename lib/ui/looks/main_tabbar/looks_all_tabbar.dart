@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/looks/looks_card_screen.dart';
 import 'package:ppp444/utils/modals.dart';
 
@@ -22,7 +23,7 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
   final TextEditingController searchController = TextEditingController();
   final TextEditingController controllerEdit = TextEditingController();
 
-  late List listOfLooksItems;
+  List listOfLooksItems = getLooks();
   late List listOfFilteredLooksItems;
 
   void searchItems() {
@@ -39,7 +40,6 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
 
   @override
   void initState() {
-    listOfLooksItems = widget.listOfLooksItems;
     searchItems();
     searchController.addListener(searchItems);
     super.initState();
@@ -47,6 +47,7 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
 
   @override
   Widget build(BuildContext context) {
+    listOfLooksItems = getLooks();
     return listOfLooksItems.isEmpty
         ? EmptyWidget(
             topPading: 60.h,
@@ -58,8 +59,6 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
               SizedBox(height: 20.h),
               Search(searchController: searchController),
               SizedBox(height: 15.h),
-              // также + 15.h из top padding первого айтома из ListView
-              // это чтобы увеличить площадь скролла
               CustomListView(
                 listOfItems: listOfLooksItems,
                 itemBuilder: (context, index) {

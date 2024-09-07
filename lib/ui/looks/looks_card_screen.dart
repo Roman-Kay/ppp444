@@ -55,7 +55,7 @@ class _LookCardScreenState extends State<LookCardScreen> {
                     showCustomDialog(context, 'Look Name', 'Change the look name', () {
                       setState(
                         () {
-                          editItemInList(
+                          editItemNameInList(
                             lookItem,
                             LookItem(
                               clothesItem: lookItem.clothesItem,
