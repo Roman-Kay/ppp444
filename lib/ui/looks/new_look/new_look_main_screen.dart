@@ -132,7 +132,6 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
                               name: clothesItem.name,
                               category: clothesItem.category,
                               looks: newLooks,
-                              folders: clothesItem.folders,
                             ),
                           );
                         }

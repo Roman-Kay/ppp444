@@ -28,7 +28,7 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
   @override
   Widget build(BuildContext context) {
     final List listOfLooksItems = getLooks();
-    final List listOfFoldersItems = (box.get('listOfFoldersItems') ?? []);
+    final List listOfFoldersItems = getFolders();
 
     return Container(
       width: double.infinity,

@@ -204,7 +204,6 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                             name: controllerName.text,
                             category: controllerCategory.text.split(', ').first,
                             looks: [],
-                            folders: [],
                           ),
                         );
                         Navigator.pop(context);

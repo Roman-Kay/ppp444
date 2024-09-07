@@ -21,14 +21,13 @@ class ClothesItemAdapter extends TypeAdapter<ClothesItem> {
       name: fields[1] as String,
       category: fields[2] as String,
       looks: (fields[3] as List?)?.cast<String>(),
-      folders: (fields[4] as List?)?.cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ClothesItem obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.imageBase64)
       ..writeByte(1)
@@ -36,9 +35,7 @@ class ClothesItemAdapter extends TypeAdapter<ClothesItem> {
       ..writeByte(2)
       ..write(obj.category)
       ..writeByte(3)
-      ..write(obj.looks)
-      ..writeByte(4)
-      ..write(obj.folders);
+      ..write(obj.looks);
   }
 
   @override
@@ -47,7 +44,9 @@ class ClothesItemAdapter extends TypeAdapter<ClothesItem> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ClothesItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is ClothesItemAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class LookItemAdapter extends TypeAdapter<LookItem> {
@@ -63,17 +62,20 @@ class LookItemAdapter extends TypeAdapter<LookItem> {
     return LookItem(
       name: fields[0] as String,
       clothesItem: (fields[1] as List).cast<ClothesItem>(),
+      folders: (fields[2] as List?)?.cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, LookItem obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.clothesItem);
+      ..write(obj.clothesItem)
+      ..writeByte(2)
+      ..write(obj.folders);
   }
 
   @override
@@ -82,7 +84,9 @@ class LookItemAdapter extends TypeAdapter<LookItem> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LookItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is LookItemAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
 
 class FolderItemAdapter extends TypeAdapter<FolderItem> {
@@ -117,5 +121,7 @@ class FolderItemAdapter extends TypeAdapter<FolderItem> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is FolderItemAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is FolderItemAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
