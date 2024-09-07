@@ -198,12 +198,12 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                     child: Button(
                       text: 'Add clothes',
                       onPressed: () {
-                        addToList(
+                        boxClothes.put(
+                          'key_${controllerName.text}',
                           ClothesItem(
                             imageBase64: base64Encode(image!.readAsBytesSync()),
                             name: controllerName.text,
                             category: controllerCategory.text.split(', ').first,
-                            looks: [],
                           ),
                         );
                         Navigator.pop(context);

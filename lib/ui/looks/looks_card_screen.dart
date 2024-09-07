@@ -3,7 +3,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
@@ -59,16 +58,16 @@ class _LookCardScreenState extends State<LookCardScreen> {
                         () {
                           setState(
                             () {
-                              editItemNameLook(
-                                widget.lookItem,
-                                LookItem(
-                                  clothesItem: widget.lookItem.clothesItem,
-                                  name: controller.text,
-                                ),
-                              );
+                              // editItemNameLook(
+                              //   widget.lookItem,
+                              //   LookItem(
+                              //     clothesItem: widget.lookItem.clothesItem,
+                              //     name: controller.text,
+                              //   ),
+                              // );
                               controller.text = '';
                               Navigator.pop(context);
-                              getClothes();
+                              // getClothes();
                             },
                           );
                         },
@@ -84,7 +83,7 @@ class _LookCardScreenState extends State<LookCardScreen> {
                   textSecond: 'Delete',
                   svgNameSecond: 'delete',
                   onPressedSecond: () {
-                    deleteItemNameLook(lookItem);
+                    // deleteItemNameLook(lookItem);
                     Navigator.pop(context);
                   },
                 ),

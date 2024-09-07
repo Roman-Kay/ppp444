@@ -39,7 +39,7 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
 
   @override
   void initState() {
-    listOfLooksItems = getLooks();
+    listOfLooksItems = boxLooks.values.toList();
     searchItems();
     searchController.addListener(searchItems);
     super.initState();

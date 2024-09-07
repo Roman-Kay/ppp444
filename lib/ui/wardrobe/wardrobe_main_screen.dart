@@ -20,7 +20,7 @@ class WardrobeMainScreen extends StatefulWidget {
 
 class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
   TextEditingController searchController = TextEditingController();
-  List listFilteredClothesItems = box.get('listOfClothesItems') ?? [];
+  // List listFilteredClothesItems = box.get('listOfClothesItems') ?? [];
   late List listOfAllClothesItems;
   late List listOfFilteredClothesItems;
 
@@ -38,7 +38,7 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
 
   @override
   void initState() {
-    listOfAllClothesItems = box.get('listOfClothesItems') ?? [];
+    listOfAllClothesItems = boxClothes.values.toList();
     searchItems();
     searchController.addListener(searchItems);
     super.initState();
@@ -68,7 +68,7 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                   ),
                 );
                 setState(() {
-                  listOfAllClothesItems = box.get('listOfClothesItems') ?? [];
+                  listOfAllClothesItems = boxClothes.values.toList();
                   searchItems();
                 });
               },

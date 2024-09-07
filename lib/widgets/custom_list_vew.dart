@@ -84,13 +84,13 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                           showCustomDialog(context, 'Look Name', 'Change the look name', () {
                             setState(
                               () {
-                                editItemNameLook(
-                                  widget.lookItem,
-                                  LookItem(
-                                    clothesItem: widget.lookItem.clothesItem,
-                                    name: controller.text,
-                                  ),
-                                );
+                                // editItemNameLook(
+                                //   widget.lookItem,
+                                //   LookItem(
+                                //     clothesItem: widget.lookItem.clothesItem,
+                                //     name: controller.text,
+                                //   ),
+                                // );
                                 widget.setState!();
                                 controller.text = '';
                                 Navigator.pop(context);
@@ -105,7 +105,7 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                         svgNameSecond: 'delete',
                         smallIcon: true,
                         onPressedSecond: () {
-                          deleteItemNameLook(widget.lookItem);
+                          // deleteItemNameLook(widget.lookItem);
                           widget.setState!();
                         },
                       ),

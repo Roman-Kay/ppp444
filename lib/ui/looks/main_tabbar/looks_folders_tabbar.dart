@@ -17,11 +17,11 @@ class LooksFoldersTabbar extends StatefulWidget {
   State<LooksFoldersTabbar> createState() => _LooksFoldersTabbarState();
 }
 
+List listOfFoldersItems = boxFolders.values.toList();
+
 class _LooksFoldersTabbarState extends State<LooksFoldersTabbar> {
-  List listOfFoldersItems = getFolders();
   @override
   Widget build(BuildContext context) {
-    listOfFoldersItems = getFolders();
     return listOfFoldersItems.isEmpty
         ? EmptyWidget(
             imageName: 'folders_empty',
@@ -29,10 +29,10 @@ class _LooksFoldersTabbarState extends State<LooksFoldersTabbar> {
             topPading: 60.h,
           )
         : ListView.builder(
-            itemCount: listOfFoldersItems.length,
+            itemCount: boxFolders.length,
             padding: EdgeInsets.only(bottom: 50.h),
             itemBuilder: (context, index) {
-              final FolderItem folderItem = listOfFoldersItems[index];
+              final FolderItem folderItem = boxFolders.getAt(index)!;
               return Padding(
                 padding: EdgeInsets.only(top: index == 0 ? 25.h : 4.h),
                 child: Container(

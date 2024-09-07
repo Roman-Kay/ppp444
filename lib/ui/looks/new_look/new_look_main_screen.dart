@@ -122,13 +122,14 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
                     child: Button(
                       text: 'Add Look',
                       onPressed: () {
-                        addToList(
-                          LookItem(
-                            name: controllerName.text,
-                            clothesItem: choossenClothesItems,
-                          ),
+                        boxLooks.put(
+                          'key ${controllerName.text}',
+                          LookItem(name: controllerName.text, clothesItem: choossenClothesItems),
                         );
-                        Navigator.pop(context);
+                        Navigator.pop(
+                          context,
+                          LookItem(name: controllerName.text, clothesItem: choossenClothesItems),
+                        );
                       },
                     ),
                   ),

@@ -10,7 +10,9 @@ void main() async {
   Hive.registerAdapter(ClothesItemAdapter());
   Hive.registerAdapter(FolderItemAdapter());
   Hive.registerAdapter(LookItemAdapter());
-  box = await Hive.openBox('myBox');
+  boxClothes = await Hive.openBox<ClothesItem>('clothesBox');
+  boxLooks = await Hive.openBox<LookItem>('looksBox');
+  boxFolders = await Hive.openBox<FolderItem>('foldersBox');
   runApp(const MyApp());
 }
 

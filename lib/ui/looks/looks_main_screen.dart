@@ -24,12 +24,11 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
   int chossenCategory = 0;
 
   final TextEditingController controller = TextEditingController();
+  List listOfLooksItems = boxLooks.values.toList();
+  List listOfFoldersItems = boxFolders.values.toList();
 
   @override
   Widget build(BuildContext context) {
-    final List listOfLooksItems = getLooks();
-    final List listOfFoldersItems = getFolders();
-
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -47,13 +46,15 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                 textAddButton: chossenCategory == 0 ? 'Add Look' : 'Add Folder',
                 onPressedAddButton: chossenCategory == 0
                     ? () async {
-                        await Navigator.push(
+                        final response = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const NewLookMainScreen(),
                           ),
                         );
-                        setState(() {});
+                        setState(() {
+                          listOfLooksItems.add(response);
+                        });
                       }
                     : () {
                         showCustomDialog(
@@ -65,12 +66,12 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                               controller.text.isNotEmpty;
                             });
                             if (controller.text.isNotEmpty) {
-                              addToList(
-                                FolderItem(
-                                  name: controller.text,
-                                  looksItems: [],
-                                ),
-                              );
+                              // addToList(
+                              //   FolderItem(
+                              //     name: controller.text,
+                              //     looksItems: [],
+                              //   ),
+                              // );
                             }
                             Navigator.pop(context);
                           },

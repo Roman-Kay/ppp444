@@ -23,8 +23,8 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
   final TextEditingController searchController = TextEditingController();
   final TextEditingController controllerEdit = TextEditingController();
 
-  List listOfLooksItems = getLooks();
-  late List listOfFilteredLooksItems;
+  late List listOfLooksItems;
+  List listOfFilteredLooksItems = [];
 
   void searchItems() {
     final text = searchController.text;
@@ -40,6 +40,7 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
 
   @override
   void initState() {
+    listOfLooksItems = widget.listOfLooksItems;
     searchItems();
     searchController.addListener(searchItems);
     super.initState();
@@ -47,8 +48,7 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
 
   @override
   Widget build(BuildContext context) {
-    listOfLooksItems = getLooks();
-    return listOfLooksItems.isEmpty
+    return boxLooks.values.toList().isEmpty
         ? EmptyWidget(
             topPading: 60.h,
             imageName: 'looks_empty',

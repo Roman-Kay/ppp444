@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
@@ -54,25 +53,25 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                       'Сloth Name',
                       'Change the cloth name',
                       () {
-                        setState(
-                          () {
-                            editItemNameClothe(
-                              clothesItem,
-                              ClothesItem(
-                                imageBase64: clothesItem.imageBase64,
-                                category: clothesItem.category,
-                                name: controller.text,
-                              ),
-                            );
-                            clothesItem = ClothesItem(
-                              imageBase64: clothesItem.imageBase64,
-                              category: clothesItem.category,
-                              name: controller.text,
-                            );
-                            controller.text = '';
-                            Navigator.pop(context);
-                          },
-                        );
+                        // setState(
+                        //   () {
+                        //     editItemNameClothe(
+                        //       clothesItem,
+                        //       ClothesItem(
+                        //         imageBase64: clothesItem.imageBase64,
+                        //         category: clothesItem.category,
+                        //         name: controller.text,
+                        //       ),
+                        //     );
+                        //     clothesItem = ClothesItem(
+                        //       imageBase64: clothesItem.imageBase64,
+                        //       category: clothesItem.category,
+                        //       name: controller.text,
+                        //     );
+                        //     controller.text = '';
+                        //     Navigator.pop(context);
+                        //   },
+                        // );
                       },
                       () {
                         controller.text = '';
@@ -85,7 +84,7 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                   textSecond: 'Delete',
                   svgNameSecond: 'delete',
                   onPressedSecond: () {
-                    deleteItemFromClothe(clothesItem);
+                    // deleteItemFromClothe(clothesItem);
                     Navigator.pop(context);
                   },
                 ),

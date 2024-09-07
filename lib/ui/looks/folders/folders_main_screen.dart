@@ -65,13 +65,13 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                         setState(() {
                           listOfLooksItems.addAll(response);
                         });
-                        editItemNameFolder(
-                          widget.folderItem,
-                          FolderItem(
-                            name: widget.folderItem.name,
-                            looksItems: listOfLooksItems,
-                          ),
-                        );
+                        // editItemNameFolder(
+                        //   widget.folderItem,
+                        //   FolderItem(
+                        //     name: widget.folderItem.name,
+                        //     looksItems: listOfLooksItems,
+                        //   ),
+                        // );
                       }
                     },
                   ),
@@ -103,13 +103,13 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                 setState(() {
                                   listOfLooksItems.addAll(response);
                                 });
-                                editItemNameFolder(
-                                  widget.folderItem,
-                                  FolderItem(
-                                    name: widget.folderItem.name,
-                                    looksItems: listOfLooksItems,
-                                  ),
-                                );
+                                // editItemNameFolder(
+                                //   widget.folderItem,
+                                //   FolderItem(
+                                //     name: widget.folderItem.name,
+                                //     looksItems: listOfLooksItems,
+                                //   ),
+                                // );
                               }
                             },
                             text: 'Add Looks',

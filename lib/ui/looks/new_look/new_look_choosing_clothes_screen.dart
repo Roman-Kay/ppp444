@@ -37,7 +37,7 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
 
   @override
   void initState() {
-    listOfClothesItems = box.get('listOfClothesItems') ?? [];
+    listOfClothesItems = boxClothes.values.toList();
     searchItems();
     searchController.addListener(searchItems);
     super.initState();
