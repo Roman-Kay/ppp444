@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
@@ -32,6 +30,7 @@ class CustomListViewElement extends StatefulWidget {
   final LookItem lookItem;
   final Function()? onPressed;
   final bool? isChoosen;
+  final bool? needEdit;
   final Function()? setState;
 
   const CustomListViewElement({
@@ -40,6 +39,7 @@ class CustomListViewElement extends StatefulWidget {
     this.onPressed,
     this.isChoosen,
     this.setState,
+    this.needEdit,
   });
 
   @override
@@ -77,38 +77,32 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                         style: AppTextStyles.displayBold20,
                       ),
                       const Spacer(),
-                      CustomPopUpMenu(
-                        textFirst: 'Edit',
-                        svgNameFirst: 'edit',
-                        onPressedFirst: () {
-                          showCustomDialog(context, 'Look Name', 'Change the look name', () {
-                            setState(
-                              () {
-                                // editItemNameLook(
-                                //   widget.lookItem,
-                                //   LookItem(
-                                //     clothesItem: widget.lookItem.clothesItem,
-                                //     name: controller.text,
-                                //   ),
-                                // );
-                                widget.setState!();
-                                controller.text = '';
-                                Navigator.pop(context);
-                              },
-                            );
-                          }, () {
-                            controller.text = '';
-                            Navigator.pop(context);
-                          }, controller, (valeu) {});
-                        },
-                        textSecond: 'Delete',
-                        svgNameSecond: 'delete',
-                        smallIcon: true,
-                        onPressedSecond: () {
-                          // deleteItemNameLook(widget.lookItem);
-                          widget.setState!();
-                        },
-                      ),
+                      if (widget.needEdit != false)
+                        CustomPopUpMenu(
+                          textFirst: 'Edit',
+                          svgNameFirst: 'edit',
+                          onPressedFirst: () {
+                            showCustomDialog(context, 'Look Name', 'Change the look name', () {
+                              setState(
+                                () {
+                                  widget.setState!();
+                                  controller.text = '';
+                                  Navigator.pop(context);
+                                },
+                              );
+                            }, () {
+                              controller.text = '';
+                              Navigator.pop(context);
+                            }, controller, (valeu) {});
+                          },
+                          textSecond: 'Delete',
+                          svgNameSecond: 'delete',
+                          smallIcon: true,
+                          onPressedSecond: () {
+                            // deleteItemNameLook(widget.lookItem);
+                            widget.setState!();
+                          },
+                        ),
                     ],
                   ),
                 ),

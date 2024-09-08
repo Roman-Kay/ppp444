@@ -86,6 +86,7 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                   textSecond: 'Delete',
                   svgNameSecond: 'delete',
                   onPressedSecond: () {
+                    deleteItemFromClothe(widget.index);
                     // deleteItemFromClothe(clothesItem);
                     Navigator.pop(context);
                   },
