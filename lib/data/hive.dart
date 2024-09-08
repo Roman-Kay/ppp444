@@ -43,7 +43,7 @@ deleteItemFromLook(dynamic deleteValue) async {
   Map<dynamic, LookItem> helpLooksMap = {};
 
   for (var lookItem in responseLooks) {
-    dynamic key = boxLooks.keyAt(responseLooks.indexOf(lookItem));
+    String key = boxLooks.keyAt(responseLooks.indexOf(lookItem));
     List<ClothesItem> helpClothesList = [];
 
     for (var clothesItem in lookItem.clothesItem) {
@@ -52,13 +52,15 @@ deleteItemFromLook(dynamic deleteValue) async {
       }
     }
     if (helpClothesList.isNotEmpty) {
-      helpLooksMap['$key'] = LookItem(
+      helpLooksMap[key] = LookItem(
         name: lookItem.name,
         clothesItem: helpClothesList,
       );
     }
   }
-  // await boxLooks.clear();
+  // удаляем все чтоб заново создать
+  await boxLooks.clear();
+  print(helpLooksMap.entries);
   boxLooks.putAll(helpLooksMap);
   deleteItemNameFolder(deleteValue);
 }
@@ -76,7 +78,7 @@ deleteItemNameFolder(dynamic deleteValue) async {
     } else {
       // создаем новый спомогательный лист луков внутри фолдера
       List<LookItem> helpLooksList = [];
-      dynamic key = boxFolders.keyAt(responseFolders.indexOf(folderItem));
+      String key = boxFolders.keyAt(responseFolders.indexOf(folderItem));
       // в каждом фолдере проверяем каждый лук
       for (LookItem looksItem in folderItem.looksItems) {
         List<ClothesItem> helpClothesList = [];
@@ -96,12 +98,10 @@ deleteItemNameFolder(dynamic deleteValue) async {
           );
         }
       }
-      if (helpLooksList.isNotEmpty) {
-        helpFoldersMap['$key'] = FolderItem(
-          name: folderItem.name,
-          looksItems: helpLooksList,
-        );
-      }
+      helpFoldersMap['$key'] = FolderItem(
+        name: folderItem.name,
+        looksItems: helpLooksList,
+      );
     }
   }
   // удаляем все чтоб заново создать
@@ -128,10 +128,10 @@ editItemLook(dynamic value, dynamic changeValue) async {
 
   for (var lookItem in responseLooks) {
     List<ClothesItem> helpClothesList = [];
-    dynamic key = boxLooks.keyAt(responseLooks.indexOf(lookItem));
+    String key = boxLooks.keyAt(responseLooks.indexOf(lookItem));
     if (changeValue.runtimeType == LookItem) {
       if (lookItem == changeValue) {
-        helpLooksMap['$key'] = LookItem(
+        helpLooksMap[key] = LookItem(
           name: lookItem.name,
           clothesItem: helpClothesList,
         );
@@ -156,6 +156,7 @@ editItemLook(dynamic value, dynamic changeValue) async {
   }
   print(helpLooksMap.entries);
   boxLooks.putAll(helpLooksMap);
+  editItemFolder(value, changeValue);
 }
 
 editItemFolder(dynamic changeValue, dynamic value) async {
@@ -171,7 +172,7 @@ editItemFolder(dynamic changeValue, dynamic value) async {
     } else {
       // создаем новый спомогательный лист луков внутри фолдера
       List<LookItem> helpLooksList = [];
-      dynamic key = boxFolders.keyAt(responseFolders.indexOf(folderItem));
+      String key = boxFolders.keyAt(responseFolders.indexOf(folderItem));
       // в каждом фолдере проверяем каждый лук
       for (LookItem looksItem in folderItem.looksItems) {
         List<ClothesItem> helpClothesList = [];
