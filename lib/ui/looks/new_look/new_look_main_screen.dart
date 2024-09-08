@@ -123,7 +123,7 @@ class _NewLookMainScreenState extends State<NewLookMainScreen> {
                       text: 'Add Look',
                       onPressed: () {
                         boxLooks.put(
-                          'key_${controllerName.text}',
+                          generateKey(),
                           LookItem(name: controllerName.text, clothesItem: choossenClothesItems),
                         );
                         Navigator.pop(context);

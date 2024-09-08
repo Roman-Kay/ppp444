@@ -20,7 +20,6 @@ class WardrobeMainScreen extends StatefulWidget {
 
 class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
   TextEditingController searchController = TextEditingController();
-  // List listFilteredClothesItems = box.get('listOfClothesItems') ?? [];
   late List listOfAllClothesItems;
   late List listOfFilteredClothesItems;
 

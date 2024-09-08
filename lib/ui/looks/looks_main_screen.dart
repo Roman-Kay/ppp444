@@ -60,7 +60,7 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                           () {
                             if (controller.text.isNotEmpty) {
                               boxFolders.put(
-                                'key_${controller.text}',
+                                generateKey(),
                                 FolderItem(
                                   name: controller.text,
                                   looksItems: [],

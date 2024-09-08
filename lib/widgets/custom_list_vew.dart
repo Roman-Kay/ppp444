@@ -82,18 +82,26 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                           textFirst: 'Edit',
                           svgNameFirst: 'edit',
                           onPressedFirst: () {
-                            showCustomDialog(context, 'Look Name', 'Change the look name', () {
-                              setState(
-                                () {
-                                  widget.setState!();
-                                  controller.text = '';
-                                  Navigator.pop(context);
-                                },
-                              );
-                            }, () {
-                              controller.text = '';
-                              Navigator.pop(context);
-                            }, controller, (valeu) {});
+                            showCustomDialog(
+                              context,
+                              'Look Name',
+                              'Change the look name',
+                              () {
+                                setState(
+                                  () {
+                                    widget.setState!();
+                                    controller.text = '';
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              },
+                              () {
+                                controller.text = '';
+                                Navigator.pop(context);
+                              },
+                              controller,
+                              (valeu) {},
+                            );
                           },
                           textSecond: 'Delete',
                           svgNameSecond: 'delete',

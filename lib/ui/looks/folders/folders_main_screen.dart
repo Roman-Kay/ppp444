@@ -72,6 +72,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                             );
                             controller.text;
                           });
+                          controller.text = '';
                           Navigator.pop(context);
                         },
                         () {

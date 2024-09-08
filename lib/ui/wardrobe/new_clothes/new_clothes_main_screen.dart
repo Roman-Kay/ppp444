@@ -199,7 +199,7 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
                       text: 'Add clothes',
                       onPressed: () {
                         boxClothes.put(
-                          'key_${controllerName.text}',
+                          generateKey(),
                           ClothesItem(
                             imageBase64: base64Encode(image!.readAsBytesSync()),
                             name: controllerName.text,
