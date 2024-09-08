@@ -95,7 +95,6 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                                     clothesItem: widget.lookItem.clothesItem,
                                   ),
                                 );
-                                widget.setState!();
                                 controller.text = '';
                                 Navigator.pop(context);
                               },
@@ -104,14 +103,16 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                                 Navigator.pop(context);
                               },
                               controller,
-                              (valeu) {},
+                              (valeu) {
+                                widget.setState!();
+                              },
                             );
                           },
                           textSecond: 'Delete',
                           svgNameSecond: 'delete',
                           smallIcon: true,
                           onPressedSecond: () {
-                            // deleteItemNameLook(widget.lookItem);
+                            deleteItemFromLook(widget.lookItem);
                             widget.setState!();
                           },
                         ),

@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
@@ -12,8 +13,8 @@ import 'package:ppp444/widgets/custom_grid_view.dart';
 import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 
 class LookCardScreen extends StatefulWidget {
-  final LookItem lookItem;
-  const LookCardScreen({super.key, required this.lookItem});
+  final int index;
+  const LookCardScreen({super.key, required this.index});
 
   @override
   State<LookCardScreen> createState() => _LookCardScreenState();
@@ -25,7 +26,7 @@ class _LookCardScreenState extends State<LookCardScreen> {
 
   @override
   void initState() {
-    lookItem = widget.lookItem;
+    lookItem = boxLooks.getAt(widget.index)!;
     super.initState();
   }
 
@@ -52,45 +53,43 @@ class _LookCardScreenState extends State<LookCardScreen> {
                   svgNameFirst: 'edit',
                   onPressedFirst: () {
                     showCustomDialog(
-                        context,
-                        'Look Name',
-                        'Change the look name',
-                        () {
-                          setState(
-                            () {
-                              // editItemNameLook(
-                              //   widget.lookItem,
-                              //   LookItem(
-                              //     clothesItem: widget.lookItem.clothesItem,
-                              //     name: controller.text,
-                              //   ),
-                              // );
-                              controller.text = '';
-                              Navigator.pop(context);
-                              // getClothes();
-                            },
-                          );
-                        },
-                        () {
-                          controller.text = '';
-                          Navigator.pop(context);
-                        },
-                        controller,
-                        (valeu) {
-                          setState(() {});
-                        });
+                      context,
+                      'Look Name',
+                      'Change the look name',
+                      () {
+                        editItemLook(
+                          lookItem,
+                          LookItem(
+                            name: controller.text,
+                            clothesItem: lookItem.clothesItem,
+                          ),
+                        );
+                        lookItem = boxLooks.getAt(widget.index)!;
+                        controller.text = '';
+                        Navigator.pop(context);
+                      },
+                      () {
+                        controller.text = '';
+                        Navigator.pop(context);
+                      },
+                      controller,
+                      (valeu) {
+                        setState(() {});
+                      },
+                    );
                   },
                   textSecond: 'Delete',
                   svgNameSecond: 'delete',
+                  smallIcon: true,
                   onPressedSecond: () {
-                    // deleteItemNameLook(lookItem);
+                    deleteItemFromLook(boxLooks.getAt(widget.index));
                     Navigator.pop(context);
                   },
                 ),
               ),
               SizedBox(height: 10.h),
               CustomGreedView(
-                listOfItems: widget.lookItem.clothesItem,
+                listOfItems: lookItem.clothesItem,
                 itemBuilder: (context, index) {
                   ClothesItem clothesItem = lookItem.clothesItem[index];
                   return ClipRRect(

@@ -139,6 +139,10 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                           final LookItem lookItem = folderItem.looksItems[index];
                           return CustomListViewElement(
                             lookItem: lookItem,
+                            setState: () => setState(() {
+                              folderItem = boxFolders.values.toList()[widget.index];
+                              print(boxFolders.values.toList()[widget.index].looksItems);
+                            }),
                           );
                         },
                       ),

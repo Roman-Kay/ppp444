@@ -6,18 +6,6 @@ late Box<ClothesItem> boxClothes;
 late Box<LookItem> boxLooks;
 late Box<FolderItem> boxFolders;
 
-// getkey(value) {
-//   if (value.runtimeType == ClothesItem) {
-//     return 'listOfClothesItems';
-//   }
-//   if (value.runtimeType == LookItem) {
-//     return 'listOfLooksItems';
-//   }
-//   if (value.runtimeType == FolderItem) {
-//     return 'listOfFoldersItems';
-//   }
-// }
-
 String generateKey() {
   int next(int min, int max) => min + Random().nextInt(max - min);
   String key = next(1000000, 9999999).toString();
@@ -42,20 +30,25 @@ deleteItemFromLook(dynamic deleteValue) async {
   final List<LookItem> responseLooks = boxLooks.values.toList();
   Map<dynamic, LookItem> helpLooksMap = {};
 
-  for (var lookItem in responseLooks) {
-    String key = boxLooks.keyAt(responseLooks.indexOf(lookItem));
-    List<ClothesItem> helpClothesList = [];
+  if (deleteValue.runtimeType == LookItem) {
+    String key = boxLooks.keyAt(responseLooks.indexOf(deleteValue));
+    await boxLooks.delete(key);
+  } else {
+    for (var lookItem in responseLooks) {
+      String key = boxLooks.keyAt(responseLooks.indexOf(lookItem));
+      List<ClothesItem> helpClothesList = [];
 
-    for (var clothesItem in lookItem.clothesItem) {
-      if (clothesItem != deleteValue) {
-        helpClothesList.add(clothesItem);
+      for (var clothesItem in lookItem.clothesItem) {
+        if (clothesItem != deleteValue) {
+          helpClothesList.add(clothesItem);
+        }
       }
-    }
-    if (helpClothesList.isNotEmpty) {
-      helpLooksMap[key] = LookItem(
-        name: lookItem.name,
-        clothesItem: helpClothesList,
-      );
+      if (helpClothesList.isNotEmpty) {
+        helpLooksMap[key] = LookItem(
+          name: lookItem.name,
+          clothesItem: helpClothesList,
+        );
+      }
     }
   }
   // удаляем все чтоб заново создать
@@ -70,20 +63,20 @@ deleteItemNameFolder(dynamic deleteValue) async {
   Map<dynamic, FolderItem> helpFoldersMap = {};
   // проверяем каждый фолдер
   for (FolderItem folderItem in responseFolders) {
-    if (deleteValue.runtimeType == FolderItem) {
-      // helpListFolders = responseFolders;
-      // debugPrint(responseFolders.toString());
-      // int index = helpListFolders.indexOf(changeValue);
-      // helpListFolders[index] = value;
-    } else {
-      // создаем новый спомогательный лист луков внутри фолдера
-      List<LookItem> helpLooksList = [];
-      String key = boxFolders.keyAt(responseFolders.indexOf(folderItem));
-      // в каждом фолдере проверяем каждый лук
-      for (LookItem looksItem in folderItem.looksItems) {
+    // создаем новый спомогательный лист луков внутри фолдера
+    List<LookItem> helpLooksList = [];
+    String key = boxFolders.keyAt(responseFolders.indexOf(folderItem));
+    // в каждом фолдере проверяем каждый лук
+    for (LookItem lookItem in folderItem.looksItems) {
+      if (deleteValue.runtimeType == LookItem) {
+        if (lookItem != deleteValue) {
+          // если не равно удаленому луку то добавляем к спомогатльному листу
+          helpLooksList.add(lookItem);
+        }
+      } else {
         List<ClothesItem> helpClothesList = [];
         // если найдена вещь которую надо удалить то не добавляем ее к helpLooksList
-        for (ClothesItem clothesItem in looksItem.clothesItem) {
+        for (ClothesItem clothesItem in lookItem.clothesItem) {
           if (clothesItem != deleteValue) {
             helpClothesList.add(clothesItem);
           }
@@ -92,13 +85,13 @@ deleteItemNameFolder(dynamic deleteValue) async {
         if (helpClothesList.isNotEmpty) {
           helpLooksList.add(
             LookItem(
-              name: looksItem.name,
+              name: lookItem.name,
               clothesItem: helpClothesList,
             ),
           );
         }
       }
-      helpFoldersMap['$key'] = FolderItem(
+      helpFoldersMap[key] = FolderItem(
         name: folderItem.name,
         looksItems: helpLooksList,
       );

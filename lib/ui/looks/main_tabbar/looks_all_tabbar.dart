@@ -70,7 +70,7 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LookCardScreen(lookItem: lookItem),
+                          builder: (context) => LookCardScreen(index: index),
                         ),
                       );
                       setState(() {});
