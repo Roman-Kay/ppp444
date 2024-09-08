@@ -112,74 +112,80 @@ deleteItemNameFolder(dynamic deleteValue) async {
 }
 
 editItemClothe(final int index, final ClothesItem clothesItem) async {
-  ClothesItem? changeValue = boxClothes.getAt(index);
+  ClothesItem? changedValue = boxClothes.getAt(index);
   await boxClothes.putAt(
     index,
     clothesItem,
   );
   boxLooks.values.toList();
-  editItemLook(clothesItem, changeValue);
+  editItemLook(changedValue, clothesItem);
 }
 
-editItemLook(dynamic value, dynamic changeValue) async {
+editItemLook(dynamic changedValue, dynamic newValue) async {
   //  ИЗМЕНЕНИЕ ЛУКОВ (коментрирования схоже с Фолдорами)
   final List<LookItem> responseLooks = boxLooks.values.toList();
-  Map<dynamic, LookItem> helpLooksMap = {};
 
-  for (var lookItem in responseLooks) {
-    List<ClothesItem> helpClothesList = [];
-    String key = boxLooks.keyAt(responseLooks.indexOf(lookItem));
-    if (changeValue.runtimeType == LookItem) {
-      if (lookItem == changeValue) {
+  if (changedValue.runtimeType == LookItem) {
+    String key = boxLooks.keyAt(responseLooks.indexOf(changedValue));
+    await boxLooks.put(
+      key,
+      newValue,
+    );
+  } else {
+    Map<dynamic, LookItem> helpLooksMap = {};
+    for (var lookItem in responseLooks) {
+      List<ClothesItem> helpClothesList = [];
+      String key = boxLooks.keyAt(responseLooks.indexOf(lookItem));
+      if (changedValue.runtimeType == LookItem) {
+        if (lookItem == changedValue) {
+          await boxLooks.put(
+            key,
+            newValue,
+          );
+        }
+      } else {
+        for (var clothesItem in lookItem.clothesItem) {
+          if (clothesItem == changedValue) {
+            helpClothesList.add(newValue);
+          } else {
+            helpClothesList.add(clothesItem);
+          }
+        }
         helpLooksMap[key] = LookItem(
           name: lookItem.name,
           clothesItem: helpClothesList,
         );
       }
-      // helpListFolders = responseFolders;
-      // debugPrint(responseFolders.toString());
-      // int index = helpListFolders.indexOf(changeValue);
-      // helpListFolders[index] = value;
-    } else {
-      for (var clothesItem in lookItem.clothesItem) {
-        if (clothesItem == changeValue) {
-          helpClothesList.add(value);
-        } else {
-          helpClothesList.add(clothesItem);
-        }
-      }
-      helpLooksMap['$key'] = LookItem(
-        name: lookItem.name,
-        clothesItem: helpClothesList,
-      );
     }
+    print(helpLooksMap.entries);
+    boxLooks.putAll(helpLooksMap);
   }
-  print(helpLooksMap.entries);
-  boxLooks.putAll(helpLooksMap);
-  editItemFolder(value, changeValue);
+  editItemFolder(changedValue, newValue);
 }
 
-editItemFolder(dynamic changeValue, dynamic value) async {
+editItemFolder(dynamic changedValue, dynamic newValue) async {
   final List<FolderItem> responseFolders = boxFolders.values.toList();
   Map<dynamic, FolderItem> helpFoldersMap = {};
   // проверяем каждый фолдер
   for (FolderItem folderItem in responseFolders) {
-    if (value.runtimeType == FolderItem) {
-      // helpListFolders = responseFolders;
-      // debugPrint(responseFolders.toString());
-      // int index = helpListFolders.indexOf(changeValue);
-      // helpListFolders[index] = value;
-    } else {
-      // создаем новый спомогательный лист луков внутри фолдера
-      List<LookItem> helpLooksList = [];
-      String key = boxFolders.keyAt(responseFolders.indexOf(folderItem));
-      // в каждом фолдере проверяем каждый лук
-      for (LookItem looksItem in folderItem.looksItems) {
+    // создаем новый спомогательный лист луков внутри фолдера
+    List<LookItem> helpLooksList = [];
+    String key = boxFolders.keyAt(responseFolders.indexOf(folderItem));
+    // в каждом фолдере проверяем каждый лук
+    for (LookItem lookItem in folderItem.looksItems) {
+      // если нужно заменить лук то делаем это (коментирование схожу с вещами)
+      if (changedValue.runtimeType == LookItem) {
+        if (lookItem == changedValue) {
+          helpLooksList.add(newValue);
+        } else {
+          helpLooksList.add(lookItem);
+        }
+      } else {
         List<ClothesItem> helpClothesList = [];
-        // если найдена вещь которую надо удалить то заменяем
-        for (ClothesItem clothesItem in looksItem.clothesItem) {
-          if (clothesItem == changeValue) {
-            helpClothesList.add(value);
+        // если найдена вещь которую надо заменить то заменяем
+        for (ClothesItem clothesItem in lookItem.clothesItem) {
+          if (clothesItem == changedValue) {
+            helpClothesList.add(newValue);
           } else {
             helpClothesList.add(clothesItem);
           }
@@ -187,16 +193,16 @@ editItemFolder(dynamic changeValue, dynamic value) async {
         // добавлями к листу новые сформированные луки
         helpLooksList.add(
           LookItem(
-            name: looksItem.name,
+            name: lookItem.name,
             clothesItem: helpClothesList,
           ),
         );
       }
-      helpFoldersMap['$key}'] = FolderItem(
-        name: folderItem.name,
-        looksItems: helpLooksList,
-      );
     }
+    helpFoldersMap[key] = FolderItem(
+      name: folderItem.name,
+      looksItems: helpLooksList,
+    );
   }
   // в delete очищаем box а здесь нет так как все через мапу
   // здесь все заменится по keys а в delete останется

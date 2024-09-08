@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
@@ -87,13 +88,16 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                               'Look Name',
                               'Change the look name',
                               () {
-                                setState(
-                                  () {
-                                    widget.setState!();
-                                    controller.text = '';
-                                    Navigator.pop(context);
-                                  },
+                                editItemLook(
+                                  widget.lookItem,
+                                  LookItem(
+                                    name: controller.text,
+                                    clothesItem: widget.lookItem.clothesItem,
+                                  ),
                                 );
+                                widget.setState!();
+                                controller.text = '';
+                                Navigator.pop(context);
                               },
                               () {
                                 controller.text = '';
