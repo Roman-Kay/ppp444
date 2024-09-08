@@ -70,7 +70,6 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                           );
                           setState(() {
                             name = controller.text;
-                            controller.text = '';
                           });
                           Navigator.pop(context);
                         },
@@ -85,23 +84,16 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                     textSecond: 'Add New Look',
                     svgNameSecond: 'add',
                     onPressedSecond: () async {
-                      final response = await Navigator.push(
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const FoldersNewLookScreen(),
+                          builder: (context) => FoldersNewLookScreen(
+                            index: widget.index,
+                            folderItem: widget.folderItem,
+                          ),
                         ),
                       );
-                      if (response != null) {
-                        listOfLooksItems.addAll(response);
-                        boxFolders.putAt(
-                          widget.index,
-                          FolderItem(
-                            name: name,
-                            looksItems: listOfLooksItems,
-                          ),
-                        );
-                        setState(() {});
-                      }
+                      setState(() {});
                     },
                   ),
                 ),
@@ -122,23 +114,16 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                           SizedBox(height: 50.h),
                           Button(
                             onPressed: () async {
-                              final response = await Navigator.push(
+                              await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const FoldersNewLookScreen(),
+                                  builder: (context) => FoldersNewLookScreen(
+                                    index: widget.index,
+                                    folderItem: widget.folderItem,
+                                  ),
                                 ),
                               );
-                              if (response != null) {
-                                listOfLooksItems.addAll(response);
-                                boxFolders.putAt(
-                                  widget.index,
-                                  FolderItem(
-                                    name: name,
-                                    looksItems: listOfLooksItems,
-                                  ),
-                                );
-                                setState(() {});
-                              }
+                              setState(() {});
                             },
                             text: 'Add Looks',
                           )

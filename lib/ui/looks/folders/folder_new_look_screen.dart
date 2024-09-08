@@ -10,7 +10,9 @@ import 'package:ppp444/widgets/search.dart';
 import 'package:ppp444/widgets/widget_button.dart';
 
 class FoldersNewLookScreen extends StatefulWidget {
-  const FoldersNewLookScreen({super.key});
+  final int index;
+  final FolderItem folderItem;
+  const FoldersNewLookScreen({super.key, required this.index, required this.folderItem});
 
   @override
   State<FoldersNewLookScreen> createState() => _FoldersMainScreenState();
@@ -21,25 +23,23 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
 
   List<LookItem> choossenLookItem = [];
 
-  late List listOfLooksItems;
-  late List listOfFilteredLooksItems;
+  late List? listOfFilteredLooksItems;
   final TextEditingController searchController = TextEditingController();
 
   void searchItems() {
     final text = searchController.text;
     if (text.isNotEmpty) {
-      listOfFilteredLooksItems = listOfLooksItems.where((dynamic item) {
+      listOfFilteredLooksItems = boxLooks.values.toList().where((dynamic item) {
         return item.name.toLowerCase().contains(text.toLowerCase());
       }).toList();
     } else {
-      listOfFilteredLooksItems = listOfLooksItems;
+      listOfFilteredLooksItems = null;
     }
     setState(() {});
   }
 
   @override
   void initState() {
-    listOfLooksItems = boxLooks.values.toList();
     searchItems();
     searchController.addListener(searchItems);
     super.initState();
@@ -65,7 +65,7 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                   children: [
                     SizedBox(height: 25.h),
                     const CustomAppBar(text: 'Back', needArrow: true),
-                    listOfLooksItems.isEmpty
+                    boxLooks.isEmpty
                         ? EmptyWidget(
                             topPading: 60.h,
                             imageName: 'looks_empty',
@@ -78,9 +78,13 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                                 Search(searchController: searchController),
                                 SizedBox(height: 5.h),
                                 CustomListView(
-                                  itemCount: listOfFilteredLooksItems.length,
+                                  itemCount: listOfFilteredLooksItems == null
+                                      ? boxLooks.length
+                                      : listOfFilteredLooksItems!.length,
                                   itemBuilder: (context, index) {
-                                    final LookItem lookItem = listOfFilteredLooksItems[index];
+                                    final LookItem lookItem = listOfFilteredLooksItems == null
+                                        ? boxLooks.getAt(index)!
+                                        : listOfFilteredLooksItems![index];
                                     return CustomListViewElement(
                                       lookItem: lookItem,
                                       isChoosen: choossenLookItem.any(
@@ -118,6 +122,13 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                           text: 'Confirm',
                           boxShadow: true,
                           onPressed: () {
+                            boxFolders.putAt(
+                              widget.index,
+                              FolderItem(
+                                name: widget.folderItem.name,
+                                looksItems: choossenLookItem,
+                              ),
+                            );
                             Navigator.pop(
                               context,
                               choossenLookItem,
