@@ -9,20 +9,18 @@ import 'package:ppp444/widgets/empty_widget.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
 class LooksFoldersTabbar extends StatefulWidget {
-  final List listOfFoldersItems;
-
-  const LooksFoldersTabbar({super.key, required this.listOfFoldersItems});
+  const LooksFoldersTabbar({
+    super.key,
+  });
 
   @override
   State<LooksFoldersTabbar> createState() => _LooksFoldersTabbarState();
 }
 
-List listOfFoldersItems = boxFolders.values.toList();
-
 class _LooksFoldersTabbarState extends State<LooksFoldersTabbar> {
   @override
   Widget build(BuildContext context) {
-    return listOfFoldersItems.isEmpty
+    return boxFolders.isEmpty
         ? EmptyWidget(
             imageName: 'folders_empty',
             text: 'You don\'t have folders',
@@ -53,9 +51,7 @@ class _LooksFoldersTabbarState extends State<LooksFoldersTabbar> {
                           ),
                         ),
                       );
-                      setState(() {
-                        listOfFoldersItems = boxFolders.values.toList();
-                      });
+                      setState(() {});
                     },
                     borderRadius: BorderRadius.circular(20.r),
                     child: Padding(

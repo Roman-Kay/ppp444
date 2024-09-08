@@ -24,13 +24,9 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
   int chossenCategory = 0;
 
   final TextEditingController controller = TextEditingController();
-  List listOfLooksItems = boxLooks.values.toList();
-  List listOfFoldersItems = boxFolders.values.toList();
 
   @override
   Widget build(BuildContext context) {
-    List listOfLooksItems = boxLooks.values.toList();
-    List listOfFoldersItems = boxFolders.values.toList();
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -80,9 +76,7 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                           },
                           controller,
                           (valeu) {
-                            setState(() {
-                              listOfFoldersItems = boxFolders.values.toList();
-                            });
+                            setState(() {});
                           },
                         );
                       },
@@ -159,9 +153,12 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                 ),
               ),
               Expanded(
+                // констаты надо убрать чтобы tabbar-ы обновились
                 child: [
-                  LooksAllTabbar(listOfLooksItems: listOfLooksItems),
-                  LooksFoldersTabbar(listOfFoldersItems: listOfFoldersItems),
+                  // ignore: prefer_const_constructors
+                  LooksAllTabbar(),
+                  // ignore: prefer_const_constructors
+                  LooksFoldersTabbar(),
                 ][chossenCategory],
               ),
             ],

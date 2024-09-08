@@ -11,9 +11,7 @@ import 'package:ppp444/widgets/empty_widget.dart';
 import 'package:ppp444/widgets/search.dart';
 
 class LooksAllTabbar extends StatefulWidget {
-  final List listOfLooksItems;
-
-  const LooksAllTabbar({super.key, required this.listOfLooksItems});
+  const LooksAllTabbar({super.key});
 
   @override
   State<LooksAllTabbar> createState() => _LooksAllTabbarState();
@@ -23,31 +21,29 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
   final TextEditingController searchController = TextEditingController();
   final TextEditingController controllerEdit = TextEditingController();
 
-  List listOfLooksItems = boxLooks.values.toList();
-  List listOfFilteredLooksItems = [];
+  List? listOfFilteredLooksItems;
 
   void searchItems() {
     final text = searchController.text;
     if (text.isNotEmpty) {
-      listOfFilteredLooksItems = listOfLooksItems.where((dynamic item) {
+      listOfFilteredLooksItems = boxLooks.values.toList().where((dynamic item) {
         return item.name.toLowerCase().contains(text.toLowerCase());
       }).toList();
     } else {
-      listOfFilteredLooksItems = listOfLooksItems;
+      listOfFilteredLooksItems = null;
     }
     setState(() {});
   }
 
   @override
   void initState() {
-    searchItems();
     searchController.addListener(searchItems);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return boxLooks.values.toList().isEmpty
+    return boxLooks.isEmpty
         ? EmptyWidget(
             topPading: 60.h,
             imageName: 'looks_empty',
@@ -59,9 +55,13 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
               Search(searchController: searchController),
               SizedBox(height: 15.h),
               CustomListView(
-                itemCount: listOfFilteredLooksItems.length,
+                itemCount: listOfFilteredLooksItems == null
+                    ? boxLooks.length
+                    : listOfFilteredLooksItems!.length,
                 itemBuilder: (context, index) {
-                  final LookItem lookItem = listOfFilteredLooksItems[index];
+                  final LookItem lookItem = listOfFilteredLooksItems == null
+                      ? boxLooks.getAt(index)!
+                      : listOfFilteredLooksItems![index];
                   return CustomListViewElement(
                     lookItem: lookItem,
                     // передаем setState чтобы обновить экран

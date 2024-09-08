@@ -55,7 +55,7 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                       'Сloth Name',
                       'Change the cloth name',
                       () {
-                        editItemNameClothe(
+                        editItemClothe(
                           widget.index,
                           ClothesItem(
                             imageBase64: clothesItem.imageBase64,

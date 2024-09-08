@@ -85,17 +85,17 @@ late Box<FolderItem> boxFolders;
 //   }
 // }
 
-editItemNameClothe(final int index, final ClothesItem clothesItem) async {
+editItemClothe(final int index, final ClothesItem clothesItem) async {
   ClothesItem? changeValue = boxClothes.getAt(index);
   await boxClothes.putAt(
     index,
     clothesItem,
   );
   boxLooks.values.toList();
-  editItemNameLook(clothesItem, changeValue);
+  editItemLook(clothesItem, changeValue);
 }
 
-editItemNameLook(dynamic value, dynamic changeValue) async {
+editItemLook(dynamic value, dynamic changeValue) async {
 //   // ИЗМЕНЕНИЕ ЛУКОВ (коментрирования схоже с Фолдорами)
   final List<LookItem> responseLooks = boxLooks.values.toList();
   await boxLooks.clear();
