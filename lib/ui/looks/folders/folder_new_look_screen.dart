@@ -123,11 +123,13 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                           text: 'Confirm',
                           boxShadow: true,
                           onPressed: () {
+                            List<LookItem> helpLooks = widget.folderItem.looksItems;
+                            helpLooks.addAll(choossenLookItem);
                             boxFolders.putAt(
                               widget.index,
                               FolderItem(
                                 name: widget.folderItem.name,
-                                looksItems: choossenLookItem,
+                                looksItems: helpLooks,
                               ),
                             );
                             Navigator.pop(

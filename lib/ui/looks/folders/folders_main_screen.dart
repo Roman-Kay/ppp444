@@ -13,9 +13,8 @@ import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/widget_button.dart';
 
 class FoldersMainScreen extends StatefulWidget {
-  final FolderItem folderItem;
   final int index;
-  const FoldersMainScreen({super.key, required this.folderItem, required this.index});
+  const FoldersMainScreen({super.key, required this.index});
 
   @override
   State<FoldersMainScreen> createState() => _FoldersMainScreenState();
@@ -23,12 +22,10 @@ class FoldersMainScreen extends StatefulWidget {
 
 class _FoldersMainScreenState extends State<FoldersMainScreen> {
   TextEditingController controller = TextEditingController();
-  late List<LookItem> listOfLooksItems;
-  late String name;
+  late FolderItem folderItem;
   @override
   void initState() {
-    listOfLooksItems = widget.folderItem.looksItems;
-    name = widget.folderItem.name;
+    folderItem = boxFolders.values.toList()[widget.index];
     super.initState();
   }
 
@@ -65,11 +62,15 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                             widget.index,
                             FolderItem(
                               name: controller.text,
-                              looksItems: listOfLooksItems,
+                              looksItems: folderItem.looksItems,
                             ),
                           );
                           setState(() {
-                            name = controller.text;
+                            folderItem = FolderItem(
+                              name: controller.text,
+                              looksItems: folderItem.looksItems,
+                            );
+                            controller.text;
                           });
                           Navigator.pop(context);
                         },
@@ -89,21 +90,23 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                         MaterialPageRoute(
                           builder: (context) => FoldersNewLookScreen(
                             index: widget.index,
-                            folderItem: widget.folderItem,
+                            folderItem: folderItem,
                           ),
                         ),
                       );
-                      setState(() {});
+                      setState(() {
+                        folderItem = boxFolders.values.toList()[widget.index];
+                      });
                     },
                   ),
                 ),
                 SizedBox(height: 30.h),
                 Text(
-                  name,
+                  folderItem.name,
                   style: AppTextStyles.displayLarge32,
                 ),
                 SizedBox(height: 5.h),
-                listOfLooksItems.isEmpty
+                folderItem.looksItems.isEmpty
                     ? Column(
                         children: [
                           EmptyWidget(
@@ -119,7 +122,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                 MaterialPageRoute(
                                   builder: (context) => FoldersNewLookScreen(
                                     index: widget.index,
-                                    folderItem: widget.folderItem,
+                                    folderItem: folderItem,
                                   ),
                                 ),
                               );
@@ -130,9 +133,9 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                         ],
                       )
                     : CustomListView(
-                        itemCount: listOfLooksItems.length,
+                        itemCount: folderItem.looksItems.length,
                         itemBuilder: (context, index) {
-                          final LookItem lookItem = widget.folderItem.looksItems[index];
+                          final LookItem lookItem = folderItem.looksItems[index];
                           return CustomListViewElement(
                             lookItem: lookItem,
                           );

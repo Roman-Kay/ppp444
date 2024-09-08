@@ -47,7 +47,6 @@ class _LooksFoldersTabbarState extends State<LooksFoldersTabbar> {
                         MaterialPageRoute(
                           builder: (context) => FoldersMainScreen(
                             index: index,
-                            folderItem: folderItem,
                           ),
                         ),
                       );
