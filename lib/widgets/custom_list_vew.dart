@@ -11,16 +11,16 @@ import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
 class CustomListView extends StatelessWidget {
-  final List listOfItems;
+  final int itemCount;
   final Widget Function(BuildContext, int) itemBuilder;
 
-  const CustomListView({super.key, required this.listOfItems, required this.itemBuilder});
+  const CustomListView({super.key, required this.itemCount, required this.itemBuilder});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-        itemCount: listOfItems.length,
+        itemCount: itemCount,
         padding: EdgeInsets.only(bottom: 50.h),
         itemBuilder: itemBuilder,
       ),

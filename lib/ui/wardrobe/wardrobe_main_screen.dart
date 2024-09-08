@@ -108,12 +108,16 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) => WardrobeClothesCardScreen(
+                                                index: index,
                                                 clothesItem: clothesItem,
                                               ),
                                             ),
                                           );
-                                          // чтобы обновился лист фото
-                                          setState(() {});
+                                          // // чтобы обновился лист фото
+                                          setState(() {
+                                            listOfAllClothesItems = boxClothes.values.toList();
+                                            searchItems();
+                                          });
                                         },
                                       )
                                     : const SizedBox();

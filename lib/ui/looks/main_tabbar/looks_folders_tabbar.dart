@@ -47,10 +47,15 @@ class _LooksFoldersTabbarState extends State<LooksFoldersTabbar> {
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FoldersMainScreen(folderItem: folderItem),
+                          builder: (context) => FoldersMainScreen(
+                            index: index,
+                            folderItem: folderItem,
+                          ),
                         ),
                       );
-                      setState(() {});
+                      setState(() {
+                        listOfFoldersItems = boxFolders.values.toList();
+                      });
                     },
                     borderRadius: BorderRadius.circular(20.r),
                     child: Padding(

@@ -29,6 +29,8 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List listOfLooksItems = boxLooks.values.toList();
+    List listOfFoldersItems = boxFolders.values.toList();
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -46,15 +48,13 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                 textAddButton: chossenCategory == 0 ? 'Add Look' : 'Add Folder',
                 onPressedAddButton: chossenCategory == 0
                     ? () async {
-                        final response = await Navigator.push(
+                        await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const NewLookMainScreen(),
                           ),
                         );
-                        setState(() {
-                          listOfLooksItems.add(response);
-                        });
+                        setState(() {});
                       }
                     : () {
                         showCustomDialog(
@@ -62,17 +62,16 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                           'New Folder',
                           'Give a name to the new folder',
                           () {
-                            setState(() {
-                              controller.text.isNotEmpty;
-                            });
                             if (controller.text.isNotEmpty) {
-                              // addToList(
-                              //   FolderItem(
-                              //     name: controller.text,
-                              //     looksItems: [],
-                              //   ),
-                              // );
+                              boxFolders.put(
+                                'key_${controller.text}',
+                                FolderItem(
+                                  name: controller.text,
+                                  looksItems: [],
+                                ),
+                              );
                             }
+                            controller.text = '';
                             Navigator.pop(context);
                           },
                           () {
@@ -81,7 +80,9 @@ class _LooksMainScreenState extends State<LooksMainScreen> {
                           },
                           controller,
                           (valeu) {
-                            setState(() {});
+                            setState(() {
+                              listOfFoldersItems = boxFolders.values.toList();
+                            });
                           },
                         );
                       },

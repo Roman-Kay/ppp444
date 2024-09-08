@@ -23,7 +23,7 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
   final TextEditingController searchController = TextEditingController();
   final TextEditingController controllerEdit = TextEditingController();
 
-  late List listOfLooksItems;
+  List listOfLooksItems = boxLooks.values.toList();
   List listOfFilteredLooksItems = [];
 
   void searchItems() {
@@ -40,7 +40,6 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
 
   @override
   void initState() {
-    listOfLooksItems = widget.listOfLooksItems;
     searchItems();
     searchController.addListener(searchItems);
     super.initState();
@@ -60,9 +59,9 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
               Search(searchController: searchController),
               SizedBox(height: 15.h),
               CustomListView(
-                listOfItems: listOfLooksItems,
+                itemCount: listOfFilteredLooksItems.length,
                 itemBuilder: (context, index) {
-                  final LookItem lookItem = listOfLooksItems[index];
+                  final LookItem lookItem = listOfFilteredLooksItems[index];
                   return CustomListViewElement(
                     lookItem: lookItem,
                     // передаем setState чтобы обновить экран

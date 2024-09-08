@@ -85,50 +85,44 @@ late Box<FolderItem> boxFolders;
 //   }
 // }
 
-// editItemNameClothe(ClothesItem changeValue, ClothesItem value) {
-//   final List responseClothes = (box.get('listOfClothesItems') ?? []);
-//   print(responseClothes);
-//   if (responseClothes.isNotEmpty) {
-//     List helpList = responseClothes;
-//     int index = helpList.indexOf(changeValue);
-//     helpList[index] = value;
-//     box.put('listOfClothesItems', helpList);
-//     box.get('listOfClothesItems');
-//     editItemNameLook(changeValue, value);
-//   }
-// }
+editItemNameClothe(final int index, final ClothesItem clothesItem) async {
+  ClothesItem? changeValue = boxClothes.getAt(index);
+  await boxClothes.putAt(
+    index,
+    clothesItem,
+  );
+  boxLooks.values.toList();
+  editItemNameLook(clothesItem, changeValue);
+}
 
-// editItemNameLook(dynamic changeValue, dynamic value) {
+editItemNameLook(dynamic value, dynamic changeValue) async {
 //   // ИЗМЕНЕНИЕ ЛУКОВ (коментрирования схоже с Фолдорами)
-//   final responseLooks = box.get('listOfLooksItems');
-//   // print(responseLooks);
+  final List<LookItem> responseLooks = boxLooks.values.toList();
+  await boxLooks.clear();
+  Map<dynamic, LookItem> helpLooksMap = {};
 
-//   if (responseLooks != null) {
-//     List helpLooksList = [];
-//     for (var lookItem in responseLooks) {
-//       List<ClothesItem> helpClothesList = [];
-//       if (value.runtimeType == LookItem) {
-//         helpLooksList = responseLooks;
-//         int index = helpLooksList.indexOf(changeValue);
-//         helpLooksList[index] = value;
-//       } else {
-//         for (var clothesItem in lookItem.clothesItem) {
-//           if (clothesItem == changeValue) {
-//             helpClothesList.add(value);
-//           } else {
-//             helpClothesList.add(clothesItem);
-//           }
-//         }
-//         helpLooksList.add(
-//           LookItem(name: lookItem.name, clothesItem: helpClothesList),
-//         );
-//       }
-//     }
-//     box.delete('listOfLooksItems');
-//     box.put('listOfLooksItems', helpLooksList);
-//     editItemNameFolder(changeValue, value);
-//   }
-// }
+  for (var lookItem in responseLooks) {
+    List<ClothesItem> helpClothesList = [];
+
+    for (var clothesItem in lookItem.clothesItem) {
+      if (clothesItem == changeValue) {
+        print(2);
+        helpClothesList.add(value);
+        // helpClothesMap['name_${value.name}'] = value;
+      } else {
+        print(3);
+        // helpClothesMap['name_${clothesItem.name}'] = clothesItem;
+        helpClothesList.add(clothesItem);
+      }
+    }
+    helpLooksMap['key_${lookItem.name}'] = LookItem(
+      name: lookItem.name,
+      clothesItem: helpClothesList,
+    );
+  }
+  print(helpLooksMap.entries);
+  boxLooks.putAll(helpLooksMap);
+}
 
 // editItemNameFolder(dynamic changeValue, dynamic value) {
 //   final responseFolders = box.get('listOfFoldersItems');

@@ -78,7 +78,7 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                                 Search(searchController: searchController),
                                 SizedBox(height: 5.h),
                                 CustomListView(
-                                  listOfItems: listOfFilteredLooksItems,
+                                  itemCount: listOfFilteredLooksItems.length,
                                   itemBuilder: (context, index) {
                                     final LookItem lookItem = listOfFilteredLooksItems[index];
                                     return CustomListViewElement(

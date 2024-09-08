@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
@@ -10,7 +11,8 @@ import 'package:ppp444/widgets/custom_pop_up_menu.dart';
 
 class WardrobeClothesCardScreen extends StatefulWidget {
   final ClothesItem clothesItem;
-  const WardrobeClothesCardScreen({super.key, required this.clothesItem});
+  final int index;
+  const WardrobeClothesCardScreen({super.key, required this.clothesItem, required this.index});
 
   @override
   State<WardrobeClothesCardScreen> createState() => _WardrobeClothesCardScreenState();
@@ -53,25 +55,25 @@ class _WardrobeClothesCardScreenState extends State<WardrobeClothesCardScreen> {
                       'Сloth Name',
                       'Change the cloth name',
                       () {
-                        // setState(
-                        //   () {
-                        //     editItemNameClothe(
-                        //       clothesItem,
-                        //       ClothesItem(
-                        //         imageBase64: clothesItem.imageBase64,
-                        //         category: clothesItem.category,
-                        //         name: controller.text,
-                        //       ),
-                        //     );
-                        //     clothesItem = ClothesItem(
-                        //       imageBase64: clothesItem.imageBase64,
-                        //       category: clothesItem.category,
-                        //       name: controller.text,
-                        //     );
-                        //     controller.text = '';
-                        //     Navigator.pop(context);
-                        //   },
-                        // );
+                        editItemNameClothe(
+                          widget.index,
+                          ClothesItem(
+                            imageBase64: clothesItem.imageBase64,
+                            category: clothesItem.category,
+                            name: controller.text,
+                          ),
+                        );
+                        setState(
+                          () {
+                            clothesItem = ClothesItem(
+                              imageBase64: clothesItem.imageBase64,
+                              category: clothesItem.category,
+                              name: controller.text,
+                            );
+                            controller.text = '';
+                            Navigator.pop(context);
+                          },
+                        );
                       },
                       () {
                         controller.text = '';

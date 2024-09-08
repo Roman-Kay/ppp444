@@ -5,6 +5,7 @@ import 'package:ppp444/ui/looks/folders/folder_new_look_screen.dart';
 import 'package:ppp444/utils/colors.dart';
 import 'package:ppp444/utils/modals.dart';
 import 'package:ppp444/utils/text_styles.dart';
+import 'package:ppp444/widgets/custom_alert_dialog.dart';
 import 'package:ppp444/widgets/custom_app_bar.dart';
 import 'package:ppp444/widgets/custom_list_vew.dart';
 import 'package:ppp444/widgets/empty_widget.dart';
@@ -13,7 +14,8 @@ import 'package:ppp444/widgets/widget_button.dart';
 
 class FoldersMainScreen extends StatefulWidget {
   final FolderItem folderItem;
-  const FoldersMainScreen({super.key, required this.folderItem});
+  final int index;
+  const FoldersMainScreen({super.key, required this.folderItem, required this.index});
 
   @override
   State<FoldersMainScreen> createState() => _FoldersMainScreenState();
@@ -22,9 +24,11 @@ class FoldersMainScreen extends StatefulWidget {
 class _FoldersMainScreenState extends State<FoldersMainScreen> {
   TextEditingController controller = TextEditingController();
   late List<LookItem> listOfLooksItems;
+  late String name;
   @override
   void initState() {
     listOfLooksItems = widget.folderItem.looksItems;
+    name = widget.folderItem.name;
     super.initState();
   }
 
@@ -51,34 +55,59 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                   customPopUpMenu: CustomPopUpMenu(
                     textFirst: 'Edit the Folder',
                     svgNameFirst: 'edit',
-                    onPressedFirst: () {},
+                    onPressedFirst: () {
+                      showCustomDialog(
+                        context,
+                        'Change name Folder',
+                        'Give a name to the folder',
+                        () {
+                          boxFolders.putAt(
+                            widget.index,
+                            FolderItem(
+                              name: controller.text,
+                              looksItems: listOfLooksItems,
+                            ),
+                          );
+                          setState(() {
+                            name = controller.text;
+                            controller.text = '';
+                          });
+                          Navigator.pop(context);
+                        },
+                        () {
+                          controller.text = '';
+                          Navigator.pop(context);
+                        },
+                        controller,
+                        (valeu) {},
+                      );
+                    },
                     textSecond: 'Add New Look',
                     svgNameSecond: 'add',
                     onPressedSecond: () async {
-                      final List<LookItem>? response = await Navigator.push(
+                      final response = await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const FoldersNewLookScreen(),
                         ),
                       );
                       if (response != null) {
-                        setState(() {
-                          listOfLooksItems.addAll(response);
-                        });
-                        // editItemNameFolder(
-                        //   widget.folderItem,
-                        //   FolderItem(
-                        //     name: widget.folderItem.name,
-                        //     looksItems: listOfLooksItems,
-                        //   ),
-                        // );
+                        listOfLooksItems.addAll(response);
+                        boxFolders.putAt(
+                          widget.index,
+                          FolderItem(
+                            name: name,
+                            looksItems: listOfLooksItems,
+                          ),
+                        );
+                        setState(() {});
                       }
                     },
                   ),
                 ),
                 SizedBox(height: 30.h),
                 Text(
-                  widget.folderItem.name,
+                  name,
                   style: AppTextStyles.displayLarge32,
                 ),
                 SizedBox(height: 5.h),
@@ -100,16 +129,15 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                                 ),
                               );
                               if (response != null) {
-                                setState(() {
-                                  listOfLooksItems.addAll(response);
-                                });
-                                // editItemNameFolder(
-                                //   widget.folderItem,
-                                //   FolderItem(
-                                //     name: widget.folderItem.name,
-                                //     looksItems: listOfLooksItems,
-                                //   ),
-                                // );
+                                listOfLooksItems.addAll(response);
+                                boxFolders.putAt(
+                                  widget.index,
+                                  FolderItem(
+                                    name: name,
+                                    looksItems: listOfLooksItems,
+                                  ),
+                                );
+                                setState(() {});
                               }
                             },
                             text: 'Add Looks',
@@ -117,9 +145,9 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                         ],
                       )
                     : CustomListView(
-                        listOfItems: listOfLooksItems,
+                        itemCount: listOfLooksItems.length,
                         itemBuilder: (context, index) {
-                          final LookItem lookItem = listOfLooksItems[index];
+                          final LookItem lookItem = widget.folderItem.looksItems[index];
                           return CustomListViewElement(
                             lookItem: lookItem,
                           );
