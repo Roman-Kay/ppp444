@@ -90,7 +90,7 @@ class _LookCardScreenState extends State<LookCardScreen> {
               ),
               SizedBox(height: 10.h),
               CustomGreedView(
-                listOfItems: lookItem.clothesItem,
+                itemCount: lookItem.clothesItem.length,
                 itemBuilder: (context, index) {
                   ClothesItem clothesItem = lookItem.clothesItem[index];
                   return ClipRRect(

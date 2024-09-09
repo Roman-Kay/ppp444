@@ -40,7 +40,8 @@ class _ChooseCategoriesListState extends State<ChooseCategoriesList> {
               padding: EdgeInsets.only(
                 left: index != 0 ? 5.w : 0,
               ),
-              child: Container(
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
                 height: 26.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(26),

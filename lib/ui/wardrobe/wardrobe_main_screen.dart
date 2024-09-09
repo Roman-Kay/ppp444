@@ -20,24 +20,23 @@ class WardrobeMainScreen extends StatefulWidget {
 
 class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
   TextEditingController searchController = TextEditingController();
-  late List listOfAllClothesItems;
-  late List listOfFilteredClothesItems;
+  // late List listOfAllClothesItems;
+  List? listOfFilteredClothesItems;
 
   void searchItems() {
     final text = searchController.text;
     if (text.isNotEmpty) {
-      listOfFilteredClothesItems = listOfAllClothesItems.where((dynamic item) {
+      listOfFilteredClothesItems = boxClothes.values.toList().where((dynamic item) {
         return item.name.toLowerCase().contains(text.toLowerCase());
       }).toList();
     } else {
-      listOfFilteredClothesItems = listOfAllClothesItems;
+      listOfFilteredClothesItems = null;
     }
     setState(() {});
   }
 
   @override
   void initState() {
-    listOfAllClothesItems = boxClothes.values.toList();
     searchItems();
     searchController.addListener(searchItems);
     super.initState();
@@ -67,12 +66,11 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                   ),
                 );
                 setState(() {
-                  listOfAllClothesItems = boxClothes.values.toList();
                   searchItems();
                 });
               },
             ),
-            listOfAllClothesItems.isEmpty
+            boxClothes.isEmpty
                 ? EmptyWidget(
                     topPading: 70.h,
                     imageName: 'wardrobe_empty',
@@ -92,34 +90,37 @@ class _WardrobeMainScreenState extends State<WardrobeMainScreen> {
                         ),
                         SizedBox(height: 15.h),
                         CustomGreedView(
-                          listOfItems: listOfFilteredClothesItems,
+                          itemCount: boxClothes.length,
                           itemBuilder: (context, index) {
-                            ClothesItem clothesItem = listOfFilteredClothesItems[index];
-                            return // если не выбрана катеория то просто показываем наш элемент
-                                choosenCategory == '' ||
-                                        // если выбрана категория и она сопдает с категорией элемента
-                                        // то тоже показываем его
-                                        clothesItem.category == choosenCategory
-                                    ? CustomGridViewElement(
+                            ClothesItem clothesItem = boxClothes.getAt(index)!;
+                            // если категория не выбрана или наш категория элемента совпдает с ней показываем его
+                            // далее проверка на находится ли элемент в списке отсартированных поиско элементов (если поиск был)
+                            if ((choosenCategory == '' ||
+                                    clothesItem.category == choosenCategory) &&
+                                (listOfFilteredClothesItems == null ||
+                                    listOfFilteredClothesItems!
+                                        .any((element) => clothesItem == element))) {
+                              return CustomGridViewElement(
+                                clothesItem: clothesItem,
+                                onPressed: () async {
+                                  await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => WardrobeClothesCardScreen(
+                                        index: index,
                                         clothesItem: clothesItem,
-                                        onPressed: () async {
-                                          await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => WardrobeClothesCardScreen(
-                                                index: index,
-                                                clothesItem: clothesItem,
-                                              ),
-                                            ),
-                                          );
-                                          // // чтобы обновился лист фото
-                                          setState(() {
-                                            listOfAllClothesItems = boxClothes.values.toList();
-                                            searchItems();
-                                          });
-                                        },
-                                      )
-                                    : const SizedBox();
+                                      ),
+                                    ),
+                                  );
+                                  // // чтобы обновился лист фото
+                                  setState(() {
+                                    searchItems();
+                                  });
+                                },
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
                           },
                         )
                       ],

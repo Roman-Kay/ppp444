@@ -9,15 +9,13 @@ import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/form_for_button.dart';
 
 class CustomGreedView extends StatelessWidget {
-  final List listOfItems;
+  final int itemCount;
   final Widget? bottomChild;
   // final bool? canHaveChooseCategory;
   final Widget Function(BuildContext, int) itemBuilder;
   const CustomGreedView({
     super.key,
-    itemCount,
-    required this.listOfItems,
-    // this.canHaveChooseCategory,
+    required this.itemCount,
     required this.itemBuilder,
     this.bottomChild,
   });
@@ -32,7 +30,7 @@ class CustomGreedView extends StatelessWidget {
           MasonryGridView.count(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: listOfItems.length,
+            itemCount: itemCount,
             crossAxisCount: 2,
             padding: EdgeInsets.only(
               left: 12.w,

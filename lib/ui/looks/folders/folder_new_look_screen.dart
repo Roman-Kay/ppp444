@@ -23,7 +23,7 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
 
   List<LookItem> choossenLookItem = [];
 
-  late List? listOfFilteredLooksItems;
+  List? listOfFilteredLooksItems;
   final TextEditingController searchController = TextEditingController();
 
   void searchItems() {
@@ -83,28 +83,30 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                                       ? boxLooks.length
                                       : listOfFilteredLooksItems!.length,
                                   itemBuilder: (context, index) {
-                                    final LookItem lookItem =
-                                        // listOfFilteredLooksItems == null
-                                        //     ?
-                                        boxLooks.getAt(index)!;
-                                    //     :
-                                    // listOfFilteredLooksItems![index];
-                                    return CustomListViewElement(
-                                      index: index,
-                                      isChoosen: choossenLookItem.any(
-                                        (element) => element == lookItem,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          if (choossenLookItem
-                                              .any((element) => element == lookItem)) {
-                                            (choossenLookItem.remove(lookItem));
-                                          } else {
-                                            choossenLookItem.add(lookItem);
-                                          }
-                                        });
-                                      },
-                                    );
+                                    final LookItem lookItem = boxLooks.getAt(index)!;
+                                    // если поиск не использовался или если наш элемент находит в отсартированых поиском списке то показываем его
+                                    if (listOfFilteredLooksItems == null ||
+                                        listOfFilteredLooksItems!
+                                            .any((element) => lookItem == element)) {
+                                      return CustomListViewElement(
+                                        index: index,
+                                        isChoosen: choossenLookItem.any(
+                                          (element) => element == lookItem,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            if (choossenLookItem
+                                                .any((element) => element == lookItem)) {
+                                              (choossenLookItem.remove(lookItem));
+                                            } else {
+                                              choossenLookItem.add(lookItem);
+                                            }
+                                          });
+                                        },
+                                      );
+                                    } else {
+                                      return const SizedBox();
+                                    }
                                   },
                                 ),
                               ],

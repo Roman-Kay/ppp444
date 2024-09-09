@@ -19,25 +19,23 @@ class NewLookChoosingClothesScreen extends StatefulWidget {
 
 class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScreen> {
   List<ClothesItem> choossenClothesItems = [];
-  late List listOfFilteredClothesItems;
-  late List listOfClothesItems;
+  List? listOfFilteredClothesItems;
   final TextEditingController searchController = TextEditingController();
 
   void searchItems() {
     final text = searchController.text;
     if (text.isNotEmpty) {
-      listOfFilteredClothesItems = listOfClothesItems.where((dynamic item) {
+      listOfFilteredClothesItems = boxClothes.values.toList().where((dynamic item) {
         return item.name.toLowerCase().contains(text.toLowerCase());
       }).toList();
     } else {
-      listOfFilteredClothesItems = listOfClothesItems;
+      listOfFilteredClothesItems = null;
     }
     setState(() {});
   }
 
   @override
   void initState() {
-    listOfClothesItems = boxClothes.values.toList();
     searchItems();
     searchController.addListener(searchItems);
     super.initState();
@@ -65,7 +63,7 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                     needArrow: true,
                     needPadding: true,
                   ),
-                  listOfClothesItems.isEmpty
+                  boxClothes.isEmpty
                       ? EmptyWidget(
                           imageName: 'wardrobe_empty',
                           text: 'Wardrobe is empty',
@@ -85,33 +83,37 @@ class _NewLookChoosingClothesScreentate extends State<NewLookChoosingClothesScre
                               ),
                               SizedBox(height: 15.h),
                               CustomGreedView(
-                                listOfItems: listOfFilteredClothesItems,
+                                itemCount: boxClothes.length,
                                 itemBuilder: (context, index) {
-                                  ClothesItem clothesItem = listOfFilteredClothesItems[index];
-                                  return // если не выбрана катеория то просто показываем наш элемент
-                                      choosenCategory == '' ||
-                                              // если выбрана категория и она сопдает с категорией элемента
-                                              // то тоже показываем его
-                                              clothesItem.category == choosenCategory
-                                          ? CustomGridViewElement(
-                                              clothesItem: clothesItem,
-                                              isChoosen: choossenClothesItems.any(
-                                                (element) => element == clothesItem,
-                                              ),
-                                              onPressed: () {
-                                                setState(
-                                                  () {
-                                                    choossenClothesItems.any(
-                                                            (element) => element == clothesItem)
-                                                        ? choossenClothesItems.remove(clothesItem)
-                                                        : choossenClothesItems.add(clothesItem);
-                                                  },
-                                                );
-                                              },
-                                            )
-                                          : const SizedBox();
+                                  ClothesItem clothesItem = boxClothes.getAt(index)!;
+                                  // если категория не выбрана или наш категория элемента совпдает с ней показываем его
+                                  // далее проверка на находится ли элемент в списке отсартированных поиско элементов (если поиск был)
+                                  if ((choosenCategory == '' ||
+                                          clothesItem.category == choosenCategory) &&
+                                      (listOfFilteredClothesItems == null ||
+                                          listOfFilteredClothesItems!
+                                              .any((element) => clothesItem == element))) {
+                                    return CustomGridViewElement(
+                                      clothesItem: clothesItem,
+                                      isChoosen: choossenClothesItems.any(
+                                        (element) => element == clothesItem,
+                                      ),
+                                      onPressed: () {
+                                        setState(
+                                          () {
+                                            choossenClothesItems
+                                                    .any((element) => element == clothesItem)
+                                                ? choossenClothesItems.remove(clothesItem)
+                                                : choossenClothesItems.add(clothesItem);
+                                          },
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    return const SizedBox();
+                                  }
                                 },
-                              ),
+                              )
                             ],
                           ),
                         ),

@@ -58,29 +58,32 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
                 itemCount: boxLooks.length,
                 itemBuilder: (context, index) {
                   final LookItem lookItem = boxLooks.getAt(index)!;
-                  return listOfFilteredLooksItems == null ||
-                          listOfFilteredLooksItems!.any((element) => lookItem == element)
-                      ? CustomListViewElement(
-                          index: index,
-                          setState: () => setState(() {
-                            searchItems();
-                          }),
-                          deleteFunction: () async {
-                            await deleteItemFromLook(
-                              boxLooks.getAt(index),
-                            );
-                          },
-                          onPressed: () async {
-                            await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LookCardScreen(index: index),
-                              ),
-                            );
-                            setState(() {});
-                          },
-                        )
-                      : const SizedBox();
+                  // если поиск не использовался или если наш элемент находит в отсартированых поиском списке то показываем его
+                  if (listOfFilteredLooksItems == null ||
+                      listOfFilteredLooksItems!.any((element) => lookItem == element)) {
+                    return CustomListViewElement(
+                      index: index,
+                      setState: () => setState(() {
+                        searchItems();
+                      }),
+                      deleteFunction: () async {
+                        await deleteItemFromLook(
+                          boxLooks.getAt(index),
+                        );
+                      },
+                      onPressed: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LookCardScreen(index: index),
+                          ),
+                        );
+                        setState(() {});
+                      },
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
                 },
               ),
             ],
