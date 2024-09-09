@@ -20,22 +20,19 @@ class ClothesItemAdapter extends TypeAdapter<ClothesItem> {
       imageBase64: fields[0] as String,
       name: fields[1] as String,
       category: fields[2] as String,
-      looks: (fields[3] as List?)?.cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, ClothesItem obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.imageBase64)
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.category)
-      ..writeByte(3)
-      ..write(obj.looks);
+      ..write(obj.category);
   }
 
   @override
@@ -62,20 +59,17 @@ class LookItemAdapter extends TypeAdapter<LookItem> {
     return LookItem(
       name: fields[0] as String,
       clothesItem: (fields[1] as List).cast<ClothesItem>(),
-      folders: (fields[2] as List?)?.cast<String>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, LookItem obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(2)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.clothesItem)
-      ..writeByte(2)
-      ..write(obj.folders);
+      ..write(obj.clothesItem);
   }
 
   @override

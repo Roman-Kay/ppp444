@@ -25,7 +25,7 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
   late FolderItem folderItem;
   @override
   void initState() {
-    folderItem = boxFolders.values.toList()[widget.index];
+    folderItem = boxFolders.getAt(widget.index)!;
     super.initState();
   }
 
@@ -137,25 +137,16 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                         itemCount: folderItem.looksItems.length,
                         itemBuilder: (context, index) {
                           final LookItem lookItem = folderItem.looksItems[index];
-                          return boxLooks.values.toList().indexWhere(
-                                        (element) => element == lookItem,
-                                      ) ==
-                                  -1
-                              ? Container(
-                                  width: 100.w,
-                                  height: 100,
-                                  color: AppColors.blackColor,
-                                )
-                              : CustomListViewElement(
-                                  index: boxLooks.values.toList().indexWhere(
-                                        (element) => element == lookItem,
-                                      ),
-                                  setState: () {
-                                    setState(() {
-                                      folderItem = boxFolders.getAt(widget.index)!;
-                                    });
-                                  },
-                                );
+                          return CustomListViewElement(
+                            index: boxLooks.values.toList().indexWhere(
+                                  (element) => element.name == lookItem.name,
+                                ),
+                            setState: () {
+                              setState(() {
+                                folderItem = boxFolders.getAt(widget.index)!;
+                              });
+                            },
+                          );
                         },
                       ),
               ],

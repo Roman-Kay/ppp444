@@ -21,13 +21,10 @@ class ClothesItem {
   @HiveField(2)
   String category;
   @HiveField(3)
-  List<String>? looks;
-
   ClothesItem({
     required this.imageBase64,
     required this.name,
     required this.category,
-    this.looks,
   });
 }
 
@@ -38,12 +35,9 @@ class LookItem {
   @HiveField(1)
   final List<ClothesItem> clothesItem;
   @HiveField(2)
-  List<String>? folders;
-
   LookItem({
     required this.name,
     required this.clothesItem,
-    this.folders,
   });
 }
 
