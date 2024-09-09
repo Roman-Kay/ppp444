@@ -65,6 +65,11 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
                           setState: () => setState(() {
                             searchItems();
                           }),
+                          deleteFunction: () async {
+                            await deleteItemFromLook(
+                              boxLooks.getAt(index),
+                            );
+                          },
                           onPressed: () async {
                             await Navigator.push(
                               context,

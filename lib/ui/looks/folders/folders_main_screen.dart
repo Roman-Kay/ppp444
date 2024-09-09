@@ -138,6 +138,18 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                         itemBuilder: (context, index) {
                           final LookItem lookItem = folderItem.looksItems[index];
                           return CustomListViewElement(
+                            deleteFunction: () async {
+                              List<LookItem> helpLooks = folderItem.looksItems;
+                              helpLooks.remove(lookItem);
+                              await boxFolders.putAt(
+                                index,
+                                FolderItem(
+                                  name: folderItem.name,
+                                  looksItems: helpLooks,
+                                ),
+                              );
+                              setState(() {});
+                            },
                             index: boxLooks.values.toList().indexWhere(
                                   (element) => element.name == lookItem.name,
                                 ),

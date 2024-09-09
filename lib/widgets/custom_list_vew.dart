@@ -31,7 +31,8 @@ class CustomListViewElement extends StatefulWidget {
   final int index;
   final Function()? onPressed;
   final bool? isChoosen;
-  final bool? needEdit;
+  // final bool? needEdit;
+  final Function()? deleteFunction;
   final Function()? setState;
 
   const CustomListViewElement({
@@ -40,7 +41,7 @@ class CustomListViewElement extends StatefulWidget {
     this.onPressed,
     this.isChoosen,
     this.setState,
-    this.needEdit,
+    this.deleteFunction,
   });
 
   @override
@@ -79,7 +80,7 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                         style: AppTextStyles.displayBold20,
                       ),
                       const Spacer(),
-                      if (widget.needEdit != false)
+                      if (widget.deleteFunction != null)
                         CustomPopUpMenu(
                           textFirst: 'Edit',
                           svgNameFirst: 'edit',
@@ -112,12 +113,7 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                           textSecond: 'Delete',
                           svgNameSecond: 'delete',
                           smallIcon: true,
-                          onPressedSecond: () async {
-                            await deleteItemFromLook(
-                              boxLooks.getAt(widget.index),
-                            );
-                            widget.setState!();
-                          },
+                          onPressedSecond: widget.deleteFunction!,
                         ),
                     ],
                   ),
