@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         // элементы будут увеличиваться и уменьшаться
         designSize: const Size(390, 844),
         builder: (context, child) {
-          return boxFirstStart.get('key') == true
+          return boxFirstStart.get('key') != true
               ? const OnbordingFirstScreen()
               : const CustomBottomBar();
         },
