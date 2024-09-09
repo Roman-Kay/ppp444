@@ -30,14 +30,18 @@ class _NewClothesMainScreenState extends State<NewClothesMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: AppColors.backgroundGradient,
-        ),
-        child: Stack(
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: AppColors.backgroundGradient,
+      ),
+      // в этом экране поменял местами Container и Scaffold
+      // чтоб resizeToAvoidBottomInset не двигало задний фон
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: const Color(0x00000000),
+        body: Stack(
           children: [
             ListView(
               padding: EdgeInsets.symmetric(horizontal: 12.w),

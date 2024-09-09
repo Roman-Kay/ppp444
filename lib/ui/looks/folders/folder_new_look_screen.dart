@@ -48,6 +48,7 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         width: double.infinity,
         height: double.infinity,
