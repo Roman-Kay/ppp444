@@ -5,6 +5,7 @@ import 'dart:math';
 late Box<ClothesItem> boxClothes;
 late Box<LookItem> boxLooks;
 late Box<FolderItem> boxFolders;
+late Box<bool> boxFirstStart;
 
 String generateKey() {
   int next(int min, int max) => min + Random().nextInt(max - min);

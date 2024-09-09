@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ppp444/data/hive.dart';
 import 'package:ppp444/ui/bottom_bar.dart';
 import 'package:ppp444/utils/text_styles.dart';
 import 'package:ppp444/widgets/widget_button.dart';
 
-class OnbordingSecondScreen extends StatelessWidget {
+class OnbordingSecondScreen extends StatefulWidget {
   const OnbordingSecondScreen({super.key});
+
+  @override
+  State<OnbordingSecondScreen> createState() => _OnbordingSecondScreenState();
+}
+
+class _OnbordingSecondScreenState extends State<OnbordingSecondScreen> {
+  @override
+  void initState() {
+    boxFirstStart.put('key', true);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
