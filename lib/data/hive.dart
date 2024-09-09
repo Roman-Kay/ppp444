@@ -18,11 +18,11 @@ String generateKey() {
   }
 }
 
-deleteItemFromClothe(final int index) {
+deleteItemFromClothe(final int index) async {
   ClothesItem? deleteValue = boxClothes.getAt(index);
   boxClothes.deleteAt(index);
   boxLooks.values.toList();
-  deleteItemFromLook(deleteValue);
+  await deleteItemFromLook(deleteValue);
 }
 
 deleteItemFromLook(dynamic deleteValue) async {
@@ -50,11 +50,12 @@ deleteItemFromLook(dynamic deleteValue) async {
         );
       }
     }
+    // удаляем все чтоб заново создать
+    await boxLooks.clear();
+    print(helpLooksMap.entries);
+    await boxLooks.putAll(helpLooksMap);
   }
-  // удаляем все чтоб заново создать
-  await boxLooks.clear();
-  print(helpLooksMap.entries);
-  boxLooks.putAll(helpLooksMap);
+
   deleteItemNameFolder(deleteValue);
 }
 
@@ -101,7 +102,7 @@ deleteItemNameFolder(dynamic deleteValue) async {
   await boxFolders.clear();
   print(helpFoldersMap.entries);
   // кладем новые фолдеры в бокс
-  boxFolders.putAll(helpFoldersMap);
+  await boxFolders.putAll(helpFoldersMap);
 }
 
 editItemClothe(final int index, final ClothesItem clothesItem) async {
@@ -111,7 +112,7 @@ editItemClothe(final int index, final ClothesItem clothesItem) async {
     clothesItem,
   );
   boxLooks.values.toList();
-  editItemLook(changedValue, clothesItem);
+  await editItemLook(changedValue, clothesItem);
 }
 
 editItemLook(dynamic changedValue, dynamic newValue) async {
@@ -151,9 +152,9 @@ editItemLook(dynamic changedValue, dynamic newValue) async {
       }
     }
     print(helpLooksMap.entries);
-    boxLooks.putAll(helpLooksMap);
+    await boxLooks.putAll(helpLooksMap);
   }
-  editItemFolder(changedValue, newValue);
+  await editItemFolder(changedValue, newValue);
 }
 
 editItemFolder(dynamic changedValue, dynamic newValue) async {
@@ -201,5 +202,5 @@ editItemFolder(dynamic changedValue, dynamic newValue) async {
   // здесь все заменится по keys а в delete останется
   print(helpFoldersMap.entries);
   // кладем новые фолдеры в бокс
-  boxFolders.putAll(helpFoldersMap);
+  await boxFolders.putAll(helpFoldersMap);
 }

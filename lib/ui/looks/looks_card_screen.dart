@@ -82,7 +82,7 @@ class _LookCardScreenState extends State<LookCardScreen> {
                   svgNameSecond: 'delete',
                   smallIcon: true,
                   onPressedSecond: () {
-                    deleteItemFromLook(boxLooks.getAt(widget.index));
+                    deleteItemFromLook(boxLooks.getAt(widget.index)!);
                     Navigator.pop(context);
                   },
                 ),

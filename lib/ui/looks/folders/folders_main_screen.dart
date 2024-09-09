@@ -137,13 +137,25 @@ class _FoldersMainScreenState extends State<FoldersMainScreen> {
                         itemCount: folderItem.looksItems.length,
                         itemBuilder: (context, index) {
                           final LookItem lookItem = folderItem.looksItems[index];
-                          return CustomListViewElement(
-                            lookItem: lookItem,
-                            setState: () => setState(() {
-                              folderItem = boxFolders.values.toList()[widget.index];
-                              print(boxFolders.values.toList()[widget.index].looksItems);
-                            }),
-                          );
+                          return boxLooks.values.toList().indexWhere(
+                                        (element) => element == lookItem,
+                                      ) ==
+                                  -1
+                              ? Container(
+                                  width: 100.w,
+                                  height: 100,
+                                  color: AppColors.blackColor,
+                                )
+                              : CustomListViewElement(
+                                  index: boxLooks.values.toList().indexWhere(
+                                        (element) => element == lookItem,
+                                      ),
+                                  setState: () {
+                                    setState(() {
+                                      folderItem = boxFolders.getAt(widget.index)!;
+                                    });
+                                  },
+                                );
                         },
                       ),
               ],

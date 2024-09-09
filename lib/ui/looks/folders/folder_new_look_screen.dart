@@ -82,12 +82,15 @@ class _FoldersMainScreenState extends State<FoldersNewLookScreen> {
                                       ? boxLooks.length
                                       : listOfFilteredLooksItems!.length,
                                   itemBuilder: (context, index) {
-                                    final LookItem lookItem = listOfFilteredLooksItems == null
-                                        ? boxLooks.getAt(index)!
-                                        : listOfFilteredLooksItems![index];
+                                    final LookItem lookItem =
+                                        // listOfFilteredLooksItems == null
+                                        //     ?
+                                        boxLooks.getAt(index)!;
+                                    //     :
+                                    // listOfFilteredLooksItems![index];
                                     return CustomListViewElement(
                                       needEdit: false,
-                                      lookItem: lookItem,
+                                      index: index,
                                       isChoosen: choossenLookItem.any(
                                         (element) => element == lookItem,
                                       ),

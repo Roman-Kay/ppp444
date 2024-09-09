@@ -55,27 +55,27 @@ class _LooksAllTabbarState extends State<LooksAllTabbar> {
               Search(searchController: searchController),
               SizedBox(height: 15.h),
               CustomListView(
-                itemCount: listOfFilteredLooksItems == null
-                    ? boxLooks.length
-                    : listOfFilteredLooksItems!.length,
+                itemCount: boxLooks.length,
                 itemBuilder: (context, index) {
-                  final LookItem lookItem = listOfFilteredLooksItems == null
-                      ? boxLooks.getAt(index)!
-                      : listOfFilteredLooksItems![index];
-                  return CustomListViewElement(
-                    lookItem: lookItem,
-                    // передаем setState чтобы обновить экран
-                    setState: () => setState(() {}),
-                    onPressed: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LookCardScreen(index: index),
-                        ),
-                      );
-                      setState(() {});
-                    },
-                  );
+                  final LookItem lookItem = boxLooks.getAt(index)!;
+                  return listOfFilteredLooksItems == null ||
+                          listOfFilteredLooksItems!.any((element) => lookItem == element)
+                      ? CustomListViewElement(
+                          index: index,
+                          setState: () => setState(() {
+                            searchItems();
+                          }),
+                          onPressed: () async {
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LookCardScreen(index: index),
+                              ),
+                            );
+                            setState(() {});
+                          },
+                        )
+                      : const SizedBox();
                 },
               ),
             ],

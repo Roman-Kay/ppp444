@@ -28,7 +28,7 @@ class CustomListView extends StatelessWidget {
 }
 
 class CustomListViewElement extends StatefulWidget {
-  final LookItem lookItem;
+  final int index;
   final Function()? onPressed;
   final bool? isChoosen;
   final bool? needEdit;
@@ -36,7 +36,7 @@ class CustomListViewElement extends StatefulWidget {
 
   const CustomListViewElement({
     super.key,
-    required this.lookItem,
+    required this.index,
     this.onPressed,
     this.isChoosen,
     this.setState,
@@ -49,6 +49,7 @@ class CustomListViewElement extends StatefulWidget {
 
 class _CustomListViewElementState extends State<CustomListViewElement> {
   final TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -74,7 +75,7 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                   child: Row(
                     children: [
                       Text(
-                        widget.lookItem.name,
+                        boxLooks.getAt(widget.index)!.name,
                         style: AppTextStyles.displayBold20,
                       ),
                       const Spacer(),
@@ -87,12 +88,12 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                               context,
                               'Look Name',
                               'Change the look name',
-                              () {
-                                editItemLook(
-                                  widget.lookItem,
+                              () async {
+                                await editItemLook(
+                                  boxLooks.getAt(widget.index),
                                   LookItem(
                                     name: controller.text,
-                                    clothesItem: widget.lookItem.clothesItem,
+                                    clothesItem: boxLooks.getAt(widget.index)!.clothesItem,
                                   ),
                                 );
                                 controller.text = '';
@@ -111,8 +112,10 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                           textSecond: 'Delete',
                           svgNameSecond: 'delete',
                           smallIcon: true,
-                          onPressedSecond: () {
-                            deleteItemFromLook(widget.lookItem);
+                          onPressedSecond: () async {
+                            await deleteItemFromLook(
+                              boxLooks.getAt(widget.index),
+                            );
                             widget.setState!();
                           },
                         ),
@@ -123,7 +126,9 @@ class _CustomListViewElementState extends State<CustomListViewElement> {
                   // высота элементов в ListView 120.h
                   // 15.h с верху и снизу для удобного скролла
                   height: 120.h + 30.h,
-                  child: ListViewHorizontalElement(clothesItem: widget.lookItem.clothesItem),
+                  child: ListViewHorizontalElement(
+                    clothesItem: boxLooks.getAt(widget.index)!.clothesItem,
+                  ),
                 ),
               ],
             ),
